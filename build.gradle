@@ -20,5 +20,5 @@ test {
     useJUnitPlatform()
 }
 application {
-    mainClass.set("Application")
+    mainClass.set("org.example.Application")
 }

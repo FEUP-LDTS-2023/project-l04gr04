@@ -1,6 +1,7 @@
 package org.example;
 
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -15,9 +16,11 @@ import java.util.List;
 public class Game {
     public Screen screen;
     public Terminal terminal;
+    private Mapa mapa;
     private static final int FPS = 60;
     private static final long FRAME_DURATION = 1000 / FPS;
     public Game(int w,int h) throws IOException {
+        mapa = new Mapa(w,h);
         TerminalSize terminalSize = new TerminalSize(w, h);
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
         terminal = terminalFactory.createTerminal();
@@ -28,6 +31,7 @@ public class Game {
     }
     private void draw() throws IOException {
         screen.clear();
+        mapa.draw(screen.newTextGraphics());
         screen.refresh();
     }
     public void run() throws IOException {
@@ -44,9 +48,9 @@ public class Game {
                         break;
                     }
                 }
-
                 lastFrameTime = currentTime;
             }
         }
         screen.close();
-    }}
+    }
+}

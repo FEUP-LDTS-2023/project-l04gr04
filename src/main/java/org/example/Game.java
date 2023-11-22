@@ -70,6 +70,7 @@ public class Game {
                     if (keyType == KeyType.Escape) {
                         break;
                     }
+
                 }
                 lastFrameTime = currentTime;
             }

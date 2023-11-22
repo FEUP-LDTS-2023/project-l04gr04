@@ -18,6 +18,8 @@ public class Mapa {
     private long startTime;
     private char[][] map;
 
+    private RedMonster red = new RedMonster(45,25);
+
     public Mapa(int w , int h) throws IOException {
         width = w;
         height = h;
@@ -44,6 +46,7 @@ public class Mapa {
                 }
             }
         }
+        red.draw(graphics);
     }
 
 

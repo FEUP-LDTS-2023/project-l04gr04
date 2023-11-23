@@ -179,20 +179,20 @@ public class Player extends Element{
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
         switch (facingDirection){
             case "right":
-                if (mouthOpen)drawTheStyle(pacManRight,graphics);
-                else drawTheStyle(pacManClosed,graphics);
+                if (mouthOpen)drawTheStyle(pacManRight,graphics,playerColor);
+                else drawTheStyle(pacManClosed,graphics,playerColor);
                 break;
             case "left":
-                if (mouthOpen)drawTheStyle(pacManLeft,graphics);
-                else drawTheStyle(pacManClosed,graphics);
+                if (mouthOpen)drawTheStyle(pacManLeft,graphics,playerColor);
+                else drawTheStyle(pacManClosed,graphics,playerColor);
                 break;
             case "down":
-                if (mouthOpen)drawTheStyle(pacManDown,graphics);
-                else drawTheStyle(pacManClosed,graphics);
+                if (mouthOpen)drawTheStyle(pacManDown,graphics,playerColor);
+                else drawTheStyle(pacManClosed,graphics,playerColor);
                 break;
             case "up":
-                if (mouthOpen)drawTheStyle(pacManUp,graphics);
-                else drawTheStyle(pacManClosed,graphics);
+                if (mouthOpen)drawTheStyle(pacManUp,graphics,playerColor);
+                else drawTheStyle(pacManClosed,graphics,playerColor);
                 break;
         }
 

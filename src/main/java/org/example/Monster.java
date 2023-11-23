@@ -13,6 +13,9 @@ public abstract class Monster extends Element implements GenericMonster  {
     char[][] monsterLeft2;
     char[][] monsterRight1;
     char[][] monsterRight2;
+    char[][] monsterUp1;
+    char[][] monsterUp2;
+
     private boolean rotate180 = false;
     public Monster(int x,int y){
         super(x,y);
@@ -82,11 +85,25 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {' ',' ',' ',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' '},
                 {'#',' ',' ','#','#','#',' ',' ','#','#','#',' ',' ','#'}
         };
+        monsterUp1 = new char[][]{
+
+              //  {'#','#','#','#','#',' ',' ',' ',' ','#',' ',' ',' ',' ',}
+              //  {}
+//
+              //  {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+              //  {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+              //  {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+              //  {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+              //  {' ',' ','#',' ',' ',' ','#','#',' ',' ',' ','#',' ',' '},
+              //  {' ','#','#','#',' ',' ','#','#',' ',' ','#','#','#',' '}
+        };
+
+
     }
-    public void draw(TextGraphics graphics){
+    public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         if (mode.equals("fright"))graphics.setBackgroundColor(TextColor.Factory.fromString("#0013C3"));
-        drawTheStyle(monsterRight2,graphics);
+        drawTheStyle(monsterRight2,graphics, colorM);
     }
     protected double distance(Position p, Position p1){
         double difX = p1.getX()+2.5 - p.getX();

@@ -8,7 +8,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 
 public class Element {
     protected Position position;
-    public String monsterYesColor = "#72BC74";
+    public String monsterYesColor = " #add8e6";
     public Element(){
         position = new Position(0,0);
     }
@@ -41,5 +41,4 @@ public class Element {
             }
         }
     }
-
 }

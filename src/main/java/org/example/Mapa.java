@@ -16,7 +16,11 @@ public class Mapa {
     private final String wallsColor = "#385A81";
     private final String coinsColor = "#959043";
     private long startTime;
+
+    private int mouthF = 5;
+    private int fpsCount = 0;
     private char[][] map;
+    private Player player = new Player(10,32);
 
     private RedMonster red = new RedMonster(45,25);
 
@@ -46,7 +50,10 @@ public class Mapa {
                 }
             }
         }
+        if (fpsCount % mouthF == 0)player.mouthOpen = !player.mouthOpen;
         red.draw(graphics);
+        player.draw(graphics);
+        fpsCount++;
     }
 
 

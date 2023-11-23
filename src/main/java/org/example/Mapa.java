@@ -50,7 +50,7 @@ public class Mapa {
                 }
             }
         }
-        if (fpsCount % mouthF == 0)player.mouthOpen = !player.mouthOpen;
+        //if (fpsCount % mouthF == 0)player.mouthOpen = !player.mouthOpen;
         red.draw(graphics);
         player.draw(graphics);
         fpsCount++;

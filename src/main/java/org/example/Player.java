@@ -4,27 +4,34 @@ import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class Player extends Element{
     public String facingDirection;
-    public boolean mouthOpen = true;
+    public int mouthOpen = 0;
     private String playerColor = "#B5D221";
-    char[][] pacManUp;
-    char[][] pacManUpBig;
+    char[][] pacManUp1;
+    char[][] pacManUp2;
 
-    char[][] pacManDown;
-    char[][] pacManDownBig;
-    char[][] pacManLeft;
-    char[][] pacManLeftBig;
-    char[][] pacManRight;
+    char[][] pacManDown1;
+    char[][] pacManDown2;
+    char[][] pacManLeft1;
+    char[][] pacManLeft2;
+    char[][] pacManRight1;
     char[][] pacManClosed;
-    char[][] pacManRightBig;
+    char[][] pacManRight2;
+    List<char[][]> pacFacingRight = Arrays.asList(pacManClosed,pacManRight1,pacManRight2);
+    List<char[][]> pacFacingLeft = Arrays.asList(pacManClosed,pacManLeft1,pacManLeft2);
+    List<char[][]> pacFacingUp = Arrays.asList(pacManClosed,pacManUp1,pacManUp2);
+    List<char[][]> pacFacingDown =  Arrays.asList(pacManClosed,pacManDown1,pacManDown2);
+
     public Player(int x, int y){
         super(x,y);
         facingDirection = "right";
 
 
-        pacManUp = new char[][]{
+        pacManUp1 = new char[][]{
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
                 {'#','#',' ',' ','#','#','#','#','#','#',' ',' ','#','#'},
                 {'#',' ',' ',' ','#','#','#','#','#','#',' ',' ',' ','#'},
@@ -40,7 +47,7 @@ public class Player extends Element{
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
-        pacManUpBig = new char[][]{
+        pacManUp2 = new char[][]{
                  {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
                  {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
                  {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
@@ -56,7 +63,7 @@ public class Player extends Element{
                  {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                  {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
-        pacManDown = new char[][]{
+        pacManDown1 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -72,7 +79,7 @@ public class Player extends Element{
                 {'#','#',' ',' ','#','#','#','#','#','#',' ',' ','#','#'},
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
         };
-        pacManDownBig = new char[][]{
+        pacManDown2 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -88,7 +95,7 @@ public class Player extends Element{
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
         };
-        pacManLeft = new char[][]{
+        pacManLeft1 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -106,7 +113,7 @@ public class Player extends Element{
 
 
         };
-        pacManLeftBig = new char[][]{
+        pacManLeft2 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -124,7 +131,7 @@ public class Player extends Element{
         };
 
 
-        pacManRight = new char[][]{
+        pacManRight1 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -140,7 +147,7 @@ public class Player extends Element{
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
-        pacManRightBig = new char[][]{
+        pacManRight2 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
                 {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#','#'},
@@ -173,27 +180,96 @@ public class Player extends Element{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
 
-
     }
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
         switch (facingDirection){
             case "right":
-                if (mouthOpen)drawTheStyle(pacManRight,graphics,playerColor);
-                else drawTheStyle(pacManClosed,graphics,playerColor);
+                if (mouthOpen<=5){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>5 && mouthOpen<=10 ){
+                    drawTheStyle(pacManRight1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>10 && mouthOpen<=15 ) {
+                    drawTheStyle(pacManRight2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>15 && mouthOpen<=20 ) {
+                    drawTheStyle(pacManRight1,graphics,playerColor);
+                    mouthOpen=0;
+                    break;
+                }
+
                 break;
             case "left":
-                if (mouthOpen)drawTheStyle(pacManLeft,graphics,playerColor);
-                else drawTheStyle(pacManClosed,graphics,playerColor);
-                break;
+                if (mouthOpen<=5){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>5 && mouthOpen<=10){
+                    drawTheStyle(pacManLeft1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>10 && mouthOpen<=15) {
+                    drawTheStyle(pacManLeft2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>15 && mouthOpen<=20) {
+                    drawTheStyle(pacManLeft1,graphics,playerColor);
+                    mouthOpen=0;
+                    break;
+                }
             case "down":
-                if (mouthOpen)drawTheStyle(pacManDown,graphics,playerColor);
-                else drawTheStyle(pacManClosed,graphics,playerColor);
-                break;
+                if (mouthOpen<=5){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>5 && mouthOpen<=10){
+                    drawTheStyle(pacManDown1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>10 && mouthOpen<=15) {
+                    drawTheStyle(pacManDown2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>15 && mouthOpen<=20) {
+                    drawTheStyle(pacManDown1,graphics,playerColor);
+                    mouthOpen=0;
+                    break;
+                }
             case "up":
-                if (mouthOpen)drawTheStyle(pacManUp,graphics,playerColor);
-                else drawTheStyle(pacManClosed,graphics,playerColor);
-                break;
+                if (mouthOpen<=5){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>5 && mouthOpen<=10){
+                    drawTheStyle(pacManUp1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>10 && mouthOpen<=15) {
+                    drawTheStyle(pacManUp2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen>15 && mouthOpen<=20) {
+                    drawTheStyle(pacManUp1,graphics,playerColor);
+                    mouthOpen=0;
+                    break;
+                }
         }
 
     }

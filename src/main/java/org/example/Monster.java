@@ -233,8 +233,8 @@ public abstract class Monster extends Element implements GenericMonster  {
     }
 
     public double distance(Position p, Position p1){
-        double difX = p1.getX()+2.5 - p.getX();
-        double difY = p1.getY()+1 - p.getY();
+        double difX = p1.getX() - p.getX();
+        double difY = p1.getY() - p.getY();
         return Math.sqrt(difX * difX + difY * difY);
     }
     public void move(Position p,char[][]map){

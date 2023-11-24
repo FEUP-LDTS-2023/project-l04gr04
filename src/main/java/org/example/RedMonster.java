@@ -12,7 +12,7 @@ public class RedMonster extends Monster{
         graphics.setBackgroundColor(TextColor.Factory.fromString("#FF0000"));
         super.draw(graphics, "#FF0000" );
     }
-    public Position target(Position position){
+    public Position target(Position position, String direction, Position redPosition){
         if (mode.equals("Scatter"))return new Position(82,0);
         return position;
     }

@@ -3,12 +3,15 @@ package org.example;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 
 import java.awt.*;
 import java.io.*;
 
 
 import java.io.IOException;
+import java.util.List;
 
 public class Mapa {
     private int width;
@@ -18,12 +21,15 @@ public class Mapa {
     private final String coinsColor = "#959043";
     private long startTime;
 
-    private int mouthF = 5;
+    private int monstersF = 10;
     private int fpsCount = 0;
     private char[][] map;
-    private Player player = new Player(0,0);
+    private Player player = new Player(2,1);
 
-    private RedMonster red = new RedMonster(10,10);
+    private RedMonster red = new RedMonster(241,156);
+    private OrangeMonster orange = new OrangeMonster(115,142);
+    private BlueMonster blue = new BlueMonster(115,156);
+    private PinkMonster pink = new PinkMonster(241,142);
 
     public Mapa(int w , int h) throws IOException {
         width = w;
@@ -74,11 +80,76 @@ public class Mapa {
                 }
             }
         }
-        red.draw(graphics);
+        orange.draw(graphics);
+        pink.draw(graphics);
+        blue.draw(graphics);
         player.draw(graphics);
         fpsCount++;
     }
-
+    public void readInput(KeyStroke keyStroke, List<Rectangle> dirtyRegions) {
+        dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
+        dirtyRegions.add(new Rectangle(red.getX(),red.getY(),14,14));
+        dirtyRegions.add(new Rectangle(orange.getX(),orange.getY(),14,14));
+        dirtyRegions.add(new Rectangle(pink.getX(),pink.getY(),14,14));
+        dirtyRegions.add(new Rectangle(blue.getX(),blue.getY(),14,14));
+        if (fpsCount % monstersF == 0){
+            red.move(player.position,map);
+            orange.move(player.position,map);
+            pink.move(player.position,map);
+            blue.move(player.position,map);
+            red.move(player.position,map);
+        }
+        if (keyStroke == null){
+            if(canMove(player.facingDirection))player.move(player.facingDirection);
+            return;
+        }
+        KeyType keyType = keyStroke.getKeyType();
+        if (keyType == KeyType.ArrowRight){
+            if(canMove("right"))player.move("right");
+        } else if (keyType == KeyType.ArrowLeft) {
+            if(canMove("left"))player.move("left");
+        } else if (keyType == KeyType.ArrowUp) {
+            if(canMove("up"))player.move("up");
+        } else if (keyType == KeyType.ArrowDown) {
+            if(canMove("down"))player.move("down");
+        }
+        dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
+        dirtyRegions.add(new Rectangle(red.getX(),red.getY(),14,14));
+        dirtyRegions.add(new Rectangle(orange.getX(),orange.getY(),14,14));
+        dirtyRegions.add(new Rectangle(pink.getX(),pink.getY(),14,14));
+        dirtyRegions.add(new Rectangle(blue.getX(),blue.getY(),14,14));
+    }
+    private boolean canMove(String direction){
+        int x = player.getX();
+        int y = player.getY();
+        switch (direction){
+            case "up":
+                boolean t = true;
+                for (int i = 0 ; i < 14 ; i++){
+                    if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367 && map[y-1][x+i] == 'P')t = false;
+                }
+                return t;
+            case "down":
+                boolean b = true;
+                for (int i = 0 ; i < 14 ; i++){
+                    if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367 && map[y+14][x+i] == 'P')b = false;
+                }
+                return b;
+            case "left":
+                boolean e = true;
+                for (int i = 0 ; i < 14 ; i++){
+                    if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367 && map[y+i][x-1] == 'P')e = false;
+                }
+                return e;
+            case "right":
+                boolean d = true;
+                for (int i = 0 ; i < 14 ; i++){
+                    if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367 && map[y+i][x+14] == 'P')d = false;
+                }
+                return d;
+        }
+        return true;
+    }
 
     public char[][] loadMapFromFile(String filename) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));

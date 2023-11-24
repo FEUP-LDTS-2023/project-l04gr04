@@ -15,6 +15,9 @@ public class Element {
     public Element (int x , int y){
         position = new Position(x,y);
     }
+    public Position getPosition() {
+        return position;
+    }
     public int getX() {
         return position.getX();
     }

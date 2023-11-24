@@ -33,12 +33,9 @@ public class Game {
         dirtyRegions.add(new Rectangle(0, 0, 28, 28));
         try {
             InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-
             if (fontStream != null) {
                 Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-
             Font customFont = font.deriveFont(Font.PLAIN, 2);
-
             SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(w, h)).setTerminalEmulatorFontConfiguration(fontConfig);
             terminal = terminalFactory.createTerminal();
@@ -60,13 +57,13 @@ public class Game {
         for (Rectangle dirtyRegion : dirtyRegions) {
             for (int i = dirtyRegion.y; i < dirtyRegion.y + dirtyRegion.height; i++) {
                 for (int j = dirtyRegion.x; j < dirtyRegion.x + dirtyRegion.width; j++) {
-                    screen.setCharacter(j, i, new TextCharacter(' ')); // Substitua ' ' pelo caractere desejado para limpar a tela
+                    screen.setCharacter(j, i, new TextCharacter(' '));
                 }
             }
             mapa.draw(screen.newTextGraphics(), dirtyRegion,firstDraw);
             firstDraw = false;
         }
-        //dirtyRegions.clear();
+        dirtyRegions.clear();
         screen.refresh();
     }
     public void run() throws IOException {
@@ -82,11 +79,11 @@ public class Game {
                     if (keyType == KeyType.Escape) {
                         break;
                     }
-
                 }
+                mapa.readInput(keyStroke,dirtyRegions);
                 lastFrameTime = currentTime;
             }
         }
-        //screen.close();
+        screen.close();
     }
 }

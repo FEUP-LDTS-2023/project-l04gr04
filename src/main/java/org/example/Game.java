@@ -1,6 +1,7 @@
 package org.example;
 
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
@@ -25,15 +26,18 @@ public class Game {
     private Mapa mapa;
     private static final int FPS = 60;
     private static final long FRAME_DURATION = 1000 / FPS;
+    List<Rectangle> dirtyRegions = new ArrayList<>();
+    private boolean firstDraw = true;
     public Game(int w,int h) throws IOException, FontFormatException {
         mapa = new Mapa(w,h);
+        dirtyRegions.add(new Rectangle(0, 0, 28, 28));
         try {
             InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
 
             if (fontStream != null) {
                 Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
 
-            Font customFont = font.deriveFont(Font.PLAIN, 10);
+            Font customFont = font.deriveFont(Font.PLAIN, 2);
 
             SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(w, h)).setTerminalEmulatorFontConfiguration(fontConfig);
@@ -53,8 +57,16 @@ public class Game {
         }
     }
     private void draw() throws IOException {
-        screen.clear();
-        mapa.draw(screen.newTextGraphics());
+        for (Rectangle dirtyRegion : dirtyRegions) {
+            for (int i = dirtyRegion.y; i < dirtyRegion.y + dirtyRegion.height; i++) {
+                for (int j = dirtyRegion.x; j < dirtyRegion.x + dirtyRegion.width; j++) {
+                    screen.setCharacter(j, i, new TextCharacter(' ')); // Substitua ' ' pelo caractere desejado para limpar a tela
+                }
+            }
+            mapa.draw(screen.newTextGraphics(), dirtyRegion,firstDraw);
+            firstDraw = false;
+        }
+        //dirtyRegions.clear();
         screen.refresh();
     }
     public void run() throws IOException {

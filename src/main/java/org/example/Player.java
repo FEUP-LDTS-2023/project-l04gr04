@@ -21,28 +21,29 @@ public class Player extends Element{
     char[][] pacManRight1;
     char[][] pacManClosed;
     char[][] pacManRight2;
+    private int frequency = 5;
 
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
 
         switch (facingDirection){
             case "right":
-                if (mouthOpen<=5){
+                if (mouthOpen<=frequency){
                     drawTheStyle(pacManClosed,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=10 ){
+                else if (mouthOpen<=frequency*2){
                     drawTheStyle(pacManRight1,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=15 ) {
+                else if (mouthOpen<=frequency*3 ) {
                     drawTheStyle(pacManRight2,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=20 ) {
+                else if (mouthOpen<=frequency*4 ) {
                     drawTheStyle(pacManRight1,graphics,playerColor);
                     mouthOpen++;
                     break;
@@ -52,22 +53,22 @@ public class Player extends Element{
                     drawTheStyle(pacManClosed,graphics,playerColor);
                 }
             case "left":
-                if (mouthOpen<=5){
+                if (mouthOpen<=frequency*1){
                     drawTheStyle(pacManClosed,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=10){
+                else if (mouthOpen<=frequency*2){
                     drawTheStyle(pacManLeft1,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=15) {
+                else if (mouthOpen<=frequency*3) {
                     drawTheStyle(pacManLeft2,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=20) {
+                else if (mouthOpen<=frequency*4) {
                     drawTheStyle(pacManLeft1,graphics,playerColor);
                     mouthOpen++;
                     break;
@@ -78,22 +79,22 @@ public class Player extends Element{
                     break;
                 }
             case "down":
-                if (mouthOpen<=5){
+                if (mouthOpen<=frequency*1){
                     drawTheStyle(pacManClosed,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=10){
+                else if (mouthOpen<=frequency*2){
                     drawTheStyle(pacManDown1,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=15) {
+                else if (mouthOpen<=frequency*3) {
                     drawTheStyle(pacManDown2,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=20) {
+                else if (mouthOpen<=frequency*4) {
                     drawTheStyle(pacManDown1,graphics,playerColor);
                     mouthOpen++;
                     break;
@@ -104,22 +105,22 @@ public class Player extends Element{
                     break;
                 }
             case "up":
-                if (mouthOpen<=5){
+                if (mouthOpen<=frequency){
                     drawTheStyle(pacManClosed,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=10){
+                else if (mouthOpen<=frequency*2){
                     drawTheStyle(pacManUp1,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=15) {
+                else if (mouthOpen<=frequency*3) {
                     drawTheStyle(pacManUp2,graphics,playerColor);
                     mouthOpen++;
                     break;
                 }
-                else if (mouthOpen<=20) {
+                else if (mouthOpen<=frequency*4) {
                     drawTheStyle(pacManUp1,graphics,playerColor);
                     mouthOpen++;
                     break;

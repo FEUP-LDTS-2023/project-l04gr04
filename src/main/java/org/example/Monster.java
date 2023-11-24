@@ -21,7 +21,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     char[][] monsterDown2;
     public String facingDirection;
 
-
+    private int frequency = 5;
     private boolean rotate180 = false;
     public Monster(int x,int y){
         super(x,y);
@@ -158,10 +158,6 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {' ',' ',' ',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' '},
                 {'#',' ',' ','#','#','#',' ',' ','#','#','#',' ',' ','#'}
         };
-
-
-
-
     }
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
@@ -169,12 +165,12 @@ public abstract class Monster extends Element implements GenericMonster  {
         drawTheStyle(monsterDown1,graphics, colorM);
         switch (facingDirection){
             case "right":
-                if (mouthOpenM<=5){
+                if (mouthOpenM<=frequency){
                     drawTheStyle(monsterRight1,graphics,colorM);
                     mouthOpenM++;
                     break;
                 }
-                else if (mouthOpenM<=10 ){
+                else if (mouthOpenM<=frequency*2 ){
                     drawTheStyle(monsterRight2,graphics,colorM);
                     mouthOpenM++;
                     break;
@@ -186,12 +182,12 @@ public abstract class Monster extends Element implements GenericMonster  {
                 }
 
             case "left":
-                if (mouthOpenM<=5){
+                if (mouthOpenM<=frequency){
                     drawTheStyle(monsterLeft1,graphics,colorM);
                     mouthOpenM++;
                     break;
                 }
-                else if (mouthOpenM<=10 ){
+                else if (mouthOpenM<=frequency*2){
                     drawTheStyle(monsterLeft2,graphics,colorM);
                     mouthOpenM++;
                     break;
@@ -202,12 +198,12 @@ public abstract class Monster extends Element implements GenericMonster  {
                     break;
                 }
             case "down":
-                if (mouthOpenM<=5){
+                if (mouthOpenM<=frequency){
                     drawTheStyle(monsterDown1,graphics,colorM);
                     mouthOpenM++;
                     break;
                 }
-                else if (mouthOpenM>5 && mouthOpenM<=10){
+                else if (mouthOpenM<=frequency*2){
                     drawTheStyle(monsterDown2,graphics,colorM);
                     mouthOpenM++;
                     break;
@@ -218,12 +214,12 @@ public abstract class Monster extends Element implements GenericMonster  {
                     break;
                 }
             case "up":
-                if (mouthOpenM<=5){
+                if (mouthOpenM<=frequency){
                     drawTheStyle(monsterUp1,graphics,colorM);
                     mouthOpenM++;
                     break;
                 }
-                else if (mouthOpenM>5 && mouthOpenM<=10){
+                else if (mouthOpenM<=frequency*2){
                     drawTheStyle(monsterUp2,graphics,colorM);
                     mouthOpenM++;
                     break;

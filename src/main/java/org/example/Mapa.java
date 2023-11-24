@@ -4,6 +4,7 @@ import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.TextColor;
 
+import java.awt.*;
 import java.io.*;
 
 
@@ -20,9 +21,9 @@ public class Mapa {
     private int mouthF = 5;
     private int fpsCount = 0;
     private char[][] map;
-    private Player player = new Player(10,32);
+    private Player player = new Player(0,0);
 
-    private RedMonster red = new RedMonster(45,25);
+    private RedMonster red = new RedMonster(10,10);
 
     public Mapa(int w , int h) throws IOException {
         width = w;
@@ -30,11 +31,34 @@ public class Mapa {
         map = loadMapFromFile("map.txt");
         startTime = System.currentTimeMillis();
     }
-    public void draw(TextGraphics graphics) throws IOException {
+    public void draw(TextGraphics graphics, Rectangle dirtyRegion , boolean firstDraw) throws IOException {
+        if (firstDraw){
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    if (map[row][col] == '.') {
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == 'P') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == '0') {
+                        graphics.setForegroundColor(TextColor.Factory.fromString(coinsColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), '.');
+                    } else {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString("#CC0066"));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    }
+                }
+            }
+            return;
+        }
         graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+        int startX = Math.max(dirtyRegion.x, 0);
+        int startY = Math.max(dirtyRegion.y, 0);
+        int endX = Math.min(dirtyRegion.x + dirtyRegion.width, width);
+        int endY = Math.min(dirtyRegion.y + dirtyRegion.height, height);
+        for (int row = startY; row < endY; row++) {
+            for (int col = startX; col < endX; col++) {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                 if (map[row][col] == '.') {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
@@ -50,7 +74,6 @@ public class Mapa {
                 }
             }
         }
-        //if (fpsCount % mouthF == 0)player.mouthOpen = !player.mouthOpen;
         red.draw(graphics);
         player.draw(graphics);
         fpsCount++;

@@ -3,12 +3,14 @@ package org.example;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster  {
     public String mode = "Scatter";
     protected String movingDirection = "null";
-
+    public int mouthOpenM = 0;
     char[][] monsterLeft1;
     char[][] monsterLeft2;
     char[][] monsterRight1;
@@ -17,11 +19,13 @@ public abstract class Monster extends Element implements GenericMonster  {
     char[][] monsterUp2;
     char[][] monsterDown1;
     char[][] monsterDown2;
+    public String facingDirection;
+
 
     private boolean rotate180 = false;
     public Monster(int x,int y){
         super(x,y);
-
+        facingDirection = "right";
         monsterLeft1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
@@ -161,9 +165,77 @@ public abstract class Monster extends Element implements GenericMonster  {
     }
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        if (mode.equals("fright"))graphics.setBackgroundColor(TextColor.Factory.fromString("#C7D0D9"));
+        if (mode.equals("fright"))graphics.setBackgroundColor(TextColor.Factory.fromString("#0000FF"));
         drawTheStyle(monsterDown1,graphics, colorM);
+        switch (facingDirection){
+            case "right":
+                if (mouthOpenM<=5){
+                    drawTheStyle(monsterRight1,graphics,colorM);
+                    mouthOpenM++;
+                    break;
+                }
+                else if (mouthOpenM<=10 ){
+                    drawTheStyle(monsterRight2,graphics,colorM);
+                    mouthOpenM++;
+                    break;
+                }
+                else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterRight1,graphics,colorM);
+                    break;
+                }
+
+            case "left":
+                if (mouthOpenM<=5){
+                    drawTheStyle(monsterLeft1,graphics,colorM);
+                    mouthOpenM++;
+                    break;
+                }
+                else if (mouthOpenM<=10 ){
+                    drawTheStyle(monsterLeft2,graphics,colorM);
+                    mouthOpenM++;
+                    break;
+                }
+                else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterLeft1,graphics,colorM);
+                    break;
+                }
+            case "down":
+                if (mouthOpenM<=5){
+                    drawTheStyle(monsterDown1,graphics,colorM);
+                    mouthOpenM++;
+                    break;
+                }
+                else if (mouthOpenM>5 && mouthOpenM<=10){
+                    drawTheStyle(monsterDown2,graphics,colorM);
+                    mouthOpenM++;
+                    break;
+                }
+                else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterDown1,graphics,colorM);
+                    break;
+                }
+            case "up":
+                if (mouthOpenM<=5){
+                    drawTheStyle(monsterUp1,graphics,colorM);
+                    mouthOpenM++;
+                    break;
+                }
+                else if (mouthOpenM>5 && mouthOpenM<=10){
+                    drawTheStyle(monsterUp2,graphics,colorM);
+                    mouthOpenM++;
+                    break;
+                }
+                else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterUp1,graphics,colorM);
+                    break;
+                }
+        }
     }
+
     protected double distance(Position p, Position p1){
         double difX = p1.getX()+2.5 - p.getX();
         double difY = p1.getY()+1 - p.getY();

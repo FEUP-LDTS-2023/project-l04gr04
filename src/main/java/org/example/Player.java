@@ -21,11 +21,116 @@ public class Player extends Element{
     char[][] pacManRight1;
     char[][] pacManClosed;
     char[][] pacManRight2;
-    List<char[][]> pacFacingRight = Arrays.asList(pacManClosed,pacManRight1,pacManRight2);
-    List<char[][]> pacFacingLeft = Arrays.asList(pacManClosed,pacManLeft1,pacManLeft2);
-    List<char[][]> pacFacingUp = Arrays.asList(pacManClosed,pacManUp1,pacManUp2);
-    List<char[][]> pacFacingDown =  Arrays.asList(pacManClosed,pacManDown1,pacManDown2);
 
+    public void draw(TextGraphics graphics){
+        graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
+
+        switch (facingDirection){
+            case "right":
+                if (mouthOpen<=5){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=10 ){
+                    drawTheStyle(pacManRight1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=15 ) {
+                    drawTheStyle(pacManRight2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=20 ) {
+                    drawTheStyle(pacManRight1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else {
+                    mouthOpen = 1;
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                }
+            case "left":
+                if (mouthOpen<=5){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=10){
+                    drawTheStyle(pacManLeft1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=15) {
+                    drawTheStyle(pacManLeft2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=20) {
+                    drawTheStyle(pacManLeft1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else {
+                    mouthOpen = 1;
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    break;
+                }
+            case "down":
+                if (mouthOpen<=5){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=10){
+                    drawTheStyle(pacManDown1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=15) {
+                    drawTheStyle(pacManDown2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=20) {
+                    drawTheStyle(pacManDown1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else {
+                    mouthOpen = 1;
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    break;
+                }
+            case "up":
+                if (mouthOpen<=5){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=10){
+                    drawTheStyle(pacManUp1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=15) {
+                    drawTheStyle(pacManUp2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=20) {
+                    drawTheStyle(pacManUp1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else {
+                    mouthOpen = 1;
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    break;
+                }
+        }
+    }
     public Player(int x, int y){
         super(x,y);
         facingDirection = "right";
@@ -179,98 +284,6 @@ public class Player extends Element{
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
-
-    }
-    public void draw(TextGraphics graphics){
-        graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
-        switch (facingDirection){
-            case "right":
-                if (mouthOpen<=5){
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>5 && mouthOpen<=10 ){
-                    drawTheStyle(pacManRight1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>10 && mouthOpen<=15 ) {
-                    drawTheStyle(pacManRight2,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>15 && mouthOpen<=20 ) {
-                    drawTheStyle(pacManRight1,graphics,playerColor);
-                    mouthOpen=0;
-                    break;
-                }
-
-                break;
-            case "left":
-                if (mouthOpen<=5){
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>5 && mouthOpen<=10){
-                    drawTheStyle(pacManLeft1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>10 && mouthOpen<=15) {
-                    drawTheStyle(pacManLeft2,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>15 && mouthOpen<=20) {
-                    drawTheStyle(pacManLeft1,graphics,playerColor);
-                    mouthOpen=0;
-                    break;
-                }
-            case "down":
-                if (mouthOpen<=5){
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>5 && mouthOpen<=10){
-                    drawTheStyle(pacManDown1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>10 && mouthOpen<=15) {
-                    drawTheStyle(pacManDown2,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>15 && mouthOpen<=20) {
-                    drawTheStyle(pacManDown1,graphics,playerColor);
-                    mouthOpen=0;
-                    break;
-                }
-            case "up":
-                if (mouthOpen<=5){
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>5 && mouthOpen<=10){
-                    drawTheStyle(pacManUp1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>10 && mouthOpen<=15) {
-                    drawTheStyle(pacManUp2,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen>15 && mouthOpen<=20) {
-                    drawTheStyle(pacManUp1,graphics,playerColor);
-                    mouthOpen=0;
-                    break;
-                }
-        }
 
     }
     public void move(String direction){

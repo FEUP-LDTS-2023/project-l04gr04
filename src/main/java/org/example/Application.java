@@ -1,10 +1,11 @@
 package org.example;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class Application {
-    public static void main(String[] args) throws IOException {
-        Game game = new Game(100,100);
+    public static void main(String[] args) throws IOException, FontFormatException {
+        Game game = new Game(368,392);
         game.run();
     }
 }

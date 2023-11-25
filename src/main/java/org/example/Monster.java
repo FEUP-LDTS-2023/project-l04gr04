@@ -26,7 +26,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     private boolean rotate180 = false;
     public Monster(int x,int y){
         super(x,y);
-        facingDirection = "right";
+        facingDirection = "left";
         monsterLeft1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
@@ -162,8 +162,6 @@ public abstract class Monster extends Element implements GenericMonster  {
     }
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        if (mode.equals("fright"))graphics.setBackgroundColor(TextColor.Factory.fromString("#0000FF"));
-        drawTheStyle(monsterDown1,graphics, colorM);
         switch (facingDirection){
             case "right":
                 if (mouthOpenM<=frequency){
@@ -244,17 +242,25 @@ public abstract class Monster extends Element implements GenericMonster  {
         boolean b = true;
         boolean e = true;
         boolean d = true;
-        for (int i = 0 ; i < this.getX() ; i++){
-            if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367 && map[y-1][x+i] == 'P')t = false;
+        for (int i = 0 ; i < 14 ; i++){
+            if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367){
+                if(map[y-1][x+i] == 'P')t = false;
+            }
         }
-        for (int i = 0 ; i < this.getX() ; i++){
-            if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367 && map[y+14][x+i] == 'P')b = false;
+        for (int i = 0 ; i < 14 ; i++){
+            if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367){
+                if (map[y+14][x+i] == 'P')b = false;
+            }
         }
-        for (int i = 0 ; i < this.getY() ; i++){
-            if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367 && map[y+i][x-1] == 'P')e = false;
+        for (int i = 0 ; i < 14 ; i++){
+            if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367){
+                if (map[y+i][x-1] == 'P')e = false;
+            }
         }
-        for (int i = 0 ; i < this.getY() ; i++){
-            if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367 && map[y+i][x+14] == 'P')d = false;
+        for (int i = 0 ; i < 14 ; i++){
+            if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367){
+                if (map[y+i][x+14] == 'P')d = false;
+            }
         }
         if (mode.equals("fright")) {
             if (!rotate180) {

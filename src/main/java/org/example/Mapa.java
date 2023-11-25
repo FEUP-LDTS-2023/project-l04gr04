@@ -21,16 +21,17 @@ public class Mapa {
     private final String coinsColor = "#959043";
     private long startTime;
 
-    private int monstersF = 10;
+    private int monstersF = 100;
     private int fpsCount = 0;
     private char[][] map;
     private Player player = new Player(2,1);
 
-    private RedMonster red = new RedMonster(241,156);
-    private OrangeMonster orange = new OrangeMonster(115,142);
-    private BlueMonster blue = new BlueMonster(115,156);
+    private RedMonster red = new RedMonster(3,25);
+    private OrangeMonster orange = new OrangeMonster(62,377);
+    private BlueMonster blue = new BlueMonster(300,377);
     private PinkMonster pink = new PinkMonster(241,142);
 
+    private KeyType lastInputMove ;
     public Mapa(int w , int h) throws IOException {
         width = w;
         height = h;
@@ -80,44 +81,56 @@ public class Mapa {
                 }
             }
         }
+        red.draw(graphics);
         orange.draw(graphics);
         pink.draw(graphics);
         blue.draw(graphics);
         player.draw(graphics);
         fpsCount++;
     }
-    public void readInput(KeyStroke keyStroke, List<Rectangle> dirtyRegions) {
+    public boolean readInput(KeyStroke keyStroke,List<Rectangle> dirtyRegions) {
+        String Idirection = player.facingDirection;
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
         dirtyRegions.add(new Rectangle(red.getX(),red.getY(),14,14));
         dirtyRegions.add(new Rectangle(orange.getX(),orange.getY(),14,14));
         dirtyRegions.add(new Rectangle(pink.getX(),pink.getY(),14,14));
         dirtyRegions.add(new Rectangle(blue.getX(),blue.getY(),14,14));
+
         if (fpsCount % monstersF == 0){
-            red.move(player.position,map);
-            orange.move(player.position,map);
-            pink.move(player.position,map);
-            blue.move(player.position,map);
-            red.move(player.position,map);
+            Position redT = red.target(player.position, player.facingDirection, new Position(0,0));
+            red.move(redT ,map);
+            Position orangeT = orange.target(player.position, player.facingDirection, red.getPosition());
+            orange.move(orangeT ,map);
+            Position pinkT = pink.target(player.position, player.facingDirection, red.getPosition());
+            pink.move(pinkT ,map);
+            Position blueT = blue.target(player.position, player.facingDirection, red.getPosition());
+            blue.move(blueT ,map);
         }
         if (keyStroke == null){
             if(canMove(player.facingDirection))player.move(player.facingDirection);
-            return;
+            return false;
+        }else{
+            lastInputMove = keyStroke.getKeyType();
         }
-        KeyType keyType = keyStroke.getKeyType();
-        if (keyType == KeyType.ArrowRight){
+        if (lastInputMove == KeyType.ArrowRight){
             if(canMove("right"))player.move("right");
-        } else if (keyType == KeyType.ArrowLeft) {
+            else if(canMove(player.facingDirection))  player.move(player.facingDirection);
+        } else if (lastInputMove == KeyType.ArrowLeft) {
             if(canMove("left"))player.move("left");
-        } else if (keyType == KeyType.ArrowUp) {
+            else if(canMove(player.facingDirection))  player.move(player.facingDirection);
+        } else if (lastInputMove == KeyType.ArrowUp) {
             if(canMove("up"))player.move("up");
-        } else if (keyType == KeyType.ArrowDown) {
+            else if(canMove(player.facingDirection))  player.move(player.facingDirection);
+        } else if (lastInputMove == KeyType.ArrowDown) {
             if(canMove("down"))player.move("down");
+            else if(canMove(player.facingDirection))  player.move(player.facingDirection);
         }
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
         dirtyRegions.add(new Rectangle(red.getX(),red.getY(),14,14));
         dirtyRegions.add(new Rectangle(orange.getX(),orange.getY(),14,14));
         dirtyRegions.add(new Rectangle(pink.getX(),pink.getY(),14,14));
         dirtyRegions.add(new Rectangle(blue.getX(),blue.getY(),14,14));
+        return player.facingDirection != Idirection;
     }
     private boolean canMove(String direction){
         int x = player.getX();
@@ -126,25 +139,33 @@ public class Mapa {
             case "up":
                 boolean t = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367 && map[y-1][x+i] == 'P')t = false;
+                    if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367){
+                        if(map[y-1][x+i] == 'P')t = false;
+                    }
                 }
                 return t;
             case "down":
                 boolean b = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367 && map[y+14][x+i] == 'P')b = false;
+                    if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367){
+                        if (map[y+14][x+i] == 'P')b = false;
+                    }
                 }
                 return b;
             case "left":
                 boolean e = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367 && map[y+i][x-1] == 'P')e = false;
+                    if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367){
+                        if (map[y+i][x-1] == 'P')e = false;
+                    }
                 }
                 return e;
             case "right":
                 boolean d = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367 && map[y+i][x+14] == 'P')d = false;
+                    if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367){
+                        if (map[y+i][x+14] == 'P')d = false;
+                    }
                 }
                 return d;
         }

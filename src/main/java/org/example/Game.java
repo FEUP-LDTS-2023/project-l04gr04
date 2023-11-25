@@ -22,8 +22,10 @@ import java.util.Objects;
 
 public class Game {
     public Screen screen;
+    public TextGraphics graphics;
     public Terminal terminal;
     private Mapa mapa;
+    private KeyStroke k = null;
     private static final int FPS = 60;
     private static final long FRAME_DURATION = 1000 / FPS;
     List<Rectangle> dirtyRegions = new ArrayList<>();
@@ -52,6 +54,7 @@ public class Game {
             System.out.println(1);
             screen.close();
         }
+        graphics = screen.newTextGraphics();
     }
     private void draw() throws IOException {
         for (Rectangle dirtyRegion : dirtyRegions) {
@@ -60,7 +63,7 @@ public class Game {
                     screen.setCharacter(j, i, new TextCharacter(' '));
                 }
             }
-            mapa.draw(screen.newTextGraphics(), dirtyRegion,firstDraw);
+            mapa.draw(graphics, dirtyRegion,firstDraw);
             firstDraw = false;
         }
         dirtyRegions.clear();
@@ -73,14 +76,15 @@ public class Game {
             long elapsedTime = currentTime - lastFrameTime;
             if (elapsedTime >= FRAME_DURATION) {
                 draw();
-                KeyStroke keyStroke = screen.pollInput();
-                if (keyStroke != null){
-                    KeyType keyType = keyStroke.getKeyType();
+                KeyStroke keystroke = screen.pollInput();
+                if (keystroke != null){
+                    k = keystroke;
+                    KeyType keyType = keystroke.getKeyType();
                     if (keyType == KeyType.Escape) {
                         break;
                     }
                 }
-                mapa.readInput(keyStroke,dirtyRegions);
+                if (mapa.readInput(k,dirtyRegions))k = null;
                 lastFrameTime = currentTime;
             }
         }

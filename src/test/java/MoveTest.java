@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoveTest {
     Player player;
-    Monster monster;
     @BeforeEach
     public void setPlayer() {
         player = new Player(284, 243);
@@ -52,9 +51,18 @@ public class MoveTest {
     }
 
     @Test
-    public void moving() throws IOException {
-        Mapa newMap = new Mapa(370, 392);
-        monster.move(new Position(1, 25), newMap.loadMapFromFile("map.txt"));
-        assertEquals(new Position(80, 25), monster.getPosition());
+
+    public void movingWall() throws IOException {
+        Mapa newMap = new Mapa(368, 392);
+        RedMonster redMonster = new RedMonster(3,25);
+        redMonster.move(new Position(5, 25), newMap.loadMapFromFile("map.txt")); //Testar se passa pela parede
+        assertEquals(new Position(3, 24), redMonster.getPosition()); //Monstro move para cima
+    }
+    @Test
+    public void movingNoWall() throws IOException {
+        Mapa newMap = new Mapa(368, 392);
+        RedMonster redMonster = new RedMonster(3,25);
+        redMonster.move(new Position(3, 23), newMap.loadMapFromFile("map.txt"));
+        assertEquals(new Position(3, 24), redMonster.getPosition()); //Monstro move para cima
     }
 }

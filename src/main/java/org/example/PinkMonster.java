@@ -8,7 +8,7 @@ public class PinkMonster extends Monster{
     @Override
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#FFB8FF"));
-        super.draw(graphics,"FFB8FF");
+        super.draw(graphics,"#FFB8FF");
     }
     public Position target(Position position, String direction, Position redPosition){
         if (mode.equals("Scatter")) return new Position(2,1);

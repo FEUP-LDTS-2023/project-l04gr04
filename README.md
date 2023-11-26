@@ -84,3 +84,8 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 
 ![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/IMG_20231125_170302.jpg?raw=true)
 
+### Auto-avaliação
+
+costinha: 40%
+bernardo: 30%
+barbara: 30%

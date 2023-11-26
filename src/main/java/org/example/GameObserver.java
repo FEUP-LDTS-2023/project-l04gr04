@@ -1,6 +1,6 @@
 package org.example;
 
-public interface GameObservers {
+public interface GameObserver {
     void HuntHourStarted();
     void HuntHourEnded();
 }

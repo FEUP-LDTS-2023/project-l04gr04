@@ -1,7 +1,7 @@
 ## LDTS_<4><4> - <PacMan>
 
 O PacMan é um jogo eletrónico no qual o jogador é uma cabeça redonda com uma boca que se abre e fecha, posicionado num labirinto simples repleto de pontos e quatro fantasmas que o perseguem. Porém, o PacMan também persegue os fantasmas em determinadas alturas.
-O jogo é constituído por vários níveis, nos quais a dificuldade aumenta progressivamente. O objetivo é comer todas os pontos para avançar para o próximo nível.
+O jogo é constituído por vários níveis, nos quais a dificuldade aumenta progressivamente. O objetivo é comer todos os pontos para avançar para o próximo nível.
 Este projeto foi desenvolvido pelo Alexandre Costa (up202207499@fe.up.pt), Bárbara Ribeiro (up202209504@fe.up.pt) e Bernardo Costa (up202207579@fe.up.pt).
 
 ### Funções implementadas
@@ -25,13 +25,13 @@ Este projeto foi desenvolvido pelo Alexandre Costa (up202207499@fe.up.pt), Bárb
 
 #### STRATEGY PATTERN
 
-**Problema no context**
+**Problema no contexto**
 
-Todos os fantasmas se movem e são desenhados da mesma maneira. Contudo, cada um deles têm um alvo e cor específicos.
+Todos os fantasmas se movem e são desenhados da mesma maneira. Contudo, cada um deles têm um alvo e cor específicos. 
 
 **O Padrão**
 
-Foi aplicado o "Strategy Pattern". Foram criadas uma interface genérica e uma classe abstrata para representar as estratégias de movimento dos fantasmas que permitem que cada um tenha uma estratégia associada.
+Foram criadas uma interface genérica e uma classe abstrata para representar as estratégias de movimento dos fantasmas que permitem que cada um tenha uma estratégia associada.
 Assim, foram aproveitadas as semelhanças entre os fantasmas, e implementadas apenas as diferenças.
 
 **Implementação**
@@ -49,10 +49,37 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/tree/master/src/main/java/org/
 - Reduz a necessidade de alterar o código existente sempre que um novo comportamento é introduzido.
 - A manutenção do código é simplificada, uma vez que a lógica específica de cada comportamento é encapsulada em classes separadas.
 
-#### KNOWN CODE SMELLS
+
+#### OBSERVER PATTERN
+
+**Problemas no contexto**
+
+Existem diferentes estados de jogo. Seria inadequado alterar o estado de jogo em cada elemento do mapa.
+
+**O Padrão**
+
+Foi criada uma classe "GameState" que possui uma lista de "GameObservers" (Interface para jogador e monstros). Cada mudança na classe notifica os seus observadores, levando à alteração do seu estado.
+
+**Implementação**
+
+https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Player.java
+https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster.java
+https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameState.java
+https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GenericMonster.java
+https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameObserver.java
+
+**Consequências**
+
+- É fácil adicionar novos observadores (por exemplo, novos tipos de fantasmas) sem modificar o código existente, promovendo a extensibilidade.
+- A lógica relacionada à resposta dos fantasmas às ações do Pac-Man é encapsulada nas classes de observadores, facilitando a manutenção e a compreensão do código.
+
+
+#### Alguns defeitos de código
 
 - Algumas funções contêm uma implementação extensa e confusa.
 - Lógica de animação do PacMan e dos fantasmas pode ser melhorada.
 - As cores ainda não estão armazenadas numa lista.
 
 ### TESTES
+
+

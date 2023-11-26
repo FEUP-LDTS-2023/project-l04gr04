@@ -29,6 +29,7 @@ public class Mapa {
     private OrangeMonster orange = new OrangeMonster(62,377);
     private BlueMonster blue = new BlueMonster(300,377);
     private PinkMonster pink = new PinkMonster(241,142);
+    private Fruit cherry = new Fruit(100,100);
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics) throws IOException {
@@ -132,6 +133,7 @@ public class Mapa {
                 }
             }
         }
+        cherry.draw(graphics);
         red.draw(graphics);
         orange.draw(graphics);
         pink.draw(graphics);

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Player extends Element implements GameObserver {
+
     public String facingDirection;
 
     private String mode = "hunt";

@@ -23,7 +23,6 @@ public abstract class Monster extends Element implements GenericMonster  {
     char[][] monsterDown2;
     char[][] monsterRun1;
     char[][] monsterRun2;
-    public String facingDirection;
 
     private int frequency = 15;
     private boolean rotate180 = false;
@@ -37,7 +36,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     }
     public Monster(int x,int y){
         super(x,y);
-        facingDirection = "left";
+        movingDirection = "left";
         monsterLeft1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
@@ -206,7 +205,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         if(!Objects.equals(mode, "fright")){
-            switch (facingDirection) {
+            switch (movingDirection) {
                 case "right":
                     if (mouthOpenM <= frequency) {
                         drawTheStyle(monsterRight1, graphics, colorM);

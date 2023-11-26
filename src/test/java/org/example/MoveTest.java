@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoveTest {
     Player player;
+
     InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
     Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
     Font customFont = font.deriveFont(Font.PLAIN, 2);
@@ -27,12 +28,14 @@ public class MoveTest {
     Terminal terminal = terminalFactory.createTerminal();
     public Screen screen = new TerminalScreen(terminal);
     TextGraphics graphics = screen.newTextGraphics();
+
+    public MoveTest() throws IOException, FontFormatException {
+    }
+
     @BeforeEach
     public void setPlayer() {
         player = new Player(284, 243);
     }
-
-
     @Test
     public void redTargeting() {
         RedMonster redMonster = new RedMonster(74, 42);
@@ -69,6 +72,7 @@ public class MoveTest {
         else middleP = new Position(player.getX() + 2 * 14, player.getY());
         assertEquals(blueMonster.target(player.getPosition(), "right", redPosition), new Position(2 * middleP.getX() - redPosition.getX(), 2 * middleP.getY() - redPosition.getY()));
     }
+
     @Test
     public void movingWall() throws IOException {
         Mapa newMap = new Mapa(368, 392,graphics);

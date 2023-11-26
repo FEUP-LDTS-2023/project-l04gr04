@@ -15,11 +15,11 @@ public class GameState {
         huntH = false;
         notifyObservers();
     }
-    public void addObserver(GameObservers observer) {
+    public void addObserver(GameObserver observer) {
         observers.add(observer);
     }
     public void notifyObservers() {
-        for (GameObservers observer : observers)
+        for (GameObserver observer : observers)
             if (isHuntHour()) observer.HuntHourStarted();
             else observer.HuntHourEnded();
     }

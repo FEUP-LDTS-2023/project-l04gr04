@@ -86,6 +86,6 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 
 ### Auto-avaliação
 
-costinha: 40%
-bernardo: 30%
-barbara: 30%
+- Alexandre: 40%
+- Bárbara: 30%
+- Bernardo: 30%

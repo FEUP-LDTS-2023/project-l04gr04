@@ -6,10 +6,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster  {
-    public String mode = "scatter";
+    public String mode = "Scatter";
     protected String movingDirection = "null";
     public int mouthOpenM = 0;
     char[][] monsterLeft1;
@@ -37,7 +38,6 @@ public abstract class Monster extends Element implements GenericMonster  {
     public Monster(int x,int y){
         super(x,y);
         facingDirection = "left";
-        mode = "not";
         monsterLeft1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
@@ -205,7 +205,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     }
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        if(mode == "scatter"){
+        if(!Objects.equals(mode, "fright")){
             switch (facingDirection) {
                 case "right":
                     if (mouthOpenM <= frequency) {

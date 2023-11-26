@@ -10,7 +10,6 @@ import java.util.List;
 public class Player extends Element implements GameObserver {
 
     public String facingDirection;
-
     private String mode = "hunt";
     public int mouthOpen = 0;
     private String playerColor = "#B5D221";

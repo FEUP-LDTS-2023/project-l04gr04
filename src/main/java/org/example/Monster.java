@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster  {
-    public String mode = "Scatter";
+    public String mode = "scatter";
     protected String movingDirection = "null";
     public int mouthOpenM = 0;
     char[][] monsterLeft1;
@@ -24,6 +24,14 @@ public abstract class Monster extends Element implements GenericMonster  {
 
     private int frequency = 15;
     private boolean rotate180 = false;
+    @Override
+    public void HuntHourStarted(){
+        mode = "hunt";
+    }
+    @Override
+    public void HuntHourEnded(){
+        mode = "fright";
+    }
     public Monster(int x,int y){
         super(x,y);
         facingDirection = "left";

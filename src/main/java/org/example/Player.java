@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class Player extends Element{
+public class Player extends Element implements GameObservers{
     public String facingDirection;
+
+    private String mode = "hunt";
     public int mouthOpen = 0;
     private String playerColor = "#B5D221";
     char[][] pacManUp1;
@@ -303,5 +305,15 @@ public class Player extends Element{
                 position = moveRight();
                 break;
         }
+    }
+
+    @Override
+    public void HuntHourStarted() {
+        mode = "hunt";
+    }
+
+    @Override
+    public void HuntHourEnded() {
+        mode = "fright";
     }
 }

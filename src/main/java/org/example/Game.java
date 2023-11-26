@@ -22,29 +22,26 @@ import java.util.Objects;
 
 public class Game {
     public Screen screen;
-    public TextGraphics graphics;
     public Terminal terminal;
     private Mapa mapa;
     private KeyStroke k = null;
     private static final int FPS = 60;
     private static final long FRAME_DURATION = 1000 / FPS;
     List<Rectangle> dirtyRegions = new ArrayList<>();
-    private boolean firstDraw = true;
-    public Game(int w,int h) throws IOException, FontFormatException {
-        mapa = new Mapa(w,h);
-        dirtyRegions.add(new Rectangle(0, 0, 28, 28));
+    private TextGraphics graphics;
+    public Game(int w,int h) throws IOException {
         try {
             InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
             if (fontStream != null) {
                 Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-            Font customFont = font.deriveFont(Font.PLAIN, 2);
-            SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(w, h)).setTerminalEmulatorFontConfiguration(fontConfig);
-            terminal = terminalFactory.createTerminal();
-            screen = new TerminalScreen(terminal);
-            screen.setCursorPosition(null);
-            screen.startScreen();
-            screen.doResizeIfNecessary();
+                Font customFont = font.deriveFont(Font.PLAIN, 2);
+                SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
+                DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(w, h)).setTerminalEmulatorFontConfiguration(fontConfig);
+                terminal = terminalFactory.createTerminal();
+                screen = new TerminalScreen(terminal);
+                screen.setCursorPosition(null);
+                screen.startScreen();
+                screen.doResizeIfNecessary();
             } else {
                 System.out.println("Font file not found.");
             }
@@ -55,6 +52,7 @@ public class Game {
             screen.close();
         }
         graphics = screen.newTextGraphics();
+        mapa = new Mapa(w,h,graphics);
     }
     private void draw() throws IOException {
         for (Rectangle dirtyRegion : dirtyRegions) {
@@ -63,8 +61,7 @@ public class Game {
                     screen.setCharacter(j, i, new TextCharacter(' '));
                 }
             }
-            mapa.draw(graphics, dirtyRegion,firstDraw);
-            firstDraw = false;
+            mapa.draw(graphics, dirtyRegion);
         }
         dirtyRegions.clear();
         screen.refresh();
@@ -84,7 +81,8 @@ public class Game {
                         break;
                     }
                 }
-                if (mapa.readInput(k,dirtyRegions))k = null;
+                if (mapa.readInput(k))k = null;
+                mapa.gameLoop(dirtyRegions);
                 lastFrameTime = currentTime;
             }
         }

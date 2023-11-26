@@ -6,10 +6,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster  {
-    public String mode = "scatter";
+    public String mode = "Scatter";
     protected String movingDirection = "null";
     public int mouthOpenM = 0;
     char[][] monsterLeft1;
@@ -20,6 +21,8 @@ public abstract class Monster extends Element implements GenericMonster  {
     char[][] monsterUp2;
     char[][] monsterDown1;
     char[][] monsterDown2;
+    char[][] monsterRun1;
+    char[][] monsterRun2;
     public String facingDirection;
 
     private int frequency = 15;
@@ -39,11 +42,11 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
-                {'#',' ','+','+',' ',' ',' ',' ','+','+',' ',' ',' ','#'},
-                {'#','+','+','+','+',' ',' ','+','+','+','+',' ',' ','#'},
-                {'#','0','0','+','+',' ',' ','0','0','+','+',' ',' ','#'},
-                {' ','0','0','+','+',' ',' ','0','0','+','+',' ',' ',' '},
-                {' ',' ','+','+',' ',' ',' ',' ','+','+',' ',' ',' ',' '},
+                {'#',' ','W','W',' ',' ',' ',' ','W','W',' ',' ',' ','#'},
+                {'#','W','W','W','W',' ',' ','W','W','W','W',' ',' ','#'},
+                {'#','0','0','W','W',' ',' ','0','0','W','W',' ',' ','#'},
+                {' ','0','0','W','W',' ',' ','0','0','W','W',' ',' ',' '},
+                {' ',' ','W','W',' ',' ',' ',' ','W','W',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -55,11 +58,11 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
-                {'#',' ','+','+',' ',' ',' ',' ','+','+',' ',' ',' ','#'},
-                {'#','+','+','+','+',' ',' ','+','+','+','+',' ',' ','#'},
-                {'#','0','0','+','+',' ',' ','0','0','+','+',' ',' ','#'},
-                {' ','0','0','+','+',' ',' ','0','0','+','+',' ',' ',' '},
-                {' ',' ','+','+',' ',' ',' ',' ','+','+',' ',' ',' ',' '},
+                {'#',' ','W','W',' ',' ',' ',' ','W','W',' ',' ',' ','#'},
+                {'#','W','W','W','W',' ',' ','W','W','W','W',' ',' ','#'},
+                {'#','0','0','W','W',' ',' ','0','0','W','W',' ',' ','#'},
+                {' ','0','0','W','W',' ',' ','0','0','W','W',' ',' ',' '},
+                {' ',' ','W','W',' ',' ',' ',' ','W','W',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -72,11 +75,11 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
-                {'#',' ',' ',' ','+','+',' ',' ',' ',' ','+','+',' ','#'},
-                {'#',' ',' ','+','+','+','+',' ',' ','+','+','+','+','#'},
-                {'#',' ',' ','+','+','0','0',' ',' ','+','+','0','0','#'},
-                {' ',' ',' ','+','+','0','0',' ',' ','+','+','0','0',' '},
-                {' ',' ',' ',' ','+','+',' ',' ',' ',' ','+','+',' ',' '},
+                {'#',' ',' ',' ','W','W',' ',' ',' ',' ','W','W',' ','#'},
+                {'#',' ',' ','W','W','W','W',' ',' ','W','W','W','W','#'},
+                {'#',' ',' ','W','W','0','0',' ',' ','W','W','0','0','#'},
+                {' ',' ',' ','W','W','0','0',' ',' ','W','W','0','0',' '},
+                {' ',' ',' ',' ','W','W',' ',' ',' ',' ','W','W',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -88,11 +91,11 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
-                {'#',' ',' ',' ','+','+',' ',' ',' ',' ','+','+',' ','#'},
-                {'#',' ',' ','+','+','+','+',' ',' ','+','+','+','+','#'},
-                {'#',' ',' ','+','+','0','0',' ',' ','+','+','0','0','#'},
-                {' ',' ',' ','+','+','0','0',' ',' ','+','+','0','0',' '},
-                {' ',' ',' ',' ','+','+',' ',' ',' ',' ','+','+',' ',' '},
+                {'#',' ',' ',' ','W','W',' ',' ',' ',' ','W','W',' ','#'},
+                {'#',' ',' ','W','W','W','W',' ',' ','W','W','W','W','#'},
+                {'#',' ',' ','W','W','0','0',' ',' ','W','W','0','0','#'},
+                {' ',' ',' ','W','W','0','0',' ',' ','W','W','0','0',' '},
+                {' ',' ',' ',' ','W','W',' ',' ',' ',' ','W','W',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -104,10 +107,10 @@ public abstract class Monster extends Element implements GenericMonster  {
 
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#','0','0',' ',' ',' ',' ','0','0','#','#','#'},
-                {'#','#','+','0','0','+',' ',' ','+','0','0','+','#','#'},
-                {'#','#','+','+','+','+',' ',' ','+','+','+','+','#','#'},
-                {'#',' ','+','+','+','+',' ',' ','+','+','+','+',' ','#'},
-                {'#',' ',' ','+','+',' ',' ',' ',' ','+','+',' ',' ','#'},
+                {'#','#','W','0','0','W',' ',' ','W','0','0','W','#','#'},
+                {'#','#','W','W','W','W',' ',' ','W','W','W','W','#','#'},
+                {'#',' ','W','W','W','W',' ',' ','W','W','W','W',' ','#'},
+                {'#',' ',' ','W','W',' ',' ',' ',' ','W','W',' ',' ','#'},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -120,10 +123,10 @@ public abstract class Monster extends Element implements GenericMonster  {
         monsterUp2 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
                 {'#','#','#','0','0',' ',' ',' ',' ','0','0','#','#','#'},
-                {'#','#','+','0','0','+',' ',' ','+','0','0','+','#','#'},
-                {'#','#','+','+','+','+',' ',' ','+','+','+','+','#','#'},
-                {'#',' ','+','+','+','+',' ',' ','+','+','+','+',' ','#'},
-                {'#',' ',' ','+','+',' ',' ',' ',' ','+','+',' ',' ','#'},
+                {'#','#','W','0','0','W',' ',' ','W','0','0','W','#','#'},
+                {'#','#','W','W','W','W',' ',' ','W','W','W','W','#','#'},
+                {'#',' ','W','W','W','W',' ',' ','W','W','W','W',' ','#'},
+                {'#',' ',' ','W','W',' ',' ',' ',' ','W','W',' ',' ','#'},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -139,10 +142,10 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#',},
                 {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',},
-                {'#',' ',' ','+','+',' ',' ',' ',' ','+','+',' ',' ','#',},
-                {'#',' ','+','+','+','+',' ',' ','+','+','+','+',' ','#',},
-                {' ',' ','+','+','+','+',' ',' ','+','+','+','+',' ',' ',},
-                {' ',' ','+','0','0','+',' ',' ','+','0','0','+',' ',' ',},
+                {'#',' ',' ','W','W',' ',' ',' ',' ','W','W',' ',' ','#',},
+                {'#',' ','W','W','W','W',' ',' ','W','W','W','W',' ','#',},
+                {' ',' ','W','W','W','W',' ',' ','W','W','W','W',' ',' ',},
+                {' ',' ','W','0','0','W',' ',' ','W','0','0','W',' ',' ',},
                 {' ',' ',' ','0','0',' ',' ',' ',' ','0','0',' ',' ',' ',},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -156,10 +159,10 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#',},
                 {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',},
-                {'#',' ',' ','+','+',' ',' ',' ',' ','+','+',' ',' ','#',},
-                {'#',' ','+','+','+','+',' ',' ','+','+','+','+',' ','#',},
-                {' ',' ','+','+','+','+',' ',' ','+','+','+','+',' ',' ',},
-                {' ',' ','+','0','0','+',' ',' ','+','0','0','+',' ',' ',},
+                {'#',' ',' ','W','W',' ',' ',' ',' ','W','W',' ',' ','#',},
+                {'#',' ','W','W','W','W',' ',' ','W','W','W','W',' ','#',},
+                {' ',' ','W','W','W','W',' ',' ','W','W','W','W',' ',' ',},
+                {' ',' ','W','0','0','W',' ',' ','W','0','0','W',' ',' ',},
                 {' ',' ',' ','0','0',' ',' ',' ',' ','0','0',' ',' ',' ',},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -167,75 +170,113 @@ public abstract class Monster extends Element implements GenericMonster  {
                 {' ',' ',' ',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' '},
                 {'#',' ',' ','#','#','#',' ',' ','#','#','#',' ',' ','#'}
         };
+        monsterRun1 = new char[][]{
+                {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#',},
+                {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',},
+                {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#',},
+                {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',},
+                {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',},
+                {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',},
+                {' ',' ',' ',' ','W','W',' ',' ','W','W',' ',' ',' ',' ',},
+                {' ',' ',' ',' ','W','W',' ',' ','W','W',' ',' ',' ',' ',},
+                {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
+                {' ',' ',' ',' ','W',' ','W',' ','W',' ','W',' ',' ',' ',},
+                {' ',' ',' ','W',' ','W',' ','W',' ','W',' ',' ',' ',' ',},
+                {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+                {' ',' ','#',' ',' ',' ','#','#',' ',' ',' ','#',' ',' '},
+                {' ','#','#','#',' ',' ','#','#',' ',' ','#','#','#',' '}
+        };
+        monsterRun2 = new char[][]{
+                {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#',},
+                {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',},
+                {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#',},
+                {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',},
+                {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',},
+                {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',},
+                {' ',' ',' ',' ','W','W',' ',' ','W','W',' ',' ',' ',' ',},
+                {' ',' ',' ',' ','W','W',' ',' ','W','W',' ',' ',' ',' ',},
+                {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',},
+                {' ',' ',' ',' ','W',' ','W',' ','W',' ','W',' ',' ',' ',},
+                {' ',' ',' ','W',' ','W',' ','W',' ','W',' ',' ',' ',' ',},
+                {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+                {' ',' ',' ',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' '},
+                {'#',' ',' ','#','#','#',' ',' ','#','#','#',' ',' ','#'}
+        };
     }
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        switch (facingDirection){
-            case "right":
-                if (mouthOpenM<=frequency){
-                    drawTheStyle(monsterRight1,graphics,colorM);
-                    mouthOpenM++;
-                    break;
-                }
-                else if (mouthOpenM<=frequency*2 ){
-                    drawTheStyle(monsterRight2,graphics,colorM);
-                    mouthOpenM++;
-                    break;
-                }
-                else {
-                    mouthOpenM = 1;
-                    drawTheStyle(monsterRight1,graphics,colorM);
-                    break;
-                }
+        if(!Objects.equals(mode, "fright")){
+            switch (facingDirection) {
+                case "right":
+                    if (mouthOpenM <= frequency) {
+                        drawTheStyle(monsterRight1, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else if (mouthOpenM <= frequency * 2) {
+                        drawTheStyle(monsterRight2, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else {
+                        mouthOpenM = 1;
+                        drawTheStyle(monsterRight1, graphics, colorM);
+                        break;
+                    }
 
-            case "left":
-                if (mouthOpenM<=frequency){
-                    drawTheStyle(monsterLeft1,graphics,colorM);
-                    mouthOpenM++;
-                    break;
-                }
-                else if (mouthOpenM<=frequency*2){
-                    drawTheStyle(monsterLeft2,graphics,colorM);
-                    mouthOpenM++;
-                    break;
-                }
-                else {
-                    mouthOpenM = 1;
-                    drawTheStyle(monsterLeft1,graphics,colorM);
-                    break;
-                }
-            case "down":
-                if (mouthOpenM<=frequency){
-                    drawTheStyle(monsterDown1,graphics,colorM);
-                    mouthOpenM++;
-                    break;
-                }
-                else if (mouthOpenM<=frequency*2){
-                    drawTheStyle(monsterDown2,graphics,colorM);
-                    mouthOpenM++;
-                    break;
-                }
-                else {
-                    mouthOpenM = 1;
-                    drawTheStyle(monsterDown1,graphics,colorM);
-                    break;
-                }
-            case "up":
-                if (mouthOpenM<=frequency){
-                    drawTheStyle(monsterUp1,graphics,colorM);
-                    mouthOpenM++;
-                    break;
-                }
-                else if (mouthOpenM<=frequency*2){
-                    drawTheStyle(monsterUp2,graphics,colorM);
-                    mouthOpenM++;
-                    break;
-                }
-                else {
-                    mouthOpenM = 1;
-                    drawTheStyle(monsterUp1,graphics,colorM);
-                    break;
-                }
+                case "left":
+                    if (mouthOpenM <= frequency) {
+                        drawTheStyle(monsterLeft1, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else if (mouthOpenM <= frequency * 2) {
+                        drawTheStyle(monsterLeft2, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else {
+                        mouthOpenM = 1;
+                        drawTheStyle(monsterLeft1, graphics, colorM);
+                        break;
+                    }
+                case "down":
+                    if (mouthOpenM <= frequency) {
+                        drawTheStyle(monsterDown1, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else if (mouthOpenM <= frequency * 2) {
+                        drawTheStyle(monsterDown2, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else {
+                        mouthOpenM = 1;
+                        drawTheStyle(monsterDown1, graphics, colorM);
+                        break;
+                    }
+                case "up":
+                    if (mouthOpenM <= frequency) {
+                        drawTheStyle(monsterUp1, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else if (mouthOpenM <= frequency * 2) {
+                        drawTheStyle(monsterUp2, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else {
+                        mouthOpenM = 1;
+                        drawTheStyle(monsterUp1, graphics, colorM);
+                        break;
+                    }
+            }
+        }
+        else{
+            if (mouthOpenM <= frequency) {
+                drawTheStyle(monsterRun1, graphics, monsterYesColor);
+                mouthOpenM++;
+            } else if (mouthOpenM <= frequency * 2) {
+                drawTheStyle(monsterRun2, graphics, monsterYesColor);
+                mouthOpenM++;
+            } else {
+                mouthOpenM = 1;
+                drawTheStyle(monsterRun1, graphics, monsterYesColor);
+            }
         }
     }
     public double distance(Position p, Position p1){
@@ -251,21 +292,37 @@ public abstract class Monster extends Element implements GenericMonster  {
         boolean e = true;
         boolean d = true;
         for (int i = 0 ; i < 14 ; i++){
+            if (movingDirection == "down"){
+                t = false;
+                break;
+            }
             if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367){
                 if(map[y-1][x+i] == 'P')t = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
+            if (movingDirection == "up"){
+                b = false;
+                break;
+            }
             if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367){
                 if (map[y+14][x+i] == 'P')b = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
+            if (movingDirection == "right"){
+                e = false;
+                break;
+            }
             if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367){
                 if (map[y+i][x-1] == 'P')e = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
+            if (movingDirection == "left"){
+                d = false;
+                break;
+            }
             if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367){
                 if (map[y+i][x+14] == 'P')d = false;
             }
@@ -291,19 +348,19 @@ public abstract class Monster extends Element implements GenericMonster  {
                 while (flag) {
                     Random random = new Random();
                     int randomNumber = random.nextInt(4);
-                    if (randomNumber == 0 && t && !movingDirection.equals("down")) {
+                    if (randomNumber == 0 && t ) {
                         position = moveUp();
                         movingDirection = "up";
                         flag = false;
-                    } else if (randomNumber == 1 && b && !movingDirection.equals("up")) {
+                    } else if (randomNumber == 1 && b ) {
                         position = moveDown();
                         movingDirection = "down";
                         flag = false;
-                    } else if (randomNumber == 2 && d && !movingDirection.equals("left")) {
+                    } else if (randomNumber == 2 && d ) {
                         position = moveRight();
                         movingDirection = "right";
                         flag = false;
-                    } else if (randomNumber == 3 && e && !movingDirection.equals("right")) {
+                    } else if (randomNumber == 3 && e) {
                         position = moveLeft();
                         movingDirection = "left";
                         flag = false;
@@ -311,27 +368,29 @@ public abstract class Monster extends Element implements GenericMonster  {
                 }
             }
         } else {
-            double topo = 2000000000;
-            double baixo = 2000000000;
-            double esq = 2000000000;
-            double dir = 2000000000;
+            double topo = Double.MAX_VALUE;
+            double baixo = Double.MAX_VALUE;
+            double esq = Double.MAX_VALUE;
+            double dir = Double.MAX_VALUE;
             if (e) esq = distance(new Position(x - 1, y), p);
             if (d) dir = distance(new Position(x + 1, y), p);
             if (b) baixo = distance(new Position(x, y + 1), p);
             if (t) topo = distance(new Position(x, y - 1), p);
-            double minv = 20000000;
-            if (d && dir <= minv && !movingDirection.equals("left")) minv = dir;
-            if (b && baixo <= minv && !movingDirection.equals("up")) {
+            double minv = Double.MAX_VALUE;
+            if (d && dir <= minv ) {
+                minv = dir;
+            }
+            if (b && baixo <= minv ) {
                 minv = baixo;
             }
-            if (e && esq <= minv && !movingDirection.equals("right")) {
+            if (e && esq <= minv  ) {
                 minv = esq;
             }
-            if (t && topo <= minv && !movingDirection.equals("down")) {
+            if (t && topo <= minv ){
                 minv = topo;
                 position = moveUp();
                 movingDirection = "up";
-            } else if (minv == esq) {
+            }else if (minv == esq) {
                 position = moveLeft();
                 movingDirection = "left";
             } else if (minv == baixo) {
@@ -343,5 +402,6 @@ public abstract class Monster extends Element implements GenericMonster  {
             }
         }
     }
+
 }
 

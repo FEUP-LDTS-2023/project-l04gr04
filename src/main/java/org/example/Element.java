@@ -8,6 +8,9 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 
 public class Element {
     protected Position position;
+    String red = "#EC2324";
+    String white ="#FFFFFF";
+    String brown = "#9F6022";
     public String monsterYesColor = " #0000FF";
     public Element(){
         position = new Position(0,0);
@@ -37,8 +40,12 @@ public class Element {
                 if (pacManImage[row][col] != '#') {
                     if(pacManImage[row][col] == '0'){
                         graphics.setBackgroundColor(TextColor.Factory.fromString(monsterYesColor));
-                    } else if (pacManImage[row][col] == '+') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString("#FFFFFF"));}
+                    } else if (pacManImage[row][col] == 'R') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(red));
+                    } else if (pacManImage[row][col] == 'W') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(white));
+                    } else if (pacManImage[row][col] == 'B') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(brown));}
                     graphics.fillRectangle(new TerminalPosition(x+col,y+row),new TerminalSize(1,1),' ');
                 }
             }

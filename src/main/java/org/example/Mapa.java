@@ -22,19 +22,23 @@ public class Mapa {
     private int monstersF = 5;
     private int playerF = 1;
     private int fpsCount = 0;
+    private final int timeInScout = 10000;
     private GameState gameState = new GameState();
+    private long startTime;
     private char[][] map;
     private Player player = new Player(2,1);
     private RedMonster red = new RedMonster(3,25);
     private OrangeMonster orange = new OrangeMonster(62,377);
     private BlueMonster blue = new BlueMonster(300,377);
     private PinkMonster pink = new PinkMonster(241,142);
+    private Fruit cherry = new Fruit(100,100);
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics) throws IOException {
         width = w;
         height = h;
         map = loadMapFromFile("map.txt");
+        startTime = System.currentTimeMillis();
         gameState.addObserver(player);
         gameState.addObserver(red);
         gameState.addObserver(orange);
@@ -89,7 +93,9 @@ public class Mapa {
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
             }
         }
-
+        if (System.currentTimeMillis() - startTime >= timeInScout && !blue.mode.equals("fright")){
+            gameState.endHuntHour();
+        }
     }
     public boolean readInput(KeyStroke keyStroke) {
         if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&keyStroke.getKeyType() != KeyType.ArrowUp
@@ -132,6 +138,7 @@ public class Mapa {
                 }
             }
         }
+        cherry.draw(graphics);
         red.draw(graphics);
         orange.draw(graphics);
         pink.draw(graphics);

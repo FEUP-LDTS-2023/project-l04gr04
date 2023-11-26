@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
-    List<GameObservers> observers = new ArrayList<>();
+    List<GameObserver> observers = new ArrayList<>();
     boolean huntH = false;
     public boolean isHuntHour(){return huntH;}
     public void startHuntHour(){
@@ -15,11 +15,11 @@ public class GameState {
         huntH = false;
         notifyObservers();
     }
-    public void addObserver(GameObservers observer) {
+    public void addObserver(GameObserver observer) {
         observers.add(observer);
     }
     public void notifyObservers() {
-        for (GameObservers observer : observers)
+        for (GameObserver observer : observers)
             if (isHuntHour()) observer.HuntHourStarted();
             else observer.HuntHourEnded();
     }

@@ -11,6 +11,7 @@ import java.io.*;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Mapa {
@@ -32,6 +33,8 @@ public class Mapa {
     private BlueMonster blue = new BlueMonster(300,377);
     private PinkMonster pink = new PinkMonster(241,142);
     private Fruit cherry = new Fruit(100,100);
+    private List<Dot> dots = new ArrayList<>();
+    String yellow = "#FFB897";
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics) throws IOException {
@@ -61,6 +64,7 @@ public class Mapa {
                 }
             }
         }
+        createDots(graphics);
 
     }
     public void gameLoop(List<Rectangle> dirtyRegions){
@@ -96,6 +100,7 @@ public class Mapa {
         if (System.currentTimeMillis() - startTime >= timeInScout && !blue.mode.equals("fright")){
             gameState.endHuntHour();
         }
+
     }
     public boolean readInput(KeyStroke keyStroke) {
         if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&keyStroke.getKeyType() != KeyType.ArrowUp
@@ -147,6 +152,20 @@ public class Mapa {
         fpsCount++;
     }
 
+    void createDots(TextGraphics graphics){
+        boolean isWall = false;
+        for(int j=1; j<364; j++){
+            for(int i=32; i<390; i++) {
+                if (map[j][i]=='P' ||map[j][i-1]=='P')isWall = !isWall;
+                if(i%14 == 0 && j%14 == 0 && !isWall) {
+                    Dot dot = new Dot(i, j);
+                    dot.draw(graphics);
+                    dots.add(dot);
+                }
+            }
+        }
+
+    }
     private boolean canMove(String direction){
         int x = player.getX();
         int y = player.getY();
@@ -154,7 +173,7 @@ public class Mapa {
             case "up":
                 boolean t = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367){
+                    if (y-1 >= 0 && y-1 <= height && x+i >= 0 && x+i <= width){
                         if(map[y-1][x+i] == 'P')t = false;
                     }
                 }
@@ -162,7 +181,7 @@ public class Mapa {
             case "down":
                 boolean b = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367){
+                    if (y+14 >= 0 && y+14 <= height && x+i >= 0 && x+i <= width){
                         if (map[y+14][x+i] == 'P')b = false;
                     }
                 }
@@ -170,7 +189,7 @@ public class Mapa {
             case "left":
                 boolean e = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367){
+                    if (y+i >= 0 && y+i <= height && x-1 >= 0 && x-1 <= width){
                         if (map[y+i][x-1] == 'P')e = false;
                     }
                 }
@@ -178,7 +197,7 @@ public class Mapa {
             case "right":
                 boolean d = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367){
+                    if (y+i >= 0 && y+i <= height && x+14 >= 0 && x+14 <= width){
                         if (map[y+i][x+14] == 'P')d = false;
                     }
                 }

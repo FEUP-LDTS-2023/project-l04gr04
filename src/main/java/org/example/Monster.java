@@ -295,7 +295,7 @@ public abstract class Monster extends Element implements GenericMonster  {
                 t = false;
                 break;
             }
-            if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367){
+            if (y-1 >= 0 && y-1 <= 393 && x+i >= 0 && x+i <= 450){
                 if(map[y-1][x+i] == 'P')t = false;
             }
         }
@@ -304,7 +304,7 @@ public abstract class Monster extends Element implements GenericMonster  {
                 b = false;
                 break;
             }
-            if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367){
+            if (y+14 >= 0 && y+14 <= 393 && x+i >= 0 && x+i <= 450){
                 if (map[y+14][x+i] == 'P')b = false;
             }
         }
@@ -313,7 +313,7 @@ public abstract class Monster extends Element implements GenericMonster  {
                 e = false;
                 break;
             }
-            if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367){
+            if (y+i >= 0 && y+i <= 393 && x-1 >= 0 && x-1 <= 450){
                 if (map[y+i][x-1] == 'P')e = false;
             }
         }
@@ -322,7 +322,7 @@ public abstract class Monster extends Element implements GenericMonster  {
                 d = false;
                 break;
             }
-            if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367){
+            if (y+i >= 0 && y+i <= 393 && x+14 >= 0 && x+14 <= 450){
                 if (map[y+i][x+14] == 'P')d = false;
             }
         }

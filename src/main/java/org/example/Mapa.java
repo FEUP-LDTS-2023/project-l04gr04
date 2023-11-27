@@ -20,7 +20,7 @@ public class Mapa {
     private final String wallsColor = "#385A81";
     private final String coinsColor = "#959043";
     private int monstersF = 5;
-    private int playerF = 1;
+    private int playerF = 5;
     private int fpsCount = 0;
     private final int timeInScout = 10000;
     private GameState gameState = new GameState();

@@ -296,7 +296,7 @@ public abstract class Monster extends Element implements GenericMonster  {
                 break;
             }
             if (y-1 >= 0 && y-1 <= 393 && x+i >= 0 && x+i <= 450){
-                if(map[y-1][x+i] == 'P')t = false;
+                if(map[y-1][x+i] == 'P'||map[y-1][x+i] == 'c')t = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -305,7 +305,7 @@ public abstract class Monster extends Element implements GenericMonster  {
                 break;
             }
             if (y+14 >= 0 && y+14 <= 393 && x+i >= 0 && x+i <= 450){
-                if (map[y+14][x+i] == 'P')b = false;
+                if (map[y+14][x+i] == 'P'||map[y+14][x+i] == 'c')b = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -314,7 +314,7 @@ public abstract class Monster extends Element implements GenericMonster  {
                 break;
             }
             if (y+i >= 0 && y+i <= 393 && x-1 >= 0 && x-1 <= 450){
-                if (map[y+i][x-1] == 'P')e = false;
+                if (map[y+i][x-1] == 'P'||map[y+i][x-1] == 'c')e = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -323,7 +323,7 @@ public abstract class Monster extends Element implements GenericMonster  {
                 break;
             }
             if (y+i >= 0 && y+i <= 393 && x+14 >= 0 && x+14 <= 450){
-                if (map[y+i][x+14] == 'P')d = false;
+                if (map[y+i][x+14] == 'P'||map[y+i][x+14] == 'c')d = false;
             }
         }
         if (mode.equals("fright")) {

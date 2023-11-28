@@ -18,7 +18,7 @@ public class Mapa {
     private int width;
     private int height;
     private final String backgroundColor = "#000000";
-    private final String wallsColor = "#385A81";
+    private final String wallsColor = "#2121DE";
     private final String coinsColor = "#959043";
     private int monstersF = 5;
     private int playerF = 5;
@@ -27,8 +27,8 @@ public class Mapa {
     private GameState gameState = new GameState();
     private long startTime;
     private char[][] map;
-    private Player player = new Player(2,1);
-    private RedMonster red = new RedMonster(3,25);
+    private Player player = new Player(33,8);
+    private RedMonster red = new RedMonster(134,126);
     private OrangeMonster orange = new OrangeMonster(62,377);
     private BlueMonster blue = new BlueMonster(300,377);
     private PinkMonster pink = new PinkMonster(241,142);
@@ -52,14 +52,14 @@ public class Mapa {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                 if (map[row][col] == '.') {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'P') {
+                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
                     graphics.setForegroundColor(TextColor.Factory.fromString(coinsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), '.');
                 } else {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString("#CC0066"));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
@@ -131,14 +131,14 @@ public class Mapa {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                 if (map[row][col] == '.') {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'P') {
+                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
                     graphics.setForegroundColor(TextColor.Factory.fromString(coinsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), '.');
                 } else {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString("#CC0066"));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
@@ -164,7 +164,6 @@ public class Mapa {
                 }
             }
         }
-
     }
     private boolean canMove(String direction){
         int x = player.getX();
@@ -174,7 +173,7 @@ public class Mapa {
                 boolean t = true;
                 for (int i = 0 ; i < 14 ; i++){
                     if (y-1 >= 0 && y-1 <= height && x+i >= 0 && x+i <= width){
-                        if(map[y-1][x+i] == 'P')t = false;
+                        if(map[y-1][x+i] == 'P' || map[y-1][x+i] == 'c')t = false;
                     }
                 }
                 return t;
@@ -182,7 +181,7 @@ public class Mapa {
                 boolean b = true;
                 for (int i = 0 ; i < 14 ; i++){
                     if (y+14 >= 0 && y+14 <= height && x+i >= 0 && x+i <= width){
-                        if (map[y+14][x+i] == 'P')b = false;
+                        if (map[y+14][x+i] == 'P'||map[y+14][x+i] == 'c')b = false;
                     }
                 }
                 return b;
@@ -190,7 +189,7 @@ public class Mapa {
                 boolean e = true;
                 for (int i = 0 ; i < 14 ; i++){
                     if (y+i >= 0 && y+i <= height && x-1 >= 0 && x-1 <= width){
-                        if (map[y+i][x-1] == 'P')e = false;
+                        if (map[y+i][x-1] == 'P'||map[y+i][x-1] == 'c')e = false;
                     }
                 }
                 return e;
@@ -198,7 +197,7 @@ public class Mapa {
                 boolean d = true;
                 for (int i = 0 ; i < 14 ; i++){
                     if (y+i >= 0 && y+i <= height && x+14 >= 0 && x+14 <= width){
-                        if (map[y+i][x+14] == 'P')d = false;
+                        if (map[y+i][x+14] == 'P'||map[y+i][x+14] == 'c')d = false;
                     }
                 }
                 return d;

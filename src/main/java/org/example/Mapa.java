@@ -29,9 +29,9 @@ public class Mapa {
     private char[][] map;
     private Player player = new Player(33,8);
     private RedMonster red = new RedMonster(134,126);
-    private OrangeMonster orange = new OrangeMonster(62,377);
-    private BlueMonster blue = new BlueMonster(300,377);
-    private PinkMonster pink = new PinkMonster(241,142);
+    private OrangeMonster orange = new OrangeMonster(134,126);
+    private BlueMonster blue = new BlueMonster(134,126);
+    private PinkMonster pink = new PinkMonster(134,126);
     private Fruit cherry = new Fruit(100,100);
     private List<Dot> dots = new ArrayList<>();
     String yellow = "#FFB897";

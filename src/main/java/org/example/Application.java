@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Application {
     public static void main(String[] args) throws IOException, FontFormatException {
-        Game game = new Game(450,395);
+        Game game = new Game(205,270);
         game.run();
     }
 }

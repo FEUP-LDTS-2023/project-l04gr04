@@ -12,6 +12,7 @@ import java.io.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Mapa {
@@ -28,11 +29,8 @@ public class Mapa {
     private GameState gameState = new GameState();
     private long startTime;
     private char[][] map;
-    private Player player = new Player(33,6);
-    private RedMonster red = new RedMonster(134,126);
-    private OrangeMonster orange = new OrangeMonster(134,126);
-    private BlueMonster blue = new BlueMonster(134,126);
-    private PinkMonster pink = new PinkMonster(134,126);
+    private List<Monster> monsters = new ArrayList<>();
+    private Player player = new Player(33,26);
     private Fruit cherry = new Fruit(7,142);
     private List<Dot> dots = new ArrayList<>();
     String yellow = "#FFB897";
@@ -43,11 +41,14 @@ public class Mapa {
         height = h;
         map = loadMapFromFile("map.txt");
         startTime = System.currentTimeMillis();
+        monsters.add(new RedMonster(130,23));
+        monsters.add(new OrangeMonster(134,126));
+        monsters.add( new BlueMonster(134,126));
+        monsters.add(new PinkMonster(134,126));
+        for (Monster m : monsters){
+            gameState.addObserver(m);
+        }
         gameState.addObserver(player);
-        gameState.addObserver(red);
-        gameState.addObserver(orange);
-        gameState.addObserver(pink);
-        gameState.addObserver(blue);
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
@@ -60,33 +61,31 @@ public class Mapa {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
-                    graphics.setForegroundColor(TextColor.Factory.fromString(coinsColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), '.');
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (map[row][col] == 'd'){
+                    dots.add(new Dot(col,row,false));
+                }else if (map[row][col] == 'D'){
+                    dots.add(new Dot(col,row,true));
                 } else {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
         }
-        createDots(graphics);
-
     }
     public void gameLoop(List<Rectangle> dirtyRegions){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
-        dirtyRegions.add(new Rectangle(red.getX(),red.getY(),14,14));
-        dirtyRegions.add(new Rectangle(orange.getX(),orange.getY(),14,14));
-        dirtyRegions.add(new Rectangle(pink.getX(),pink.getY(),14,14));
-        dirtyRegions.add(new Rectangle(blue.getX(),blue.getY(),14,14));
-        if (fpsCount % monstersF == 0){
-            Position redT = red.target(player.position, player.facingDirection, new Position(0,0));
-            red.move(redT ,map);
-            Position orangeT = orange.target(player.position, player.facingDirection, red.getPosition());
-            orange.move(orangeT ,map);
-            Position pinkT = pink.target(player.position, player.facingDirection, red.getPosition());
-            pink.move(pinkT ,map);
-            Position blueT = blue.target(player.position, player.facingDirection, red.getPosition());
-            blue.move(blueT ,map);
-        }        if (fpsCount % playerF == 0){
+        for (Monster m : monsters){
+            dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
+        }
+        if (fpsCount % monstersF == 0){ // Monsters movement
+            Position rp = monsters.get(0).getPosition(); // Red monster position
+            for (Monster m : monsters){
+                Position mt = m.target(player.position, player.facingDirection, rp);
+                m.move(mt,map);
+            }
+        }if (fpsCount % playerF == 0){ // Player movement
             if (lastInputMove == KeyType.ArrowRight){
                 if(canMove("right"))player.move("right");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
@@ -101,10 +100,37 @@ public class Mapa {
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
             }
         }
-        if (System.currentTimeMillis() - startTime >= timeInScout && !blue.mode.equals("fright")){
-            gameState.endHuntHour();
-        }
+        checkDotColisions();
+        checkMonsterColisions();
+        //if (System.currentTimeMillis() - startTime >= timeInScout && !blue.mode.equals("fright")){
+        //    gameState.endHuntHour();
+        //}
 
+    }
+    void checkDotColisions(){
+        Iterator<Dot> iterator = dots.iterator();
+        while (iterator.hasNext()) {
+            Dot dot = iterator.next();
+            int dx = dot.getX();
+            int dy = dot.getY();
+            int px = player.getX();
+            int py = player.getY();
+            if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
+                if (dot.SpecialDote)gameState.startHuntHour();
+                iterator.remove();
+            }
+        }
+    }
+    void checkMonsterColisions(){
+        for (Monster m : monsters){
+            int mx = m.getX();
+            int my = m.getY();
+            int px = player.getX();
+            int py = player.getY();
+            if ((px <= mx && px + 14 >= mx && py <= my && py + 14 >= my) || (mx <= px && mx + 14 >= px && my <= py && my + 14 >= py)) {
+                if (m.mode != "fright")System.exit(0);
+            }
+        }
     }
     public boolean readInput(KeyStroke keyStroke) {
         if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&keyStroke.getKeyType() != KeyType.ArrowUp
@@ -142,36 +168,21 @@ public class Mapa {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
-                    graphics.setForegroundColor(TextColor.Factory.fromString(coinsColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), '.');
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
         }
-        red.draw(graphics);
-        orange.draw(graphics);
-        pink.draw(graphics);
-        blue.draw(graphics);
+        for (Dot dot : dots){
+            dot.draw(graphics);
+        }
+        for (Monster m : monsters)m.draw(graphics);
         player.draw(graphics);
         cherry.draw(graphics);
         fpsCount++;
-    }
-
-    void createDots(TextGraphics graphics){
-       /*
-        boolean isWall = false;
-        for(int j=1; j<364; j++){
-            for(int i=32; i<390; i++) {
-                if (map[j][i]=='P' ||map[j][i-1]=='P')isWall = !isWall;
-                if(i%14 == 0 && j%14 == 0 && !isWall) {
-                    Dot dot = new Dot(i, j);
-                    dot.draw(graphics);
-                    dots.add(dot);
-                }
-            }
-        } */
     }
     private boolean canMove(String direction){
         int x = player.getX();

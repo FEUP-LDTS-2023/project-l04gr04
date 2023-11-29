@@ -28,7 +28,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     private boolean rotate180 = false;
     @Override
     public void HuntHourStarted(){
-        mode = "hunt";
+        mode = "fright";
     }
     @Override
     public void HuntHourEnded(){

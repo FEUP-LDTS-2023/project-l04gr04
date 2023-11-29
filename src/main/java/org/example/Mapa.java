@@ -17,6 +17,7 @@ import java.util.List;
 public class Mapa {
     private int width;
     private int height;
+    private final String gateColor = "#FFB8FF";
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
     private final String coinsColor = "#959043";
@@ -27,12 +28,12 @@ public class Mapa {
     private GameState gameState = new GameState();
     private long startTime;
     private char[][] map;
-    private Player player = new Player(33,8);
+    private Player player = new Player(33,6);
     private RedMonster red = new RedMonster(134,126);
     private OrangeMonster orange = new OrangeMonster(134,126);
     private BlueMonster blue = new BlueMonster(134,126);
     private PinkMonster pink = new PinkMonster(134,126);
-    private Fruit cherry = new Fruit(100,100);
+    private Fruit cherry = new Fruit(7,142);
     private List<Dot> dots = new ArrayList<>();
     String yellow = "#FFB897";
 
@@ -54,6 +55,9 @@ public class Mapa {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'P' || map[row][col] == 'p') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'R') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
                     graphics.setForegroundColor(TextColor.Factory.fromString(coinsColor));
@@ -134,6 +138,9 @@ public class Mapa {
                 } else if (map[row][col] == 'P' || map[row][col] == 'p') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'R') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
                     graphics.setForegroundColor(TextColor.Factory.fromString(coinsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), '.');
@@ -143,16 +150,17 @@ public class Mapa {
                 }
             }
         }
-        cherry.draw(graphics);
         red.draw(graphics);
         orange.draw(graphics);
         pink.draw(graphics);
         blue.draw(graphics);
         player.draw(graphics);
+        cherry.draw(graphics);
         fpsCount++;
     }
 
     void createDots(TextGraphics graphics){
+       /*
         boolean isWall = false;
         for(int j=1; j<364; j++){
             for(int i=32; i<390; i++) {
@@ -163,7 +171,7 @@ public class Mapa {
                     dots.add(dot);
                 }
             }
-        }
+        } */
     }
     private boolean canMove(String direction){
         int x = player.getX();

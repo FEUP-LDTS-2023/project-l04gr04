@@ -23,7 +23,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     char[][] monsterDown2;
     char[][] monsterRun1;
     char[][] monsterRun2;
-    private int frequency = 15;
+    private int frequency = 27;
     private boolean rotate180 = false;
     @Override
     public void HuntHourStarted(){
@@ -203,6 +203,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     }
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
+        if (position.getX() > 198) return;
         if(Objects.equals(mode, "fright")){
             if (mouthOpenM <= frequency) {
                 drawTheStyle(monsterRun1, graphics, monsterYesColor);

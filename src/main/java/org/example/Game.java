@@ -32,6 +32,7 @@ public class Game {
     public Game(int w,int h) throws IOException {
         try {
             InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
+
             if (fontStream != null) {
                 Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
                 Font customFont = font.deriveFont(Font.PLAIN, 2);

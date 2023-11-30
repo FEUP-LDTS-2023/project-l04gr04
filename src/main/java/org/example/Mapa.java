@@ -5,6 +5,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import org.example.Numbers.Numero;
 
 import java.awt.*;
 import java.io.*;
@@ -73,6 +74,9 @@ public class Mapa {
                 }
             }
         }
+        Numero number = new Numero(15,10);
+        number.changeNumber(1);
+        number.draw(graphics);
     }
     public void gameLoop(List<Rectangle> dirtyRegions){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
@@ -105,6 +109,7 @@ public class Mapa {
         }
         checkDotCollisions();
         checkMonsterColisions();
+        if (dots.isEmpty())System.exit(0);
     }
     void checkDotCollisions(){
         Iterator<Dot> iterator = dots.iterator();

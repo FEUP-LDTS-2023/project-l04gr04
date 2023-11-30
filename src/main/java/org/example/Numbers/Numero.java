@@ -6,6 +6,7 @@ import org.example.Element;
 
 public class Numero extends Element {
     char[][] num;
+    Score score = new Score();
     public Numero(int x, int y){
         super(x,y);
     }
@@ -39,5 +40,7 @@ public class Numero extends Element {
                 break;
         }
     }
+
+
 
 }

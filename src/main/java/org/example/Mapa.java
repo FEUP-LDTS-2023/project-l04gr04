@@ -6,6 +6,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import org.example.Numbers.Numero;
+import org.example.Numbers.Score;
 
 import java.awt.*;
 import java.io.*;
@@ -28,6 +29,7 @@ public class Mapa {
     private int fpsCount = 0;
     private final int timeInScout = 10000;
     private GameState gameState = new GameState();
+    private Score score = new Score();
     private long startTime;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
@@ -108,7 +110,7 @@ public class Mapa {
             System.out.println(player.position.getY());
         }
         checkDotCollisions();
-        checkMonsterColisions();
+        checkMonsterCollisions();
         if (dots.isEmpty())System.exit(0);
     }
     void checkDotCollisions(){
@@ -125,13 +127,13 @@ public class Mapa {
             }
         }
     }
-    void checkMonsterColisions(){
+    void checkMonsterCollisions(){
         for (Monster m : monsters){
             int mx = m.getX();
             int my = m.getY();
             int px = player.getX();
             int py = player.getY();
-            if ((px <= mx && px + 14 >= mx && py <= my && py + 14 >= my) || (mx <= px && mx + 14 >= px && my <= py && my + 14 >= py)) {
+            if ((px <= mx && px + 14 - 8 >= mx && py <= my && py + 14 - 8 >= my) || (mx <= px && mx + 14 - 8 >= px && my <= py && my + 14 - 8 >= py)) {
                 if (m.mode == "fright") m.mode = "dark";
             }
         }

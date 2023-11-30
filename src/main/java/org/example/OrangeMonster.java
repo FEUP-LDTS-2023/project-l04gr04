@@ -11,7 +11,11 @@ public class OrangeMonster extends Monster{
         super.draw(graphics, "#FFB852");
     }
     public Position target(Position position, String direction, Position redPosition){
-        if (mode.equals("Scatter") || distance(position,this.position) <= 8 * 14) return new Position(2,392);
+        if (mode.equals("Scatter")){
+            if (distance(position,this.position) <= 8 * 14) return new Position(2,392);
+            else return position;
+        }
+        if (mode.equals("dark")) return new Position(100,115);
         return position;
     }
 }

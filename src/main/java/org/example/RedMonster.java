@@ -14,6 +14,7 @@ public class RedMonster extends Monster{
     }
     public Position target(Position position, String direction, Position redPosition){
         if (mode.equals("Scatter")) return new Position(369, 1);
+        if (mode.equals("dark")) return new Position(100,115);
         return position;
     }
 }

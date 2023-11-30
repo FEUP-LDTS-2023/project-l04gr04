@@ -290,7 +290,8 @@ public class Player extends Element implements GameObserver {
 
     }
     public void move(String direction){
-        facingDirection = direction;
+        int x = position.getX();
+        if (!(x < 5 || x > 190)) facingDirection = direction;
         switch (direction){
             case "up":
                 position = moveUp();

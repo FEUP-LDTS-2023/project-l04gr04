@@ -10,8 +10,8 @@ import java.util.Objects;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster  {
-    public String mode = "Scatter";
-    protected String movingDirection = "null";
+    public String mode = "Hunt";
+    protected String movingDirection;
     public int mouthOpenM = 0;
     char[][] monsterLeft1;
     char[][] monsterLeft2;
@@ -27,7 +27,7 @@ public abstract class Monster extends Element implements GenericMonster  {
     private boolean rotate180 = false;
     @Override
     public void HuntHourStarted(){
-        mode = "hunt";
+        mode = "fright";
     }
     @Override
     public void HuntHourEnded(){
@@ -203,7 +203,20 @@ public abstract class Monster extends Element implements GenericMonster  {
     }
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        if(!Objects.equals(mode, "fright")){
+        if(Objects.equals(mode, "fright")){
+            if (mouthOpenM <= frequency) {
+                drawTheStyle(monsterRun1, graphics, monsterYesColor);
+                mouthOpenM++;
+            } else if (mouthOpenM <= frequency * 2) {
+                drawTheStyle(monsterRun2, graphics, monsterYesColor);
+                mouthOpenM++;
+            } else {
+                mouthOpenM = 1;
+                drawTheStyle(monsterRun1, graphics, monsterYesColor);
+            }
+        }
+        else if (Objects.equals(mode, "dark")) {
+            colorM = "#000000";
             switch (movingDirection) {
                 case "right":
                     if (mouthOpenM <= frequency) {
@@ -265,15 +278,64 @@ public abstract class Monster extends Element implements GenericMonster  {
             }
         }
         else{
-            if (mouthOpenM <= frequency) {
-                drawTheStyle(monsterRun1, graphics, monsterYesColor);
-                mouthOpenM++;
-            } else if (mouthOpenM <= frequency * 2) {
-                drawTheStyle(monsterRun2, graphics, monsterYesColor);
-                mouthOpenM++;
-            } else {
-                mouthOpenM = 1;
-                drawTheStyle(monsterRun1, graphics, monsterYesColor);
+            switch (movingDirection) {
+                case "right":
+                    if (mouthOpenM <= frequency) {
+                        drawTheStyle(monsterRight1, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else if (mouthOpenM <= frequency * 2) {
+                        drawTheStyle(monsterRight2, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else {
+                        mouthOpenM = 1;
+                        drawTheStyle(monsterRight1, graphics, colorM);
+                        break;
+                    }
+
+                case "left":
+                    if (mouthOpenM <= frequency) {
+                        drawTheStyle(monsterLeft1, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else if (mouthOpenM <= frequency * 2) {
+                        drawTheStyle(monsterLeft2, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else {
+                        mouthOpenM = 1;
+                        drawTheStyle(monsterLeft1, graphics, colorM);
+                        break;
+                    }
+                case "down":
+                    if (mouthOpenM <= frequency) {
+                        drawTheStyle(monsterDown1, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else if (mouthOpenM <= frequency * 2) {
+                        drawTheStyle(monsterDown2, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else {
+                        mouthOpenM = 1;
+                        drawTheStyle(monsterDown1, graphics, colorM);
+                        break;
+                    }
+                case "up":
+                    if (mouthOpenM <= frequency) {
+                        drawTheStyle(monsterUp1, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else if (mouthOpenM <= frequency * 2) {
+                        drawTheStyle(monsterUp2, graphics, colorM);
+                        mouthOpenM++;
+                        break;
+                    } else {
+                        mouthOpenM = 1;
+                        drawTheStyle(monsterUp1, graphics, colorM);
+                        break;
+                    }
             }
         }
     }
@@ -285,6 +347,16 @@ public abstract class Monster extends Element implements GenericMonster  {
     public void move(Position p,char[][]map) {
         int x = this.position.getX();
         int y = this.position.getY();
+        if ((x < 5 || x > 190)) {
+            if (movingDirection == "right") {
+                position = moveRight();
+                return;
+            }
+            if (movingDirection == "left") {
+                position = moveLeft();
+                return;
+            }
+        }
         boolean t = true;
         boolean b = true;
         boolean e = true;
@@ -294,8 +366,8 @@ public abstract class Monster extends Element implements GenericMonster  {
                 t = false;
                 break;
             }
-            if (y-1 >= 0 && y-1 <= 391 && x+i >= 0 && x+i <= 367){
-                if(map[y-1][x+i] == 'P')t = false;
+            if (y-1 >= 0 && y-1 <= 393 && x+i >= 0 && x+i <= 450){
+                if(map[y-1][x+i] == 'P'||map[y-1][x+i] == 'c')t = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -303,8 +375,8 @@ public abstract class Monster extends Element implements GenericMonster  {
                 b = false;
                 break;
             }
-            if (y+14 >= 0 && y+14 <= 391 && x+i >= 0 && x+i <= 367){
-                if (map[y+14][x+i] == 'P')b = false;
+            if (y+14 >= 0 && y+14 <= 393 && x+i >= 0 && x+i <= 450){
+                if (map[y+14][x+i] == 'P'||map[y+14][x+i] == 'c')b = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -312,8 +384,8 @@ public abstract class Monster extends Element implements GenericMonster  {
                 e = false;
                 break;
             }
-            if (y+i >= 0 && y+i <= 391 && x-1 >= 0 && x-1 <= 367){
-                if (map[y+i][x-1] == 'P')e = false;
+            if (y+i >= 0 && y+i <= 393 && x-1 >= 0 && x-1 <= 450){
+                if (map[y+i][x-1] == 'P'||map[y+i][x-1] == 'c')e = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -321,8 +393,8 @@ public abstract class Monster extends Element implements GenericMonster  {
                 d = false;
                 break;
             }
-            if (y+i >= 0 && y+i <= 391 && x+14 >= 0 && x+14 <= 367){
-                if (map[y+i][x+14] == 'P')d = false;
+            if (y+i >= 0 && y+i <= 393 && x+14 >= 0 && x+14 <= 450){
+                if (map[y+i][x+14] == 'P'||map[y+i][x+14] == 'c')d = false;
             }
         }
         if (mode.equals("fright")) {
@@ -385,7 +457,6 @@ public abstract class Monster extends Element implements GenericMonster  {
                 minv = esq;
             }
             if (t && topo <= minv ){
-                minv = topo;
                 position = moveUp();
                 movingDirection = "up";
             }else if (minv == esq) {

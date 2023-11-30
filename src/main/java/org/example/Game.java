@@ -46,9 +46,7 @@ public class Game {
                 System.out.println("Font file not found.");
             }
         }catch (IOException | FontFormatException e) {
-
             e.printStackTrace();
-            System.out.println(1);
             screen.close();
         }
         graphics = screen.newTextGraphics();

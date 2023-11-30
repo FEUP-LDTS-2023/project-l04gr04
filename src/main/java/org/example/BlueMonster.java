@@ -12,6 +12,7 @@ public class BlueMonster extends Monster{
     }
     public Position target(Position position,String direction,Position redPosition){
         if (mode.equals("Scatter")) return new Position(368,392);
+        if (mode.equals("dark")) return new Position(100,115);
         Position middleP;
         if (direction.equals("up")) middleP =  new Position(position.getX() - 2 * 14, position.getY() - 2 * 14);
         else if (direction.equals("down"))middleP = new Position(position.getX(), position.getY() + 2 * 14);

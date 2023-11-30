@@ -182,6 +182,8 @@ public class Mapa {
         }
         for (Monster m : monsters)m.draw(graphics);
         player.draw(graphics);
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
         cherry.draw(graphics);
         fpsCount++;
     }

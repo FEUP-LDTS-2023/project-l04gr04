@@ -75,7 +75,7 @@ public class Mapa {
             }
         }
         Numero number = new Numero(15,10);
-        number.changeNumber(1);
+        number.changeNumber(9);
         number.draw(graphics);
     }
     public void gameLoop(List<Rectangle> dirtyRegions){

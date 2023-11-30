@@ -18,6 +18,7 @@ import java.util.List;
 
 public class Mapa {
     private int width;
+    public boolean level_running = true;
     private int height;
     private final String gateColor = "#FFB8FF";
     private final String backgroundColor = "#000000";
@@ -74,9 +75,6 @@ public class Mapa {
                 }
             }
         }
-        Numero number = new Numero(15,10);
-        number.changeNumber(1);
-        number.draw(graphics);
     }
     public void gameLoop(List<Rectangle> dirtyRegions){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
@@ -104,12 +102,10 @@ public class Mapa {
                 if(canMove("down"))player.move("down");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
             }
-            System.out.println(player.position.getX());
-            System.out.println(player.position.getY());
         }
         checkDotCollisions();
         checkMonsterColisions();
-        if (dots.isEmpty())System.exit(0);
+        if (dots.isEmpty())level_running = false;
     }
     void checkDotCollisions(){
         Iterator<Dot> iterator = dots.iterator();

@@ -31,11 +31,11 @@ public class Element {
     public Position moveUp(){return new Position(position.getX(), position.getY()-1);}
     public Position moveDown(){return new Position(position.getX(), position.getY()+1);}
     public Position moveLeft(){
-        if (position.equals(new Position(0, 117))) return new Position(203, 117);
+        if (position.equals(new Position(-20, 117))) return new Position(208, 117);
         return new Position(position.getX()-1, position.getY());
     }
     public Position moveRight(){
-        if (position.equals(new Position(203, 117))) return new Position(-20, 117);
+        if (position.equals(new Position(205, 117))) return new Position(-20, 117);
         return new Position(position.getX()+1, position.getY());
     }
     public void drawTheStyle(char[][] pacManImage,TextGraphics graphics, String colorm){

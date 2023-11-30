@@ -27,7 +27,7 @@ public class Player extends Element implements GameObserver {
 
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
-
+        if (position.getX() > 198) return;
         switch (facingDirection){
             case "right":
                 if (mouthOpen<=frequency){
@@ -290,8 +290,7 @@ public class Player extends Element implements GameObserver {
 
     }
     public void move(String direction){
-        int x = position.getX();
-        if (!(x < 5 || x > 190)) facingDirection = direction;
+        facingDirection = direction;
         switch (direction){
             case "up":
                 position = moveUp();

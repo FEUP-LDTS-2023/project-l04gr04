@@ -132,8 +132,10 @@ public class Mapa {
         }
     }
     public boolean readInput(KeyStroke keyStroke) {
-        if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&keyStroke.getKeyType() != KeyType.ArrowUp
-                &&keyStroke.getKeyType() != KeyType.ArrowDown)){
+        if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&
+                keyStroke.getKeyType() != KeyType.ArrowUp
+                && keyStroke.getKeyType() != KeyType.ArrowDown
+                ||(player.getPosition().getX() < 0 || player.getPosition().getX() > 181))){
             return false;
         }else{
             lastInputMove = keyStroke.getKeyType();

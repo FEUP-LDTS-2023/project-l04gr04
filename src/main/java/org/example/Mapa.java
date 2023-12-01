@@ -7,6 +7,7 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import org.example.Numbers.Character;
 import org.example.Numbers.Numero;
+import org.example.Numbers.Score;
 
 import java.awt.*;
 import java.io.*;
@@ -34,13 +35,14 @@ public class Mapa {
     private int fpsCount = 0;
     private final int timeInScout = 10000;
     private GameState gameState = new GameState();
+    private Score score = new Score();
     private long startTime;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
     private Player player = new Player(33,26);
     private Fruit cherry = new Fruit(33,26);
 
-    private Character score = new Character(70,200);
+    private Character scoreText = new Character(20,10);
 
     private List<Dot> dots = new ArrayList<>();
     String yellow = "#FFB897";
@@ -89,9 +91,6 @@ public class Mapa {
                 }
             }
         }
-        Numero number = new Numero(15,10);
-        number.changeNumber(9);
-        number.draw(graphics);
     }
     public void gameLoop(List<Rectangle> dirtyRegions){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
@@ -123,7 +122,8 @@ public class Mapa {
             }
         }
         checkDotCollisions();
-        checkMonsterColisions();
+
+        checkMonsterCollisions();
         if (dots.isEmpty())level_running = false;
         fpsCount++;
     }
@@ -136,19 +136,22 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
-                if (dot.SpecialDote)gameState.startHuntHour();
+                if (dot.SpecialDote) {
+                    gameState.startHuntHour();
+                    score.increment(5);
+                }else score.increment(1);
                 iterator.remove();
             }
         }
     }
-    void checkMonsterColisions(){
+    void checkMonsterCollisions(){
         for (Monster m : monsters){
             int mx = m.getX();
             int my = m.getY();
             int px = player.getX();
             int py = player.getY();
-            if ((px <= mx && px + 14 >= mx && py <= my && py + 14 >= my) || (mx <= px && mx + 14 >= px && my <= py && my + 14 >= py)) {
-                if (m.mode == "fright") m.mode = "dark";
+            if ((px <= mx && px + 14 - 8 >= mx && py <= my && py + 14 - 8 >= my) || (mx <= px && mx + 14 - 8 >= px && my <= py && my + 14 - 8 >= py)) {
+                if (m.mode == "fright")m.mode = "dark";
             }
         }
     }
@@ -203,6 +206,7 @@ public class Mapa {
         }
         for (Monster m : monsters)m.draw(graphics);
         cherry.draw(graphics);
+        scoreText.draw(graphics);
         score.draw(graphics);
         player.draw(graphics);
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));

@@ -122,7 +122,11 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
-                if (dot.SpecialDote)gameState.startHuntHour();
+                if (dot.SpecialDote) {
+                    gameState.startHuntHour();
+                    score.draw(50);
+                }
+                else score.draw(10);
                 iterator.remove();
             }
         }
@@ -134,7 +138,10 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if ((px <= mx && px + 14 - 8 >= mx && py <= my && py + 14 - 8 >= my) || (mx <= px && mx + 14 - 8 >= px && my <= py && my + 14 - 8 >= py)) {
-                if (m.mode == "fright") m.mode = "dark";
+                if (m.mode == "freight") {
+                    m.mode = "dark";
+                    score.draw(200);
+                }
             }
         }
     }

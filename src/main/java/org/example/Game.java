@@ -25,7 +25,7 @@ public class Game {
     public Terminal terminal;
     private Level level;
     private KeyStroke k = null;
-    private static final int FPS = 60;
+    private static final int FPS = 144;
     private static final long FRAME_DURATION = 1000 / FPS;
     List<Rectangle> dirtyRegions = new ArrayList<>();
     int gameW;
@@ -87,6 +87,8 @@ public class Game {
                 level.gameLoop(dirtyRegions);
                 if (level.changeLevel())changeLevel();
                 lastFrameTime = currentTime;
+            }else{
+                System.out.println("NOT YET");
             }
         }
         screen.close();

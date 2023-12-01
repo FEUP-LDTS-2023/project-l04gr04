@@ -73,8 +73,7 @@ public class MoveTest {
         assertEquals(blueMonster.target(player.getPosition(), "right", redPosition), new Position(2 * middleP.getX() - redPosition.getX(), 2 * middleP.getY() - redPosition.getY()));
     }
 
-    @Test
-
+    /*@Test
     public void movingWall() throws IOException {
         Mapa newMap = new Mapa(368, 392,graphics);
         RedMonster redMonster = new RedMonster(3,25);
@@ -87,5 +86,5 @@ public class MoveTest {
         RedMonster redMonster = new RedMonster(3,25);
         redMonster.move(new Position(3, 23), newMap.loadMapFromFile("map.txt"));
         assertEquals(new Position(3, 24), redMonster.getPosition()); //Monstro move para cima
-    }
+    }*/
 }

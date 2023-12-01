@@ -28,7 +28,6 @@ public class Mapa {
     private Double playerFrightF;
     private Double monstersF = 1.5; // Base velocity
     private Double playerF = 1.5; // Base velocity
-    private int monsterM = 1;
     private int playerM  = 1;
     private int secondsInFright;
     private int fpsCount = 0;
@@ -38,17 +37,18 @@ public class Mapa {
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
     private Player player = new Player(33,26);
-    private Fruit cherry = new Fruit(7,142);
+    private Fruit cherry = new Fruit(33,26);
     private List<Dot> dots = new ArrayList<>();
     String yellow = "#FFB897";
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
                 Integer ps, Integer pfs, Integer gs, Integer gfs,Integer tInF) throws IOException {
-        monstersFrightF = monstersF * (gfs/100);
-        playerFrightF = playerF * (pfs/100);
-        monstersF *=(gs/100);
-        playerF *=(ps/100);
+        System.out.println(monstersF*gfs);
+        monstersFrightF = 1.8;
+        playerFrightF = 1.8;
+        monstersF = 1.0;
+        playerF = 1.0;
         secondsInFright = tInF;
         width = w;
         height = h;
@@ -92,10 +92,10 @@ public class Mapa {
         for (Monster m : monsters){
             dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
         }
-        if (fpsCount > monstersF * monsterM){ // Monsters movement
-            monsterM++;
-            Position rp = monsters.get(0).getPosition(); // Red monster position
-            for (Monster m : monsters){
+        for (Monster m : monsters){
+            if ((fpsCount > monstersF * m.monsterM) ){
+                m.monsterM++;
+                Position rp = monsters.get(0).getPosition(); // Red monster position
                 Position mt = m.target(player.position, player.facingDirection, rp);
                 m.move(mt,map);
                 if (mt.equals(m.getPosition())) m.mode = "hunt";

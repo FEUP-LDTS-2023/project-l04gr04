@@ -12,6 +12,7 @@ import java.util.Random;
 public abstract class Monster extends Element implements GenericMonster  {
     public String mode = "Hunt";
     protected String movingDirection;
+    public int monsterM = 1;
     public int mouthOpenM = 0;
     char[][] monsterLeft1;
     char[][] monsterLeft2;

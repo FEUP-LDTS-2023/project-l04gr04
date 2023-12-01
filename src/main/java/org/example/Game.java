@@ -54,7 +54,7 @@ public class Game {
             screen.close();
         }
         graphics = screen.newTextGraphics();
-        level = new Level(1,w,h,graphics);
+        level = new Level(100,w,h,graphics);
     }
     private void draw() throws IOException {
         for (Rectangle dirtyRegion : dirtyRegions) {
@@ -87,8 +87,6 @@ public class Game {
                 level.gameLoop(dirtyRegions);
                 if (level.changeLevel())changeLevel();
                 lastFrameTime = currentTime;
-            }else{
-                System.out.println("NOT YET");
             }
         }
         screen.close();

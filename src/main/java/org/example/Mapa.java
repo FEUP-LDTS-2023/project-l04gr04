@@ -5,6 +5,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import org.example.Numbers.Character;
 import org.example.Numbers.Numero;
 
 import java.awt.*;
@@ -38,13 +39,15 @@ public class Mapa {
     private List<Monster> monsters = new ArrayList<>();
     private Player player = new Player(33,26);
     private Fruit cherry = new Fruit(33,26);
+
+    private Character score = new Character(70,200);
+
     private List<Dot> dots = new ArrayList<>();
     String yellow = "#FFB897";
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
                 Integer ps, Integer pfs, Integer gs, Integer gfs,Integer tInF) throws IOException {
-        System.out.println(monstersF*gfs);
         monstersFrightF = 1.8;
         playerFrightF = 1.8;
         monstersF = 1.0;
@@ -86,6 +89,9 @@ public class Mapa {
                 }
             }
         }
+        Numero number = new Numero(15,10);
+        number.changeNumber(9);
+        number.draw(graphics);
     }
     public void gameLoop(List<Rectangle> dirtyRegions){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
@@ -196,10 +202,13 @@ public class Mapa {
             dot.draw(graphics);
         }
         for (Monster m : monsters)m.draw(graphics);
+        cherry.draw(graphics);
+        score.draw(graphics);
         player.draw(graphics);
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
         cherry.draw(graphics);
+        fpsCount++;
     }
     private boolean canMove(String direction){
         int x = player.getX();

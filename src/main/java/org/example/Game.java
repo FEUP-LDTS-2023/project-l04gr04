@@ -23,16 +23,19 @@ import java.util.Objects;
 public class Game {
     public Screen screen;
     public Terminal terminal;
-    private Mapa mapa;
+    private Level level;
     private KeyStroke k = null;
-    private static final int FPS = 60;
+    private static final int FPS = 144;
     private static final long FRAME_DURATION = 1000 / FPS;
     List<Rectangle> dirtyRegions = new ArrayList<>();
+    int gameW;
+    int gameH;
     private TextGraphics graphics;
     public Game(int w,int h) throws IOException {
+        gameW = w;
+        gameH = h;
         try {
             InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-
             if (fontStream != null) {
                 Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
                 Font customFont = font.deriveFont(Font.PLAIN, 2);
@@ -51,7 +54,7 @@ public class Game {
             screen.close();
         }
         graphics = screen.newTextGraphics();
-        mapa = new Mapa(w,h,graphics);
+        level = new Level(100,w,h,graphics);
     }
     private void draw() throws IOException {
         for (Rectangle dirtyRegion : dirtyRegions) {
@@ -60,7 +63,7 @@ public class Game {
                     screen.setCharacter(j, i, new TextCharacter(' '));
                 }
             }
-            mapa.draw(graphics, dirtyRegion);
+            level.draw(graphics, dirtyRegion);
         }
         dirtyRegions.clear();
         screen.refresh();
@@ -80,11 +83,15 @@ public class Game {
                         break;
                     }
                 }
-                if (mapa.readInput(k))k = null;
-                mapa.gameLoop(dirtyRegions);
+                if (level.processKey(k))k = null;
+                level.gameLoop(dirtyRegions);
+                if (level.changeLevel())changeLevel();
                 lastFrameTime = currentTime;
             }
         }
         screen.close();
+    }
+    private void changeLevel() throws IOException {
+        level = new Level(level.levelNumber + 1, gameW,gameH,graphics);
     }
 }

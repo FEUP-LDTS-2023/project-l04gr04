@@ -10,6 +10,7 @@ public class Fruit extends Element{
     char[][] orange;
     char[][] apple;
     public Fruit(int x, int y){
+        super(x,y);
         cherry = new char[][]{
                 {'#','#','#','#','#','#','#','#','#','#','B','B','B','B'},
                 {'#','#','#','#','#','#','#','#','B','B','B','B','B','B'},

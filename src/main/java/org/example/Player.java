@@ -23,7 +23,7 @@ public class Player extends Element implements GameObserver {
     char[][] pacManRight1;
     char[][] pacManClosed;
     char[][] pacManRight2;
-    private int frequency = 15;
+    private int frequency = 25;
 
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
@@ -308,12 +308,12 @@ public class Player extends Element implements GameObserver {
     }
 
     @Override
-    public void HuntHourStarted() {
+    public void FrightHourStarted() {
         mode = "hunt";
     }
 
     @Override
-    public void HuntHourEnded() {
+    public void FrightHourEnded() {
         mode = "fright";
     }
 }

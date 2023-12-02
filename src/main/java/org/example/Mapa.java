@@ -30,10 +30,9 @@ public class Mapa {
     private Double monstersF = 1.0; // Base velocity
     private Double playerF = 1.0; // Base velocity
     private int playerM  = 1;
-    private int secondsInFright;
     private int fpsCount = 0;
     private final int timeInScout = 10000;
-    private GameState gameState = new GameState();
+    private GameState gameState;
     private Score score = new Score();
     private long startTime;
     private char[][] map;
@@ -53,7 +52,6 @@ public class Mapa {
         playerFrightF = 4.0 ;
         monstersF = monstersF + monstersF * (1-gs) ;
         playerF = 1.0;
-        secondsInFright = tInF;
         width = w;
         height = h;
         map = loadMapFromFile("map.txt");
@@ -62,6 +60,7 @@ public class Mapa {
         monsters.add(new OrangeMonster(134,126));
         monsters.add( new BlueMonster(134,126));
         monsters.add(new PinkMonster(134,126));
+        gameState = new GameState(tInF);
         for (Monster m : monsters){
             gameState.addObserver(m);
         }
@@ -144,7 +143,7 @@ public class Mapa {
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
                 if (dot.SpecialDote) {
-                    gameState.startHuntHour();
+                    gameState.startFrightHour();
                     score.increment(5);
                 }else score.increment(1);
                 iterator.remove();

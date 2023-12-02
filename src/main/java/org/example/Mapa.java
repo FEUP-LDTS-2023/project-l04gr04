@@ -7,6 +7,7 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import org.example.Numbers.Character;
 import org.example.Numbers.Numero;
+import org.example.Numbers.Score;
 
 import java.awt.*;
 import java.io.*;
@@ -34,19 +35,21 @@ public class Mapa {
     private int fpsCount = 0;
     private final int timeInScout = 10000;
     private GameState gameState = new GameState();
+    private Score score = new Score();
     private long startTime;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
     private Player player = new Player(33,26);
-    private Character score = new Character(89,8);
     private Fruit cherry = new Fruit(33,26);
+
+    private Character scoreText = new Character(20,10);
+    private Character ready = new Character(100,20);
     private List<Dot> dots = new ArrayList<>();
     String yellow = "#FFB897";
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
                 Integer ps, Integer pfs, Integer gs, Integer gfs,Integer tInF) throws IOException {
-        System.out.println(monstersF*gfs);
         monstersFrightF = 1.8;
         playerFrightF = 1.8;
         monstersF = 1.0;
@@ -72,8 +75,14 @@ public class Mapa {
                 } else if (map[row][col] == 'P' || map[row][col] == 'p') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'A') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'R') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'a') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
@@ -91,7 +100,6 @@ public class Mapa {
         Numero number = new Numero(15,10);
         number.changeNumber(9);
         number.draw(graphics);
-
     }
     public void gameLoop(List<Rectangle> dirtyRegions){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
@@ -123,7 +131,8 @@ public class Mapa {
             }
         }
         checkDotCollisions();
-        checkMonsterColisions();
+
+        checkMonsterCollisions();
         if (dots.isEmpty())level_running = false;
         fpsCount++;
     }
@@ -136,19 +145,22 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
-                if (dot.SpecialDote)gameState.startHuntHour();
+                if (dot.SpecialDote) {
+                    gameState.startHuntHour();
+                    score.increment(5);
+                }else score.increment(1);
                 iterator.remove();
             }
         }
     }
-    void checkMonsterColisions(){
+    void checkMonsterCollisions(){
         for (Monster m : monsters){
             int mx = m.getX();
             int my = m.getY();
             int px = player.getX();
             int py = player.getY();
-            if ((px <= mx && px + 14 >= mx && py <= my && py + 14 >= my) || (mx <= px && mx + 14 >= px && my <= py && my + 14 >= py)) {
-                if (m.mode == "fright") m.mode = "dark";
+            if ((px <= mx && px + 14 - 8 >= mx && py <= my && py + 14 - 8 >= my) || (mx <= px && mx + 14 - 8 >= px && my <= py && my + 14 - 8 >= py)) {
+                if (m.mode == "fright")m.mode = "dark";
             }
         }
     }
@@ -186,11 +198,17 @@ public class Mapa {
                 } else if (map[row][col] == 'P' || map[row][col] == 'p') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'A') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'R') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'a') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
@@ -203,14 +221,15 @@ public class Mapa {
         }
         for (Monster m : monsters)m.draw(graphics);
         cherry.draw(graphics);
+        scoreText.drawscore(graphics);
+        ready.drawready(graphics);
         score.draw(graphics);
         player.draw(graphics);
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
-
-
         fpsCount++;
         cherry.draw(graphics);
+        fpsCount++;
     }
     private boolean canMove(String direction){
         int x = player.getX();

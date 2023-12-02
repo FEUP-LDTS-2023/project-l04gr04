@@ -12,6 +12,7 @@ public class Element {
     String white ="#FFFFFF";
     String brown = "#9F6022";
     String yellow = "#FFB897";
+    String readyColor = "#B5D221";
     public String monsterYesColor = " #0000FF";
     public Element(){
         position = new Position(0,0);
@@ -54,7 +55,9 @@ public class Element {
                     } else if (pacManImage[row][col] == 'B') {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(brown));
                     }else if (pacManImage[row][col] == 'Y') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));}
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                    }else if (pacManImage[row][col] == 'a') {
+                         graphics.setBackgroundColor(TextColor.Factory.fromString(readyColor));}
                     graphics.fillRectangle(new TerminalPosition(x+col,y+row),new TerminalSize(1,1),' ');
                 }
             }

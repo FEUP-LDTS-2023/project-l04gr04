@@ -14,8 +14,7 @@ import java.io.*;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 public class Mapa {
@@ -28,8 +27,8 @@ public class Mapa {
     private final String coinsColor = "#959043";
     private Double monstersFrightF;
     private Double playerFrightF;
-    private Double monstersF = 1.5; // Base velocity
-    private Double playerF = 1.5; // Base velocity
+    private Double monstersF = 1.0; // Base velocity
+    private Double playerF = 1.0; // Base velocity
     private int playerM  = 1;
     private int secondsInFright;
     private int fpsCount = 0;
@@ -48,11 +47,11 @@ public class Mapa {
     String yellow = "#FFB897";
 
     private KeyType lastInputMove ;
-    public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
-                Integer ps, Integer pfs, Integer gs, Integer gfs,Integer tInF) throws IOException {
-        monstersFrightF = 1.8;
-        playerFrightF = 1.8;
-        monstersF = 1.0;
+    public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, int bonusPoints,
+                Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException {
+        monstersFrightF = 5.0;
+        playerFrightF = 4.0 ;
+        monstersF = monstersF + monstersF * (1-gs) ;
         playerF = 1.0;
         secondsInFright = tInF;
         width = w;
@@ -92,21 +91,34 @@ public class Mapa {
             }
         }
     }
-    public void gameLoop(List<Rectangle> dirtyRegions){
+    public void gameLoop(List<Rectangle> dirtyRegions) throws InterruptedException {
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
+        playerMovement();
         for (Monster m : monsters){
             dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
         }
+        monsterMovement();
+        checkDotCollisions();
+        checkMonsterCollisions();
+        if (dots.isEmpty())level_running = false;
+        fpsCount++;
+    }
+
+    void monsterMovement() throws InterruptedException {
+
         for (Monster m : monsters){
-            if ((fpsCount > monstersF * m.monsterM) ){
+            //if ((fpsCount > monstersF * m.monsterM && !m.mode.equals("fright")) || (fpsCount > monstersFrightF * m.monsterM && m.mode.equals("fright"))){
                 m.monsterM++;
                 Position rp = monsters.get(0).getPosition(); // Red monster position
                 Position mt = m.target(player.position, player.facingDirection, rp);
                 m.move(mt,map);
                 if (mt.equals(m.getPosition())) m.mode = "hunt";
-            }
-        }if (fpsCount > playerF * playerM){ // Player movement
-            playerM++;
+            //}
+        }
+    }
+    void playerMovement() throws InterruptedException {
+        //if ((fpsCount % playerF == 0  && !gameState.isHuntHour())|| (fpsCount % playerFrightF == 0 && gameState.isHuntHour()) ){
+        playerM++;
             if (lastInputMove == KeyType.ArrowRight){
                 if(canMove("right"))player.move("right");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
@@ -120,12 +132,7 @@ public class Mapa {
                 if(canMove("down"))player.move("down");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
             }
-        }
-        checkDotCollisions();
-
-        checkMonsterCollisions();
-        if (dots.isEmpty())level_running = false;
-        fpsCount++;
+        //}
     }
     void checkDotCollisions(){
         Iterator<Dot> iterator = dots.iterator();

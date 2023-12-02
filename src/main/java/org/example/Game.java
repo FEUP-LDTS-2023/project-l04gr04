@@ -11,6 +11,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import org.example.Numbers.Score;
 
 import java.awt.*;
 import java.io.File;
@@ -24,6 +25,7 @@ public class Game {
     public Terminal terminal;
     private Level level;
     private KeyStroke k = null;
+    private Score score = new Score();
     List<Rectangle> dirtyRegions = new ArrayList<>();
     private Timer gameLoopTimer;
     private int gameW;
@@ -52,8 +54,8 @@ public class Game {
                     screen.setCharacter(j, i, new TextCharacter(' ')); // Basically clearing that area
                 }
             }
-            level.draw(graphics, dirtyRegion); // Drawing in that area
         }
+        level.draw(graphics, dirtyRegions,score); // Drawing in that area
         dirtyRegions.clear();
         screen.refresh();
     }
@@ -70,7 +72,7 @@ public class Game {
                     throw new RuntimeException(e);
                 }
             }
-        }, 0, 16); // Refresh at each 16 ms ( ~ 60 FPS)
+        }, 0, 10); // Refresh at each 16 ms ( ~ 60 FPS)
     }
     public void runner() throws IOException, InterruptedException {
         KeyStroke keystroke = screen.pollInput(); // Listen for input
@@ -83,7 +85,7 @@ public class Game {
             }
         }
         if (level.processKey(k))k = null;
-        level.gameLoop(dirtyRegions);
+        level.gameLoop(dirtyRegions,score);
         if (level.changeLevel())changeLevel();
     }
     private void changeLevel() throws IOException {

@@ -12,7 +12,7 @@ public class GameState {
         timeInFright = k;
     }
     private boolean frightH = false;
-    public boolean isFrightHHour(){return frightH;}
+    public boolean isFrightHour(){return frightH;}
     public void startFrightHour(){
         frightH = true;
         notifyObservers();
@@ -33,7 +33,7 @@ public class GameState {
     }
     public void notifyObservers() {
         for (GameObserver observer : observers)
-            if (isFrightHHour()) observer.FrightHourStarted();
+            if (isFrightHour()) observer.FrightHourStarted();
             else observer.FrightHourEnded();
     }
 }

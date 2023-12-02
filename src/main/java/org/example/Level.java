@@ -2,6 +2,7 @@ package org.example;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import org.example.Numbers.Score;
 
 import java.awt.*;
 import java.io.IOException;
@@ -51,14 +52,14 @@ public class Level {
         else map = new Mapa(width,height,graphics,"Key",50,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,1);
 
     }
-    public void draw(TextGraphics graphics,Rectangle dirtyRegion) throws IOException {
-        map.draw(graphics,dirtyRegion);
+    public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score) throws IOException {
+        map.draw(graphics,dirtyRegions,score);
     }
     public boolean processKey(KeyStroke key) throws IOException {
         return map.readInput(key);
     }
-    public void gameLoop(List<Rectangle> dirtyRegion) throws InterruptedException {
-        map.gameLoop(dirtyRegion);
+    public void gameLoop(List<Rectangle> dirtyRegion, Score score) throws InterruptedException {
+        map.gameLoop(dirtyRegion,score);
     }
     public boolean changeLevel(){
         return !map.level_running;

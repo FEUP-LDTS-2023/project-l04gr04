@@ -23,7 +23,7 @@ public class Player extends Element implements GameObserver {
     char[][] pacManRight1;
     char[][] pacManClosed;
     char[][] pacManRight2;
-    private int frequency = 25;
+    private int frequency = 5;
 
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));

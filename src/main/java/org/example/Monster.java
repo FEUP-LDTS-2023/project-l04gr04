@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster  {
-    public String mode = "scatter";
+    public String mode = "hunt";
     protected String movingDirection;
     public int monsterM = 1;
     public int mouthOpenM = 0;

@@ -67,6 +67,24 @@ public class Fruit extends Element{
 
         };
 
+        apple = new char[][]{
+                {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
+                {'#','#','#','#','#','#','#','b','#','#','#','#','#','#'},
+                {'#','#','R','R','R','#','b','#','R','R','R','#','#','#'},
+                {'#','R','R','R','R','R','b','R','R','R','R','R','#','#'},
+                {'#','R','R','R','R','R','R','R','R','R','R','R','R','#'},
+                {'#','R','R','R','R','R','R','R','R','R','R','R','R','#'},
+                {'#','R','R','R','R','R','R','R','R','R','R','R','R','#'},
+                {'#','R','R','R','R','R','R','R','R','R','W','R','R','#'},
+                {'#','R','R','R','R','R','R','R','R','W','W','R','R','#'},
+                {'#','#','R','R','R','R','R','R','R','R','R','R','#','#'},
+                {'#','#','R','R','R','R','R','R','R','R','R','R','#','#'},
+                {'#','#','#','R','R','R','R','R','R','R','R','#','#','#'},
+                {'#','#','#','#','R','R','#','R','R','R','#','#','#','#'},
+                {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
+
+        };
+
     };
     public void drawCherry(TextGraphics graphics){
         drawTheStyle(cherry,graphics,red);
@@ -78,5 +96,8 @@ public class Fruit extends Element{
     }
     public void drawOrange(TextGraphics graphics){
         drawTheStyle(orange,graphics,red);
+    }
+    public void drawApple(TextGraphics graphics){
+        drawTheStyle(apple,graphics,red);
     }
 }

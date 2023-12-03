@@ -38,7 +38,7 @@ public class Game {
             InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
             if (fontStream != null) {
                 Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-                Font customFont = font.deriveFont(Font.PLAIN, 2);
+                Font customFont = font.deriveFont(Font.PLAIN, 3);
                 SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
                 DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(w, h)).setTerminalEmulatorFontConfiguration(fontConfig);
                 terminal = terminalFactory.createTerminal();

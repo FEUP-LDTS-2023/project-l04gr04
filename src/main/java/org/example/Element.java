@@ -14,6 +14,9 @@ public class Element {
     String yellow = "#FFB897";
     String readyColor = "#B5D221";
     String lightgreen = "#00FD00";
+    String lightorange = "#FFB652";
+    String darkOrange = "#DE9751";
+
     public String monsterYesColor = " #0000FF";
     public Element(){
         position = new Position(0,0);
@@ -59,6 +62,10 @@ public class Element {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
                     }else if (pacManImage[row][col] == 'g') {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(lightgreen));
+                    }else if (pacManImage[row][col] == 'O') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(darkOrange));
+                    }else if (pacManImage[row][col] == 'o') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(lightorange));
                     }else if (pacManImage[row][col] == 'a') {
                          graphics.setBackgroundColor(TextColor.Factory.fromString(readyColor));}
                     graphics.fillRectangle(new TerminalPosition(x+col,y+row),new TerminalSize(1,1),' ');

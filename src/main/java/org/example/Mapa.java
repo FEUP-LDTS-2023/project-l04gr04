@@ -39,9 +39,9 @@ public class Mapa {
     private long startTime;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
-    private Player player = new Player(33,26);
+    private Player player = new Player(10,26);
     private Fruit cherry = new Fruit(63,26);
-
+    private Fruit orange = new Fruit(50,26);
     private Fruit strawberry = new Fruit(80,26);
 
     private Character scoreText = new Character(50,10);
@@ -231,6 +231,7 @@ public class Mapa {
         fpsCount++;
         cherry.drawCherry(graphics);
         strawberry.drawStrawberry(graphics);
+        orange.drawOrange(graphics);
         fpsCount++;
     }
     private boolean canMove(String direction){

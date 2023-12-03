@@ -49,6 +49,24 @@ public class Fruit extends Element{
 
         };
 
+        orange = new char[][]{
+                {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
+                {'#','#','#','#','#','#','#','#','g','g','#','#','#','#'},
+                {'#','#','#','#','#','#','O','g','g','g','g','g','#','#'},
+                {'#','#','#','#','#','#','O','#','g','g','g','#','#','#'},
+                {'#','#','#','o','o','O','O','O','o','o','o','#','#','#'},
+                {'#','#','o','o','o','o','O','o','o','o','o','o','#','#'},
+                {'#','o','o','o','o','o','o','o','o','o','o','o','o','#'},
+                {'#','o','o','o','o','o','o','o','o','o','o','o','o','#'},
+                {'#','o','o','o','o','o','o','o','o','o','o','o','o','#'},
+                {'#','o','o','o','o','o','o','o','o','o','o','o','o','#'},
+                {'#','#','o','o','o','o','o','o','o','o','o','o','#','#'},
+                {'#','#','o','o','o','o','o','o','o','o','o','o','#','#'},
+                {'#','#','#','#','o','o','o','o','o','o','#','#','#','#'},
+                {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
+
+        };
+
     };
     public void drawCherry(TextGraphics graphics){
         drawTheStyle(cherry,graphics,red);
@@ -57,5 +75,8 @@ public class Fruit extends Element{
     }
     public void drawStrawberry(TextGraphics graphics){
         drawTheStyle(strawberry,graphics,red);
+    }
+    public void drawOrange(TextGraphics graphics){
+        drawTheStyle(orange,graphics,red);
     }
 }

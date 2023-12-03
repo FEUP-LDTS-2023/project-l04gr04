@@ -28,14 +28,13 @@ public class Mapa {
     private final String coinsColor = "#959043";
     private Double monstersFrightF;
     private Double playerFrightF;
-    private Double monstersF = 1.5; // Base velocity
-    private Double playerF = 1.5; // Base velocity
+    private Double monstersF = 2.0; // Base velocity
+    private Double playerF = 1.0; // Base velocity
     private int playerM  = 1;
     private int secondsInFright;
-    private int fpsCount = 0;
+    //private Integer fpsCount = 0;
     private final int timeInScout = 10000;
-    private GameState gameState = new GameState();
-    private Score score = new Score();
+    private GameState gameState ;
     private long startTime;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
@@ -53,14 +52,14 @@ public class Mapa {
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
-                Integer ps, Integer pfs, Integer gs, Integer gfs,Integer tInF) throws IOException {
-        monstersFrightF = 1.8;
-        playerFrightF = 1.8;
-        monstersF = 1.0;
-        playerF = 1.0;
-        secondsInFright = tInF;
+                Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException {
+        monstersFrightF = 2.5;
+        playerFrightF = 1.0;
+        monstersF = 1.7;
+        player.playerF = 1.5;
         width = w;
         height = h;
+        gameState = new GameState(tInF);
         map = loadMapFromFile("map.txt");
         startTime = System.currentTimeMillis();
         monsters.add(new RedMonster(130,23));
@@ -68,6 +67,7 @@ public class Mapa {
         monsters.add( new BlueMonster(134,126));
         monsters.add(new PinkMonster(134,126));
         for (Monster m : monsters){
+            m.monsterF = monstersF;
             gameState.addObserver(m);
         }
         gameState.addObserver(player);
@@ -105,20 +105,31 @@ public class Mapa {
         number.changeNumber(9);
         number.draw(graphics);
     }
-    public void gameLoop(List<Rectangle> dirtyRegions){
+    public void gameLoop(List<Rectangle> dirtyRegions,Score score){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
+        playerMovement();
         for (Monster m : monsters){
             dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
         }
+        monsterMovement();
+        checkDotCollisions(score);
+        checkMonsterCollisions();
+        System.out.println(player.fps);
+        player.fps++;
+    }
+    void monsterMovement(){
         for (Monster m : monsters){
-            if ((fpsCount > monstersF * m.monsterM) ){
+            if ((player.fps > m.monsterF * m.monsterM )){
                 m.monsterM++;
                 Position rp = monsters.get(0).getPosition(); // Red monster position
                 Position mt = m.target(player.position, player.facingDirection, rp);
                 m.move(mt,map);
                 if (mt.equals(m.getPosition())) m.mode = "hunt";
             }
-        }if (fpsCount > playerF * playerM){ // Player movement
+        }
+    }
+    void playerMovement(){
+        if ((player.fps > player.playerF * player.playerM )){
             playerM++;
             if (lastInputMove == KeyType.ArrowRight){
                 if(canMove("right"))player.move("right");
@@ -132,15 +143,9 @@ public class Mapa {
             } else if (lastInputMove == KeyType.ArrowDown) {
                 if(canMove("down"))player.move("down");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
-            }
-        }
-        checkDotCollisions();
-
-        checkMonsterCollisions();
-        if (dots.isEmpty())level_running = false;
-        fpsCount++;
+            }}
     }
-    void checkDotCollisions(){
+    void checkDotCollisions(Score score){
         Iterator<Dot> iterator = dots.iterator();
         while (iterator.hasNext()) {
             Dot dot = iterator.next();
@@ -150,7 +155,7 @@ public class Mapa {
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
                 if (dot.SpecialDote) {
-                    gameState.startHuntHour();
+                    gameState.startFrightHour();
                     score.increment(5);
                 }else score.increment(1);
                 iterator.remove();
@@ -188,14 +193,16 @@ public class Mapa {
         }
         return false;
     }
-    public void draw(TextGraphics graphics, Rectangle dirtyRegion) throws IOException {
+    public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score) throws IOException {
         graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-        int startX = Math.max(dirtyRegion.x, 0);
-        int startY = Math.max(dirtyRegion.y, 0);
-        int endX = Math.min(dirtyRegion.x + dirtyRegion.width, width);
-        int endY = Math.min(dirtyRegion.y + dirtyRegion.height, height);
-        for (int row = startY; row < endY; row++) {
-            for (int col = startX; col < endX; col++) {
+
+        for (Rectangle dirtyRegion : dirtyRegions){
+            int startX = Math.max(dirtyRegion.x, 0);
+            int startY = Math.max(dirtyRegion.y, 0);
+            int endX = Math.min(dirtyRegion.x + dirtyRegion.width, width);
+            int endY = Math.min(dirtyRegion.y + dirtyRegion.height, height);
+            for (int row = startY; row < endY; row++) {
+                for (int col = startX; col < endX; col++) {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                 if (map[row][col] == '.') {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
@@ -216,10 +223,25 @@ public class Mapa {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    if (map[row][col] == '.') {
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == 'P' || map[row][col] == 'p') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == 'R') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == '0') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    }
                 }
             }
         }
+
         for (Dot dot : dots){
             dot.draw(graphics);
         }
@@ -306,4 +328,3 @@ public class Mapa {
         return map;
     }
 }
-

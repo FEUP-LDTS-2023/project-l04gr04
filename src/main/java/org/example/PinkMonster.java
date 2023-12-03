@@ -11,7 +11,7 @@ public class PinkMonster extends Monster{
         super.draw(graphics,"#FFB8FF");
     }
     public Position target(Position position, String direction, Position redPosition){
-        if (mode.equals("Scatter")) return new Position(2,1);
+        if (mode.equals("scatter")) return new Position(2,1);
         if (mode.equals("dark")) return new Position(100,115);
         if (direction.equals("up")) return new Position(position.getX(), position.getY() - 4 * 14);
         if (direction.equals("down"))return new Position(position.getX(),position.getY() + 4 * 14);

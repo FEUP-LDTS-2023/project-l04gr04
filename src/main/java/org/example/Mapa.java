@@ -40,10 +40,10 @@ public class Mapa {
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
     private Player player = new Player(33,26);
-    private Fruit cherry = new Fruit(33,26);
+    private Fruit cherry = new Fruit(63,26);
 
-    private Character scoreText = new Character(20,10);
-    private Character ready = new Character(100,20);
+    private Character scoreText = new Character(50,10);
+    private Character ready = new Character(79,141);
     private List<Dot> dots = new ArrayList<>();
     String yellow = "#FFB897";
 

@@ -42,6 +42,8 @@ public class Mapa {
     private Player player = new Player(33,26);
     private Fruit cherry = new Fruit(63,26);
 
+    private Fruit strawberry = new Fruit(80,26);
+
     private Character scoreText = new Character(50,10);
     private Character ready = new Character(79,141);
     private List<Dot> dots = new ArrayList<>();
@@ -220,7 +222,6 @@ public class Mapa {
             dot.draw(graphics);
         }
         for (Monster m : monsters)m.draw(graphics);
-        cherry.draw(graphics);
         scoreText.drawscore(graphics);
         ready.drawready(graphics);
         score.draw(graphics);
@@ -228,7 +229,8 @@ public class Mapa {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
         fpsCount++;
-        cherry.draw(graphics);
+        cherry.drawCherry(graphics);
+        strawberry.drawStrawberry(graphics);
         fpsCount++;
     }
     private boolean canMove(String direction){

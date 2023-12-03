@@ -10,9 +10,10 @@ import java.util.Objects;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster  {
-    public String mode = "Hunt";
+    public String mode = "hunt";
     protected String movingDirection;
-    public int monsterM = 1;
+    public int monsterM = 0;
+    public Double monsterF;
     public int mouthOpenM = 0;
     char[][] monsterLeft1;
     char[][] monsterLeft2;
@@ -27,12 +28,18 @@ public abstract class Monster extends Element implements GenericMonster  {
     private int frequency = 27;
     private boolean rotate180 = false;
     @Override
-    public void HuntHourStarted(){
-        mode = "fright";
+    public void FrightHourStarted(){
+        if (!mode.equals("dark")){
+            mode = "fright";
+            monsterF += 0.5;
+            monsterM = 0;
+        }
     }
     @Override
-    public void HuntHourEnded(){
-        mode = "fright";
+    public void FrightHourEnded(){
+        mode = "hunt";
+        monsterF -= 0.5;
+        monsterM = 0;
     }
     public Monster(int x,int y){
         super(x,y);

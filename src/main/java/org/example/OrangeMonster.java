@@ -11,7 +11,7 @@ public class OrangeMonster extends Monster{
         super.draw(graphics, "#FFB852");
     }
     public Position target(Position position, String direction, Position redPosition){
-        if (mode.equals("Scatter")){
+        if (mode.equals("scatter")){
             if (distance(position,this.position) <= 8 * 14) return new Position(2,392);
             else return position;
         }

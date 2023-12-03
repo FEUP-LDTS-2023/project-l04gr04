@@ -11,7 +11,7 @@ public class BlueMonster extends Monster{
         super.draw(graphics, "#00FFFF");
     }
     public Position target(Position position,String direction,Position redPosition){
-        if (mode.equals("Scatter")) return new Position(368,392);
+        if (mode.equals("scatter")) return new Position(368,392);
         if (mode.equals("dark")) return new Position(100,115);
         Position middleP;
         if (direction.equals("up")) middleP =  new Position(position.getX() - 2 * 14, position.getY() - 2 * 14);

@@ -2,17 +2,30 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameState {
     List<GameObserver> observers = new ArrayList<>();
-    boolean huntH = false;
-    public boolean isHuntHour(){return huntH;}
-    public void startHuntHour(){
-        huntH = true;
-        notifyObservers();
+    private int timeInFright;
+    public GameState(int k){
+        timeInFright = k;
     }
-    public void endHuntHour(){
-        huntH = false;
+    private boolean frightH = false;
+    public boolean isFrightHour(){return frightH;}
+    public void startFrightHour(){
+        frightH = true;
+        notifyObservers();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                endFrightHour();
+            }
+        }, timeInFright * 1000);
+    }
+    public void endFrightHour(){
+        frightH = false;
         notifyObservers();
     }
     public void addObserver(GameObserver observer) {
@@ -20,7 +33,7 @@ public class GameState {
     }
     public void notifyObservers() {
         for (GameObserver observer : observers)
-            if (isHuntHour()) observer.HuntHourStarted();
-            else observer.HuntHourEnded();
+            if (isFrightHour()) observer.FrightHourStarted();
+            else observer.FrightHourEnded();
     }
 }

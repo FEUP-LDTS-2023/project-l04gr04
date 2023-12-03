@@ -32,9 +32,9 @@ public class Mapa {
     private Double playerF = 1.0; // Base velocity
     private int playerM  = 1;
     private int secondsInFright;
-    private int fpsCount = 0;
+    //private Integer fpsCount = 0;
     private final int timeInScout = 10000;
-    private GameState gameState = new GameState(1);
+    private GameState gameState ;
     private long startTime;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
@@ -49,12 +49,13 @@ public class Mapa {
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
                 Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException {
-        monstersFrightF = 1.8;
-        playerFrightF = 3.0;
-        monstersF = 2.0;
-        playerF = 1.0;
+        monstersFrightF = 2.5;
+        playerFrightF = 1.0;
+        monstersF = 1.7;
+        player.playerF = 1.5;
         width = w;
         height = h;
+        gameState = new GameState(tInF);
         map = loadMapFromFile("map.txt");
         startTime = System.currentTimeMillis();
         monsters.add(new RedMonster(130,23));
@@ -62,6 +63,7 @@ public class Mapa {
         monsters.add( new BlueMonster(134,126));
         monsters.add(new PinkMonster(134,126));
         for (Monster m : monsters){
+            m.monsterF = monstersF;
             gameState.addObserver(m);
         }
         gameState.addObserver(player);
@@ -99,11 +101,12 @@ public class Mapa {
         monsterMovement();
         checkDotCollisions(score);
         checkMonsterCollisions();
-        fpsCount++;
+        System.out.println(player.fps);
+        player.fps++;
     }
     void monsterMovement(){
         for (Monster m : monsters){
-            if ((fpsCount > monstersF * m.monsterM && !m.mode.equals("fright")) || (fpsCount > monstersFrightF * m.monsterM && m.mode.equals("fright"))){
+            if ((player.fps > m.monsterF * m.monsterM )){
             m.monsterM++;
             Position rp = monsters.get(0).getPosition(); // Red monster position
             Position mt = m.target(player.position, player.facingDirection, rp);
@@ -113,7 +116,7 @@ public class Mapa {
         }
     }
     void playerMovement(){
-        if ((fpsCount % playerF == 0  && !gameState.isFrightHour())|| (fpsCount % playerFrightF == 0 && gameState.isFrightHour()) ){
+        if ((player.fps > player.playerF * player.playerM )){
         playerM++;
         if (lastInputMove == KeyType.ArrowRight){
             if(canMove("right"))player.move("right");
@@ -217,7 +220,6 @@ public class Mapa {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
         cherry.draw(graphics);
-        fpsCount++;
     }
     private boolean canMove(String direction){
         int x = player.getX();

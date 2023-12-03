@@ -1,16 +1,19 @@
-package org.example;
+package org.example.Monster;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import org.example.Element;
+import org.example.Monster.States.eaten;
+import org.example.Monster.States.fright;
+import org.example.Monster.States.hunt;
+import org.example.Monster.States.scatter;
+import org.example.Position;
 
-import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public abstract class Monster extends Element implements GenericMonster  {
-    public String mode = "hunt";
+public abstract class Monster extends Element implements GenericMonster {
+    public monsterState ms = new scatter(this);
     protected String movingDirection;
     public int monsterM = 0;
     public Double monsterF;
@@ -26,20 +29,19 @@ public abstract class Monster extends Element implements GenericMonster  {
     char[][] monsterRun1;
     char[][] monsterRun2;
     private int frequency = 27;
+    protected Position cagePosition = new Position(100,115);
     private boolean rotate180 = false;
     @Override
     public void FrightHourStarted(){
-        if (!mode.equals("dark")){
-            mode = "fright";
-            monsterF += 0.5;
-            monsterM = 0;
-        }
+        ms.FrightHourStarted();
+        monsterM = 0;
+        monsterF += 1.5;
     }
     @Override
     public void FrightHourEnded(){
-        mode = "hunt";
-        monsterF -= 0.5;
+        ms.FrightHourEnded();
         monsterM = 0;
+        monsterF -= 1.5;
     }
     public Monster(int x,int y){
         super(x,y);
@@ -212,140 +214,143 @@ public abstract class Monster extends Element implements GenericMonster  {
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         if (position.getX() > 198) return;
-        if(Objects.equals(mode, "fright")){
-            if (mouthOpenM <= frequency) {
-                drawTheStyle(monsterRun1, graphics, monsterYesColor);
-                mouthOpenM++;
-            } else if (mouthOpenM <= frequency * 2) {
-                drawTheStyle(monsterRun2, graphics, monsterYesColor);
-                mouthOpenM++;
-            } else {
-                mouthOpenM = 1;
-                drawTheStyle(monsterRun1, graphics, monsterYesColor);
-            }
-        }
-        else if (Objects.equals(mode, "dark")) {
-            colorM = "#000000";
-            switch (movingDirection) {
-                case "right":
-                    if (mouthOpenM <= frequency) {
-                        drawTheStyle(monsterRight1, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else if (mouthOpenM <= frequency * 2) {
-                        drawTheStyle(monsterRight2, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else {
-                        mouthOpenM = 1;
-                        drawTheStyle(monsterRight1, graphics, colorM);
-                        break;
-                    }
+        ms.draw(graphics,colorM);
+    }
+    public void changeState(monsterState newState) {
+        ms = newState;
+    }
+    public void normalDraw(TextGraphics graphics,String monsterColor){
+        switch (movingDirection) {
+            case "right":
+                if (mouthOpenM <= frequency) {
+                    drawTheStyle(monsterRight1, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else if (mouthOpenM <= frequency * 2) {
+                    drawTheStyle(monsterRight2, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterRight1, graphics, monsterColor);
+                    break;
+                }
 
-                case "left":
-                    if (mouthOpenM <= frequency) {
-                        drawTheStyle(monsterLeft1, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else if (mouthOpenM <= frequency * 2) {
-                        drawTheStyle(monsterLeft2, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else {
-                        mouthOpenM = 1;
-                        drawTheStyle(monsterLeft1, graphics, colorM);
-                        break;
-                    }
-                case "down":
-                    if (mouthOpenM <= frequency) {
-                        drawTheStyle(monsterDown1, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else if (mouthOpenM <= frequency * 2) {
-                        drawTheStyle(monsterDown2, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else {
-                        mouthOpenM = 1;
-                        drawTheStyle(monsterDown1, graphics, colorM);
-                        break;
-                    }
-                case "up":
-                    if (mouthOpenM <= frequency) {
-                        drawTheStyle(monsterUp1, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else if (mouthOpenM <= frequency * 2) {
-                        drawTheStyle(monsterUp2, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else {
-                        mouthOpenM = 1;
-                        drawTheStyle(monsterUp1, graphics, colorM);
-                        break;
-                    }
-            }
+            case "left":
+                if (mouthOpenM <= frequency) {
+                    drawTheStyle(monsterLeft1, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else if (mouthOpenM <= frequency * 2) {
+                    drawTheStyle(monsterLeft2, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterLeft1, graphics, monsterColor);
+                    break;
+                }
+            case "down":
+                if (mouthOpenM <= frequency) {
+                    drawTheStyle(monsterDown1, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else if (mouthOpenM <= frequency * 2) {
+                    drawTheStyle(monsterDown2, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterDown1, graphics, monsterColor);
+                    break;
+                }
+            case "up":
+                if (mouthOpenM <= frequency) {
+                    drawTheStyle(monsterUp1, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else if (mouthOpenM <= frequency * 2) {
+                    drawTheStyle(monsterUp2, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterUp1, graphics, monsterColor);
+                    break;
+                }
         }
-        else{
-            switch (movingDirection) {
-                case "right":
-                    if (mouthOpenM <= frequency) {
-                        drawTheStyle(monsterRight1, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else if (mouthOpenM <= frequency * 2) {
-                        drawTheStyle(monsterRight2, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else {
-                        mouthOpenM = 1;
-                        drawTheStyle(monsterRight1, graphics, colorM);
-                        break;
-                    }
+    }
+    public void blueDraw(TextGraphics graphics,String monsterColor){
+        if (mouthOpenM <= frequency) {
+            drawTheStyle(monsterRun1, graphics, monsterYesColor);
+            mouthOpenM++;
+        } else if (mouthOpenM <= frequency * 2) {
+            drawTheStyle(monsterRun2, graphics, monsterYesColor);
+            mouthOpenM++;
+        } else {
+            mouthOpenM = 1;
+            drawTheStyle(monsterRun1, graphics, monsterYesColor);
+        }
+    }
+    public void darkDraw(TextGraphics graphics,String monsterColor){
+        switch (movingDirection) {
+            case "right":
+                if (mouthOpenM <= frequency) {
+                    drawTheStyle(monsterRight1, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else if (mouthOpenM <= frequency * 2) {
+                    drawTheStyle(monsterRight2, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterRight1, graphics, monsterColor);
+                    break;
+                }
 
-                case "left":
-                    if (mouthOpenM <= frequency) {
-                        drawTheStyle(monsterLeft1, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else if (mouthOpenM <= frequency * 2) {
-                        drawTheStyle(monsterLeft2, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else {
-                        mouthOpenM = 1;
-                        drawTheStyle(monsterLeft1, graphics, colorM);
-                        break;
-                    }
-                case "down":
-                    if (mouthOpenM <= frequency) {
-                        drawTheStyle(monsterDown1, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else if (mouthOpenM <= frequency * 2) {
-                        drawTheStyle(monsterDown2, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else {
-                        mouthOpenM = 1;
-                        drawTheStyle(monsterDown1, graphics, colorM);
-                        break;
-                    }
-                case "up":
-                    if (mouthOpenM <= frequency) {
-                        drawTheStyle(monsterUp1, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else if (mouthOpenM <= frequency * 2) {
-                        drawTheStyle(monsterUp2, graphics, colorM);
-                        mouthOpenM++;
-                        break;
-                    } else {
-                        mouthOpenM = 1;
-                        drawTheStyle(monsterUp1, graphics, colorM);
-                        break;
-                    }
-            }
+            case "left":
+                if (mouthOpenM <= frequency) {
+                    drawTheStyle(monsterLeft1, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else if (mouthOpenM <= frequency * 2) {
+                    drawTheStyle(monsterLeft2, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterLeft1, graphics, monsterColor);
+                    break;
+                }
+            case "down":
+                if (mouthOpenM <= frequency) {
+                    drawTheStyle(monsterDown1, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else if (mouthOpenM <= frequency * 2) {
+                    drawTheStyle(monsterDown2, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterDown1, graphics, monsterColor);
+                    break;
+                }
+            case "up":
+                if (mouthOpenM <= frequency) {
+                    drawTheStyle(monsterUp1, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else if (mouthOpenM <= frequency * 2) {
+                    drawTheStyle(monsterUp2, graphics, monsterColor);
+                    mouthOpenM++;
+                    break;
+                } else {
+                    mouthOpenM = 1;
+                    drawTheStyle(monsterUp1, graphics, monsterColor);
+                    break;
+                }
         }
     }
     public double distance(Position p, Position p1){
@@ -353,7 +358,83 @@ public abstract class Monster extends Element implements GenericMonster  {
         double difY = p1.getY() - p.getY();
         return Math.sqrt(difX * difX + difY * difY);
     }
-    public void move(Position p,char[][]map) {
+    public void targetMove(Position p,char[][]map, boolean t, boolean b, boolean d, boolean e){
+        int x = this.position.getX();
+        int y = this.position.getY();
+        double topo = Double.MAX_VALUE;
+        double baixo = Double.MAX_VALUE;
+        double esq = Double.MAX_VALUE;
+        double dir = Double.MAX_VALUE;
+        if (e) esq = distance(new Position(x - 1, y), p);
+        if (d) dir = distance(new Position(x + 1, y), p);
+        if (b) baixo = distance(new Position(x, y + 1), p);
+        if (t) topo = distance(new Position(x, y - 1), p);
+        double minv = Double.MAX_VALUE;
+        if (d && dir <= minv ) {
+            minv = dir;
+        }
+        if (b && baixo <= minv ) {
+            minv = baixo;
+        }
+        if (e && esq <= minv  ) {
+            minv = esq;
+        }
+        if (t && topo <= minv ){
+            position = moveUp();
+            movingDirection = "up";
+        }else if (minv == esq) {
+            position = moveLeft();
+            movingDirection = "left";
+        } else if (minv == baixo) {
+            position = moveDown();
+            movingDirection = "down";
+        } else {
+            position = moveRight();
+            movingDirection = "right";
+        }
+    }
+    public void frightMove(boolean t, boolean b, boolean d, boolean e){
+        if (!rotate180) { // Isto tem de ser alterado , variável não tá a ser reposta
+            if (movingDirection.equals("up")) {
+                position = moveDown();
+                    movingDirection = "down";
+                } else if (movingDirection.equals("down")) {
+                    position = moveUp();
+                    movingDirection = "up";
+                } else if (movingDirection.equals("left")) {
+                    position = moveRight();
+                    movingDirection = "right";
+                } else {
+                    position = moveLeft();
+                    movingDirection = "left";
+                }
+                rotate180 = true;
+            } else {
+                boolean flag = true;
+                while (flag) {
+                    Random random = new Random();
+                    int randomNumber = random.nextInt(4);
+                    if (randomNumber == 0 && t ) {
+                        position = moveUp();
+                        movingDirection = "up";
+                        flag = false;
+                    } else if (randomNumber == 1 && b ) {
+                        position = moveDown();
+                        movingDirection = "down";
+                        flag = false;
+                    } else if (randomNumber == 2 && d ) {
+                        position = moveRight();
+                        movingDirection = "right";
+                        flag = false;
+                    } else if (randomNumber == 3 && e) {
+                        position = moveLeft();
+                        movingDirection = "left";
+                        flag = false;
+                    }
+                }
+            }
+    }
+    public void move(Position p,char[][]map) { // Check for wich directions the monster can go
         int x = this.position.getX();
         int y = this.position.getY();
         if ((x < 5 || x > 190)) {
@@ -406,80 +487,10 @@ public abstract class Monster extends Element implements GenericMonster  {
                 if (map[y+i][x+14] == 'P'||map[y+i][x+14] == 'c')d = false;
             }
         }
-        if (mode.equals("fright")) {
-            if (!rotate180) {
-                if (movingDirection.equals("up")) {
-                    position = moveDown();
-                    movingDirection = "down";
-                } else if (movingDirection.equals("down")) {
-                    position = moveUp();
-                    movingDirection = "up";
-                } else if (movingDirection.equals("left")) {
-                    position = moveRight();
-                    movingDirection = "right";
-                } else {
-                    position = moveLeft();
-                    movingDirection = "left";
-                }
-                rotate180 = true;
-            } else {
-                boolean flag = true;
-                while (flag) {
-                    Random random = new Random();
-                    int randomNumber = random.nextInt(4);
-                    if (randomNumber == 0 && t ) {
-                        position = moveUp();
-                        movingDirection = "up";
-                        flag = false;
-                    } else if (randomNumber == 1 && b ) {
-                        position = moveDown();
-                        movingDirection = "down";
-                        flag = false;
-                    } else if (randomNumber == 2 && d ) {
-                        position = moveRight();
-                        movingDirection = "right";
-                        flag = false;
-                    } else if (randomNumber == 3 && e) {
-                        position = moveLeft();
-                        movingDirection = "left";
-                        flag = false;
-                    }
-                }
-            }
-        } else {
-            double topo = Double.MAX_VALUE;
-            double baixo = Double.MAX_VALUE;
-            double esq = Double.MAX_VALUE;
-            double dir = Double.MAX_VALUE;
-            if (e) esq = distance(new Position(x - 1, y), p);
-            if (d) dir = distance(new Position(x + 1, y), p);
-            if (b) baixo = distance(new Position(x, y + 1), p);
-            if (t) topo = distance(new Position(x, y - 1), p);
-            double minv = Double.MAX_VALUE;
-            if (d && dir <= minv ) {
-                minv = dir;
-            }
-            if (b && baixo <= minv ) {
-                minv = baixo;
-            }
-            if (e && esq <= minv  ) {
-                minv = esq;
-            }
-            if (t && topo <= minv ){
-                position = moveUp();
-                movingDirection = "up";
-            }else if (minv == esq) {
-                position = moveLeft();
-                movingDirection = "left";
-            } else if (minv == baixo) {
-                position = moveDown();
-                movingDirection = "down";
-            } else {
-                position = moveRight();
-                movingDirection = "right";
-            }
-        }
+        ms.move(p,map,t,b,d,e);
     }
+    public void pacManLost() {
 
+    }
 }
 

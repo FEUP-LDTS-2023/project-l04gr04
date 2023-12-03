@@ -7,7 +7,10 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import org.example.*;
+import org.example.Monster.BlueMonster;
+import org.example.Monster.OrangeMonster;
+import org.example.Monster.PinkMonster;
+import org.example.Monster.RedMonster;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

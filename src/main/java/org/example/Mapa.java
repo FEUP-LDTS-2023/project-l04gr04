@@ -39,13 +39,13 @@ public class Mapa {
     private long startTime;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
-    private Player player = new Player(10,26);
-    private Fruit cherry = new Fruit(63,26);
-    private Fruit orange = new Fruit(50,26);
-    private Fruit strawberry = new Fruit(80,26);
-    private Fruit melon = new Fruit(25,26);
-    private Fruit apple = new Fruit(37,26);
-
+    private Player player = new Player(10,241);
+    private Fruit cherry = new Fruit(63,241);
+    private Fruit orange = new Fruit(50,241);
+    private Fruit strawberry = new Fruit(80,241);
+    private Fruit melon = new Fruit(25,241);
+    private Fruit apple = new Fruit(37,241);
+    private Fruit galaxianFlagShip = new Fruit(100,241);
     private Character scoreText = new Character(50,10);
     private Character ready = new Character(79,141);
     private List<Dot> dots = new ArrayList<>();
@@ -236,6 +236,7 @@ public class Mapa {
         orange.drawOrange(graphics);
         apple.drawApple(graphics);
         melon.drawMelon(graphics);
+        galaxianFlagShip.drawFlagShip(graphics);
         fpsCount++;
     }
     private boolean canMove(String direction){

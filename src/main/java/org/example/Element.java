@@ -11,9 +11,11 @@ public class Element {
     String red = "#EC2324";
     String white ="#FFFFFF";
     String brown = "#9F6022";
-    String yellow = "#FFB897";
+    String dot = "#FFB897";
+    String yellow = "#FCFF00";
     String readyColor = "#B5D221";
     String lightBlue = "#47B3B0";
+    String darkBlue = "#2121FF";
     String lightgreen = "#00FD00";
     String lightorange = "#FFB652";
     String darkOrange = "#DE9751";
@@ -61,6 +63,8 @@ public class Element {
                     } else if (pacManImage[row][col] == 'B') {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(brown));
                     }else if (pacManImage[row][col] == 'Y') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(dot));
+                    }else if (pacManImage[row][col] == 'y') {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
                     }else if (pacManImage[row][col] == 'g') {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(lightgreen));
@@ -72,6 +76,8 @@ public class Element {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(appleBrown));
                     }else if (pacManImage[row][col] == 'A') {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(lightBlue));
+                    }else if (pacManImage[row][col] == 'k') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(darkBlue));
                     }else if (pacManImage[row][col] == 'a') {
                          graphics.setBackgroundColor(TextColor.Factory.fromString(readyColor));}
                     graphics.fillRectangle(new TerminalPosition(x+col,y+row),new TerminalSize(1,1),' ');

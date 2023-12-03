@@ -10,6 +10,7 @@ public class Fruit extends Element{
     char[][] orange;
     char[][] apple;
     char[][] melon;
+    char[][] galaxianFlagShip;
     public Fruit(int x, int y){
         super(x,y);
         cherry = new char[][]{
@@ -101,6 +102,23 @@ public class Fruit extends Element{
                 {'#','#','#','g','A','g','g','g','A','g','#','#','#','#'},
                 {'#','#','#','#','#','g','g','A','#','#','#','#','#','#'}
         };
+        galaxianFlagShip = new char[][]{
+                {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
+                {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
+                {'#','#','#','#','#','#','R','#','#','#','#','#','#','#'},
+                {'#','k','#','#','#','R','R','R','#','#','#','k','#','#'},
+                {'#','k','#','#','R','R','R','R','R','#','#','k','#','#'},
+                {'#','k','y','R','R','y','R','y','R','R','y','k','#','#'},
+                {'#','k','y','y','y','y','R','y','y','y','y','k','#','#'},
+                {'#','k','k','y','y','y','y','y','y','y','k','k','#','#'},
+                {'#','#','k','k','y','#','y','#','y','k','k','#','#','#'},
+                {'#','#','#','k','k','#','y','#','k','k','#','#','#','#'},
+                {'#','#','#','#','k','#','y','#','k','#','#','#','#','#'},
+                {'#','#','#','#','#','#','y','#','#','#','#','#','#','#'},
+                {'#','#','#','#','#','#','y','#','#','#','#','#','#','#'},
+                {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
+
+        };
 
     };
     public void drawCherry(TextGraphics graphics){
@@ -119,5 +137,8 @@ public class Fruit extends Element{
     }
     public void drawMelon(TextGraphics graphics){
         drawTheStyle(melon,graphics,red);
+    }
+    public void drawFlagShip(TextGraphics graphics){
+        drawTheStyle(galaxianFlagShip,graphics,red);
     }
 }

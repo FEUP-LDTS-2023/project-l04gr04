@@ -28,8 +28,8 @@ public class Mapa {
     private final String coinsColor = "#959043";
     private Double monstersFrightF;
     private Double playerFrightF;
-    private Double monstersF = 1.5; // Base velocity
-    private Double playerF = 1.5; // Base velocity
+    private Double monstersF = 2.0; // Base velocity
+    private Double playerF = 2.0; // Base velocity
     private int playerM  = 1;
     private int secondsInFright;
     private int fpsCount = 0;

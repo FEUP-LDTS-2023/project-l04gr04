@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 public class GameState {
     List<GameObserver> observers = new ArrayList<>();
+    Timer timer;
     private int timeInFright;
     public GameState(int k){
         timeInFright = k;
@@ -16,7 +17,11 @@ public class GameState {
     public void startFrightHour(){
         frightH = true;
         notifyObservers();
-        Timer timer = new Timer();
+        if (timer != null) {
+            timer.cancel();
+            timer.purge();
+        }
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

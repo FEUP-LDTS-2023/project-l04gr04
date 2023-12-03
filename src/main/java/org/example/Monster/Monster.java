@@ -17,6 +17,8 @@ public abstract class Monster extends Element implements GenericMonster {
     protected String movingDirection;
     public int monsterM = 0;
     public Double monsterF;
+    public Double atmF;
+    public Double monsterFrightF;
     public int mouthOpenM = 0;
     char[][] monsterLeft1;
     char[][] monsterLeft2;
@@ -35,13 +37,13 @@ public abstract class Monster extends Element implements GenericMonster {
     public void FrightHourStarted(){
         ms.FrightHourStarted();
         monsterM = 0;
-        monsterF += 1.5;
+        atmF = monsterFrightF;
     }
     @Override
     public void FrightHourEnded(){
         ms.FrightHourEnded();
         monsterM = 0;
-        monsterF -= 1.5;
+        atmF = monsterF;
     }
     public Monster(int x,int y){
         super(x,y);

@@ -43,6 +43,7 @@ public class Mapa {
     private Fruit cherry = new Fruit(63,26);
     private Fruit orange = new Fruit(50,26);
     private Fruit strawberry = new Fruit(80,26);
+    private Fruit melon = new Fruit(25,26);
     private Fruit apple = new Fruit(37,26);
 
     private Character scoreText = new Character(50,10);
@@ -234,6 +235,7 @@ public class Mapa {
         strawberry.drawStrawberry(graphics);
         orange.drawOrange(graphics);
         apple.drawApple(graphics);
+        melon.drawMelon(graphics);
         fpsCount++;
     }
     private boolean canMove(String direction){

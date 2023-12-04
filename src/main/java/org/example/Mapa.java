@@ -103,9 +103,6 @@ public class Mapa {
                 }
             }
         }
-        Numero number = new Numero(15,10);
-        number.changeNumber(9);
-        number.draw(graphics);
     }
     public void gameLoop(List<Rectangle> dirtyRegions,Score score){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));

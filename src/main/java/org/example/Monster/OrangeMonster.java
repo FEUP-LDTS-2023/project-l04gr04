@@ -1,9 +1,11 @@
-package org.example;
+package org.example.Monster;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import org.example.Monster.Monster;
+import org.example.Position;
 
-public class OrangeMonster extends Monster{
+public class OrangeMonster extends Monster {
     public OrangeMonster(int x,int y){super(x,y);}
     @Override
     public void draw(TextGraphics graphics) {
@@ -11,11 +13,8 @@ public class OrangeMonster extends Monster{
         super.draw(graphics, "#FFB852");
     }
     public Position target(Position position, String direction, Position redPosition){
-        if (mode.equals("Scatter")){
-            if (distance(position,this.position) <= 8 * 14) return new Position(2,392);
-            else return position;
-        }
-        if (mode.equals("dark")) return new Position(100,115);
-        return position;
+        if (ms.modeOn().equals("eaten")) return cagePosition;
+        if (distance(position,this.position) <= 6 * 14 || ms.modeOn().equals("scatter")) return new Position(1,237);
+        else return position;
     }
 }

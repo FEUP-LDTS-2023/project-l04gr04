@@ -1,18 +1,20 @@
-package org.example;
+package org.example.Monster;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import org.example.Monster.Monster;
+import org.example.Position;
 
-public class BlueMonster extends Monster{
+public class BlueMonster extends Monster {
     public BlueMonster(int x,int y){super(x,y);}
     @Override
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#00FFFF"));
         super.draw(graphics, "#00FFFF");
     }
-    public Position target(Position position,String direction,Position redPosition){
-        if (mode.equals("Scatter")) return new Position(368,392);
-        if (mode.equals("dark")) return new Position(100,115);
+    public Position target(Position position, String direction, Position redPosition){
+        if (ms.modeOn().equals("eaten")) return cagePosition;
+        if (ms.modeOn().equals("scatter")) return new Position(195,237);
         Position middleP;
         if (direction.equals("up")) middleP =  new Position(position.getX() - 2 * 14, position.getY() - 2 * 14);
         else if (direction.equals("down"))middleP = new Position(position.getX(), position.getY() + 2 * 14);

@@ -15,6 +15,8 @@ public class Player extends Element implements GameObserver {
     private String playerColor = "#B5D221";
     public int fps = 0;
     public Double playerF;
+    public Double playerFrightF;
+    public Double atmF;
     public  int playerM = 0;
     char[][] pacManUp1;
     char[][] pacManUp2;
@@ -313,7 +315,7 @@ public class Player extends Element implements GameObserver {
     @Override
     public void FrightHourStarted() {
         mode = "hunt";
-        playerF -= 0.5;
+        atmF = playerFrightF;
         playerM = 0;
         fps = 0;
     }
@@ -321,7 +323,7 @@ public class Player extends Element implements GameObserver {
     @Override
     public void FrightHourEnded() {
         mode = "fright";
-        playerF += 0.5;
+        atmF = playerF;
         playerM = 0;
         fps = 0;
     }

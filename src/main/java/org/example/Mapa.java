@@ -5,8 +5,10 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import org.example.Monster.*;
+import org.example.Monster.States.eaten;
+import org.example.Monster.States.hunt;
 import org.example.Numbers.Character;
-import org.example.Numbers.Numero;
 import org.example.Numbers.Score;
 
 import java.awt.*;
@@ -26,16 +28,9 @@ public class Mapa {
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
     private final String coinsColor = "#959043";
-    private Double monstersFrightF;
-    private Double playerFrightF;
-    private Double monstersF = 2.0; // Base velocity
-    private Double playerF = 1.0; // Base velocity
-    private int playerM  = 1;
-    private int secondsInFright;
-    //private Integer fpsCount = 0;
+    private Double baseFrequency = 1.5; // Base velocity
     private final int timeInScout = 10000;
     private GameState gameState ;
-    private long startTime;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
     private Player player = new Player(33,26);
@@ -44,26 +39,31 @@ public class Mapa {
     private Character scoreText = new Character(20,10);
 
     private List<Dot> dots = new ArrayList<>();
+    private int dotsCounter = 246;
     String yellow = "#FFB897";
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
                 Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException {
-        monstersFrightF = 2.5;
-        playerFrightF = 1.0;
-        monstersF = 1.7;
-        player.playerF = 1.5;
+        Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs);
+        Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs);
+        Double monstersF = baseFrequency + baseFrequency * (1 - gs);
+        Double playerF = baseFrequency + baseFrequency * (1 - ps);
+        player.atmF = playerF;
+        player.playerF = playerF;
+        player.playerFrightF = playerFrightF;
         width = w;
         height = h;
         gameState = new GameState(tInF);
         map = loadMapFromFile("map.txt");
-        startTime = System.currentTimeMillis();
-        monsters.add(new RedMonster(130,23));
+        monsters.add(new RedMonster(134,126));
         monsters.add(new OrangeMonster(134,126));
         monsters.add( new BlueMonster(134,126));
         monsters.add(new PinkMonster(134,126));
         for (Monster m : monsters){
             m.monsterF = monstersF;
+            m.atmF = monstersF;
+            m.monsterFrightF = monstersFrightF;
             gameState.addObserver(m);
         }
         gameState.addObserver(player);
@@ -94,30 +94,30 @@ public class Mapa {
     }
     public void gameLoop(List<Rectangle> dirtyRegions,Score score){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
-        playerMovement();
         for (Monster m : monsters){
             dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
         }
+        playerMovement();
         monsterMovement();
         checkDotCollisions(score);
         checkMonsterCollisions();
-        System.out.println(player.fps);
+        if (dotsCounter == 0)level_running = false;
         player.fps++;
     }
     void monsterMovement(){
         for (Monster m : monsters){
-            if ((player.fps > m.monsterF * m.monsterM )){
+            if ((player.fps > m.atmF * m.monsterM ) || m.ms.modeOn().equals("eaten")){ // Control the frequency of movement
                 m.monsterM++;
                 Position rp = monsters.get(0).getPosition(); // Red monster position
                 Position mt = m.target(player.position, player.facingDirection, rp);
                 m.move(mt,map);
-                if (mt.equals(m.getPosition())) m.mode = "hunt";
+                if (mt.equals(m.getPosition()) && m.ms.modeOn().equals("eaten")) m.changeState(new hunt(m)); // If he is eaten and gets to the cage, he comes back to hunt state
             }
         }
     }
     void playerMovement(){
-        if ((player.fps > player.playerF * player.playerM )){
-            playerM++;
+        if ((player.fps > player.atmF * player.playerM )){ // Control the frequency of movement
+            player.playerM++;
             if (lastInputMove == KeyType.ArrowRight){
                 if(canMove("right"))player.move("right");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
@@ -141,6 +141,7 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
+                dotsCounter--;
                 if (dot.SpecialDote) {
                     gameState.startFrightHour();
                     score.increment(5);
@@ -156,7 +157,7 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if ((px <= mx && px + 14 - 8 >= mx && py <= my && py + 14 - 8 >= my) || (mx <= px && mx + 14 - 8 >= px && my <= py && my + 14 - 8 >= py)) {
-                if (m.mode == "fright")m.mode = "dark";
+                if (m.ms.modeOn().equals("fright"))m.changeState(new eaten(m));
             }
         }
     }

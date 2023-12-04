@@ -15,6 +15,7 @@ public class Element {
     String yellow = "#FCFF00";
     String readyColor = "#B5D221";
     String lightBlue = "#47B3B0";
+    String otherBlue ="#46B6FE";
     String darkBlue = "#2121FF";
     String lightgreen = "#00FD00";
     String lightorange = "#FFB652";
@@ -78,6 +79,8 @@ public class Element {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(lightBlue));
                     }else if (pacManImage[row][col] == 'k') {
                         graphics.setBackgroundColor(TextColor.Factory.fromString(darkBlue));
+                    }else if (pacManImage[row][col] == 'K') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(otherBlue));
                     }else if (pacManImage[row][col] == 'a') {
                          graphics.setBackgroundColor(TextColor.Factory.fromString(readyColor));}
                     graphics.fillRectangle(new TerminalPosition(x+col,y+row),new TerminalSize(1,1),' ');

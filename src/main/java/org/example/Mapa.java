@@ -46,6 +46,8 @@ public class Mapa {
     private Fruit melon = new Fruit(25,241);
     private Fruit apple = new Fruit(37,241);
     private Fruit galaxianFlagShip = new Fruit(100,241);
+    private Fruit bell = new Fruit(120,241);
+    private Fruit key = new Fruit(140,241);
     private Character scoreText = new Character(50,10);
     private Character ready = new Character(79,141);
     private List<Dot> dots = new ArrayList<>();
@@ -237,6 +239,8 @@ public class Mapa {
         apple.drawApple(graphics);
         melon.drawMelon(graphics);
         galaxianFlagShip.drawFlagShip(graphics);
+        key.drawKey(graphics);
+        bell.drawBell(graphics);
         fpsCount++;
     }
     private boolean canMove(String direction){

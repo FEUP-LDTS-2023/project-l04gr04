@@ -6,6 +6,7 @@ import org.example.Element;
 
 public class Character extends Element {
     char[][] score;
+    char[][] ready;
     public Character (int x, int y){
         super(x,y);
 
@@ -20,10 +21,28 @@ public class Character extends Element {
 
 
         };
+        ready = new char[][]{
+                {'a','a','a','a','a','a','#','#','a','a','a','a','a','a','a','#','#','#','a','a','a','#','#','#','a','a','a','a','a','#','#','#','#','a','a','#','#','a','a','#','#','#','#','a','a','a'},
+                {'a','a','#','#','#','a','a','#','a','a','#','#','#','#','#','#','#','a','a','#','a','a','#','#','a','a','#','#','a','a','#','#','#','a','a','#','#','a','a','#','#','#','#','a','a','a'},
+                {'a','a','#','#','#','a','a','#','a','a','#','#','#','#','#','#','a','a','#','#','#','a','a','#','a','a','#','#','#','a','a','#','#','a','a','#','#','a','a','#','#','#','a','a','a','#'},
+                {'a','a','#','#','a','a','a','#','a','a','a','a','a','a','#','#','a','a','#','#','#','a','a','#','a','a','#','#','#','a','a','#','#','#','a','a','a','a','#','#','#','#','a','a','#','#'},
+                {'a','a','a','a','a','#','#','#','a','a','#','#','#','#','#','#','a','a','a','a','a','a','a','#','a','a','#','#','#','a','a','#','#','#','#','a','a','#','#','#','#','#','a','#','#','#'},
+                {'a','a','#','a','a','a','#','#','a','a','#','#','#','#','#','#','a','a','#','#','#','a','a','#','a','a','#','#','a','a','#','#','#','#','#','a','a','#','#','#','#','#','#','#','#','#'},
+                {'a','a','#','#','a','a','a','#','a','a','a','a','a','a','a','#','a','a','#','#','#','a','a','#','a','a','a','a','a','#','#','#','#','#','#','a','a','#','#','#','#','a','#','#','#','#'},
+
+
+
+        };
     }
 
-    public void draw(TextGraphics graphics) {
+    public void drawready(TextGraphics graphics) {
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#FFFFFF"));
+        //drawTheStyle(score, graphics, "#FFFFFF");
+        drawTheStyle(ready, graphics, "#FFFFFF");
+    }
+    public void drawscore(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#FFFFFF"));
         drawTheStyle(score, graphics, "#FFFFFF");
+        //drawTheStyle(ready, graphics, "#FFFFFF");
     }
 }

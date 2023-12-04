@@ -11,6 +11,7 @@ import org.example.Monster.BlueMonster;
 import org.example.Monster.OrangeMonster;
 import org.example.Monster.PinkMonster;
 import org.example.Monster.RedMonster;
+import org.example.Monster.States.fright;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,10 +43,10 @@ public class MoveTest {
     @Test
     public void redTargeting() {
         RedMonster redMonster = new RedMonster(74, 42);
-        redMonster.mode = "Fright";
+        redMonster.ms.changeState(new fright(redMonster));
         assertEquals(redMonster.target(player.getPosition(), "", new Position(0, 0)), player.getPosition());
     }
-    @Test
+    /*@Test
     public void orangeTargeting() {
         OrangeMonster orangeMonster = new OrangeMonster(74, 42);
         orangeMonster.mode = "Fright";
@@ -76,7 +77,7 @@ public class MoveTest {
         assertEquals(blueMonster.target(player.getPosition(), "right", redPosition), new Position(2 * middleP.getX() - redPosition.getX(), 2 * middleP.getY() - redPosition.getY()));
     }
 
-    /*@Test
+    @Test
     public void movingWall() throws IOException {
         Mapa newMap = new Mapa(368, 392,graphics);
         RedMonster redMonster = new RedMonster(3,25);

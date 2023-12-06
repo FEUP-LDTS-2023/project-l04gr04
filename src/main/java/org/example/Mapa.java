@@ -32,7 +32,7 @@ public class Mapa {
     private GameState gameState ;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
-    private Player player = new Player(10,241);
+    private Player player = new Player(94,180);
     private Fruit cherry = new Fruit(63,241);
     private Fruit orange = new Fruit(50,241);
     private Fruit strawberry = new Fruit(80,241);

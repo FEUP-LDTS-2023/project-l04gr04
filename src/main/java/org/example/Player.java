@@ -46,8 +46,6 @@ public class Player extends Element implements GameObserver {
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
         if (position.getX() > 198) return;
-
-        /*
         switch (facingDirection){
             case "right":
                 if (mouthOpen<=frequency){
@@ -152,8 +150,8 @@ public class Player extends Element implements GameObserver {
                     drawTheStyle(pacManClosed,graphics,playerColor);
                     break;
                 }
-        }*/
-        if (mouthOpen<=frequency){
+        }
+        /*if (mouthOpen<=frequency){
             drawTheStyle(pacManDie1,graphics,playerColor);
             mouthOpen++;
         }
@@ -201,7 +199,7 @@ public class Player extends Element implements GameObserver {
             drawTheStyle(pacManDie12, graphics, playerColor);
             mouthOpen++;
         }
-        else{mouthOpen = 0;}
+        else{mouthOpen = 0;}*/
 
 
 

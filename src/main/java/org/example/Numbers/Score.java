@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Score {
     private int currentScore ;
-    private int lp= 100;
+    private int lp= 120;
     Numero numero = new Numero(lp+10, 10);
     public Score(){
         numero.changeNumber(0);

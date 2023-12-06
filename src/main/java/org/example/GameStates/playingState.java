@@ -20,8 +20,9 @@ public class playingState extends ApplicationState{
 
     @Override
     public void input(KeyStroke key) throws IOException, InterruptedException {
-        if (key.getKeyType() == KeyType.Escape){
+        if (key != null && key.getKeyType() == KeyType.Escape){
             changeState(new pauseState(game));
+            return;
         }
         game.gameplayInput(key);
     }

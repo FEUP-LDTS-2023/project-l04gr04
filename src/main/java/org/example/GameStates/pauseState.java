@@ -19,12 +19,12 @@ public class pauseState extends ApplicationState{
     }
 
     @Override
-    public void input(KeyStroke key) {
+    public void input(KeyStroke key) throws IOException {
         if (key == null)return;
         if (key.getKeyType() == KeyType.Enter){
             switch (barOn){
                 case 0:
-                    //Continue playing
+                    changeState(new playingState(game));
                     break;
                 case 1:
                     changeState(new menuState(game));

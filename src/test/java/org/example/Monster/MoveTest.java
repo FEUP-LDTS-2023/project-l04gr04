@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Monster;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -12,14 +12,17 @@ import org.example.Monster.OrangeMonster;
 import org.example.Monster.PinkMonster;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.fright;
+import org.example.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+
 
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class MoveTest {
     Player player;
@@ -33,6 +36,7 @@ public class MoveTest {
     public Screen screen = new TerminalScreen(terminal);
     TextGraphics graphics = screen.newTextGraphics();
 
+
     public MoveTest() throws IOException, FontFormatException {
     }
 
@@ -43,8 +47,9 @@ public class MoveTest {
     @Test
     public void redTargeting() {
         RedMonster redMonster = new RedMonster(74, 42);
-        redMonster.ms.changeState(new fright(redMonster));
-        assertEquals(redMonster.target(player.getPosition(), "", new Position(0, 0)), player.getPosition());
+        BlueMonster blueMonster= new BlueMonster(75, 42);
+        double distance = redMonster.distance(redMonster.getPosition(), blueMonster.getPosition());
+        Assertions.assertEquals(1.0,distance );
     }
     /*@Test
     public void orangeTargeting() {

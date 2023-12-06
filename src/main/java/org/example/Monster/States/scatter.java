@@ -35,5 +35,5 @@ public class scatter extends monsterState {
     }
 
     @Override
-    public void FrightHourEnded() {}
+    public void FrightHourEnded() {changeState(new hunt(monster));}
 }

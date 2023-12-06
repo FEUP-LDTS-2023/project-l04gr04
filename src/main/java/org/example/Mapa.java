@@ -16,8 +16,7 @@ import java.io.*;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 public class Mapa {
@@ -29,7 +28,7 @@ public class Mapa {
     private final String wallsColor = "#2121DE";
     private final String coinsColor = "#959043";
     private Double baseFrequency = 1.5; // Base velocity
-    private final int timeInScout = 10000;
+    private final int timeInScout = 10;
     private GameState gameState ;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
@@ -103,6 +102,13 @@ public class Mapa {
                 }
             }
         }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                gameState.endFrightHour();
+            }
+        }, timeInScout * 1000);
     }
     public void gameLoop(List<Rectangle> dirtyRegions,Score score){
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
@@ -238,8 +244,6 @@ public class Mapa {
         player.draw(graphics);
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
-
-        fpsCount++;
         cherry.drawCherry(graphics);
         strawberry.drawStrawberry(graphics);
         orange.drawOrange(graphics);
@@ -248,7 +252,6 @@ public class Mapa {
         galaxianFlagShip.drawFlagShip(graphics);
         key.drawKey(graphics);
         bell.drawBell(graphics);
-        fpsCount++;
 
     }
     private boolean canMove(String direction){

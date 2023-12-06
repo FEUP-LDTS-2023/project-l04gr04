@@ -4,8 +4,10 @@ plugins {
     id 'info.solidsoft.pitest' version '1.7.0'
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
+group  'org.example'
+version  '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -21,7 +23,7 @@ test {
     useJUnitPlatform()
 }
 pitest {
-    junit5PluginVersion = '0.12'
+    junit5PluginVersion = '0.13'
     verbose = true;
 }
 application {

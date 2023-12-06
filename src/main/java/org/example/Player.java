@@ -580,7 +580,7 @@ public class Player extends Element implements GameObserver {
 
     @Override
     public void FrightHourStarted() {
-        mode = "hunt";
+        mode = "fright";
         atmF = playerFrightF;
         playerM = 0;
         fps = 0;
@@ -588,7 +588,7 @@ public class Player extends Element implements GameObserver {
 
     @Override
     public void FrightHourEnded() {
-        mode = "fright";
+        mode = "hunt";
         atmF = playerF;
         playerM = 0;
         fps = 0;

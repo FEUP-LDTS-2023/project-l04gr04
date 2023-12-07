@@ -11,6 +11,7 @@ public class pauseState extends ApplicationState{
     int barOn = 0;
     public pauseState(Game g) {
         super(g);
+        game.onPause = true;
     }
 
     @Override
@@ -22,9 +23,11 @@ public class pauseState extends ApplicationState{
     public void input(KeyStroke key) throws IOException {
         if (key == null)return;
         if (key.getKeyType() == KeyType.Enter){
+            game.screen.clear();
             switch (barOn){
                 case 0:
                     changeState(new playingState(game));
+                    game.drawInicialMap();
                     break;
                 case 1:
                     changeState(new menuState(game));

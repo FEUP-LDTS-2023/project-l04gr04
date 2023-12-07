@@ -21,6 +21,7 @@ public class playingState extends ApplicationState{
     @Override
     public void input(KeyStroke key) throws IOException, InterruptedException {
         if (key != null && key.getKeyType() == KeyType.Escape){
+            game.screen.clear();
             changeState(new pauseState(game));
             return;
         }

@@ -72,36 +72,7 @@ public class Mapa {
             gameState.addObserver(m);
         }
         gameState.addObserver(player);
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                if (map[row][col] == '.') {
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'A') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'R') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'a') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == '0') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                }else if (map[row][col] == 'd'){
-                    dots.add(new Dot(col,row,false));
-                }else if (map[row][col] == 'D'){
-                    dots.add(new Dot(col,row,true));
-                } else {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                }
-            }
-        }
+        drawInicialMap(graphics);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -198,6 +169,38 @@ public class Mapa {
             return player.facingDirection == "down";
         }
         return false;
+    }
+    public void drawInicialMap(TextGraphics graphics){
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                if (map[row][col] == '.') {
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'A') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'R') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'a') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == '0') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (map[row][col] == 'd'){
+                    dots.add(new Dot(col,row,false));
+                }else if (map[row][col] == 'D'){
+                    dots.add(new Dot(col,row,true));
+                } else {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }
+            }
+        }
     }
     public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score) throws IOException {
         graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));

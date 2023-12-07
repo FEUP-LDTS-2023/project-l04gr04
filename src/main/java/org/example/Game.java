@@ -37,6 +37,7 @@ public class Game {
     private TextGraphics graphics;
     private char menu[][];
     private char pausa[][];
+    public boolean onPause = false;
     private ApplicationState applicationState;
     public Game(int w,int h) throws IOException, FontFormatException {
         gameW = w;
@@ -141,11 +142,14 @@ public class Game {
     }
     public void startGameplay() throws IOException {
         screen.clear();
-        level = new Level(1,gameW,gameH,graphics);
+        if (!onPause){
+            level = new Level(1,gameW,gameH,graphics);
+        }
     }
     private void changeLevel() throws IOException {
         level = new Level(level.levelNumber + 1, gameW,gameH,graphics);
     }
+    public void drawInicialMap() throws IOException {level.drawInicialMap(graphics);}
     public void stopGameLoop() throws IOException {
         gameLoopTimer.cancel();
         gameLoopTimer.purge();

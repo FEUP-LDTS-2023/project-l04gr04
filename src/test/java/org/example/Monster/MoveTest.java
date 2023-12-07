@@ -51,7 +51,7 @@ public class MoveTest {
         double distance = redMonster.distance(redMonster.getPosition(), blueMonster.getPosition());
         Assertions.assertEquals(1.0,distance );
     }
-    /*@Test
+    @Test
     public void orangeTargeting() {
         OrangeMonster orangeMonster = new OrangeMonster(74, 42);
         orangeMonster.mode = "Fright";

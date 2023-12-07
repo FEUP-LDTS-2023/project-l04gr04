@@ -55,6 +55,9 @@ public class Level {
     public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score) throws IOException {
         map.draw(graphics,dirtyRegions,score);
     }
+    public void drawInicialMap(TextGraphics graphics) throws IOException {
+        map.drawInicialMap(graphics);
+    }
     public boolean processKey(KeyStroke key) throws IOException {
         return map.readInput(key);
     }

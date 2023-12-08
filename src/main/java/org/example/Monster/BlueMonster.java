@@ -15,6 +15,7 @@ public class BlueMonster extends Monster {
     public Position target(Position position, String direction, Position redPosition){
         if (ms.modeOn().equals("eaten")) return cagePosition;
         if (ms.modeOn().equals("scatter")) return new Position(195,237);
+        if (ms.modeOn().equals("inCage")) return new Position(cagePosition.getX(), cagePosition.getY()-19);
         Position middleP;
         if (direction.equals("up")) middleP =  new Position(position.getX() - 2 * 14, position.getY() - 2 * 14);
         else if (direction.equals("down"))middleP = new Position(position.getX(), position.getY() + 2 * 14);

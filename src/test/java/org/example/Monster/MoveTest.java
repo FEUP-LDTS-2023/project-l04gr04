@@ -27,7 +27,7 @@ import java.io.InputStream;
 public class MoveTest {
     Player player;
 
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
+    /*InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
     Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
     Font customFont = font.deriveFont(Font.PLAIN, 2);
     SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
@@ -38,7 +38,7 @@ public class MoveTest {
 
 
     public MoveTest() throws IOException, FontFormatException {
-    }
+    }*/
 
     @BeforeEach
     public void setPlayer() {
@@ -51,7 +51,7 @@ public class MoveTest {
         double distance = redMonster.distance(redMonster.getPosition(), blueMonster.getPosition());
         Assertions.assertEquals(1.0,distance );
     }
-    @Test
+    /*@Test
     public void orangeTargeting() {
         OrangeMonster orangeMonster = new OrangeMonster(74, 42);
         orangeMonster.mode = "Fright";

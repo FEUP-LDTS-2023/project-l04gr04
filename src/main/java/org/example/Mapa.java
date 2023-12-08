@@ -8,6 +8,8 @@ import com.googlecode.lanterna.input.KeyType;
 import org.example.Monster.*;
 import org.example.Monster.States.eaten;
 import org.example.Monster.States.hunt;
+import org.example.Monster.States.inCage;
+import org.example.Monster.States.scatter;
 import org.example.Numbers.Character;
 import org.example.Numbers.Score;
 
@@ -46,12 +48,13 @@ public class Mapa {
     private List<Dot> dots = new ArrayList<>();
     private int dotsCounter = 246;
     String yellow = "#FFB897";
+    private boolean firstInput = true;
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
                 Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException {
-        Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs);
-        Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs);
+        Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
+        Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
         Double monstersF = baseFrequency + baseFrequency * (1 - gs);
         Double playerF = baseFrequency + baseFrequency * (1 - ps);
         player.atmF = playerF;
@@ -61,10 +64,10 @@ public class Mapa {
         height = h;
         gameState = new GameState(tInF);
         map = loadMapFromFile("map.txt");
-        monsters.add(new RedMonster(134,126));
-        monsters.add(new OrangeMonster(134,126));
-        monsters.add( new BlueMonster(134,126));
-        monsters.add(new PinkMonster(134,126));
+        monsters.add(new RedMonster(90,115));
+        monsters.add(new OrangeMonster(82,115));
+        monsters.add( new BlueMonster(98,115));
+        monsters.add(new PinkMonster(106,115));
         for (Monster m : monsters){
             m.monsterF = monstersF;
             m.atmF = monstersF;
@@ -73,7 +76,15 @@ public class Mapa {
         }
         gameState.addObserver(player);
         drawInicialMap(graphics);
+    }
+    private void actions(){
         Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for(Monster m : monsters)m.changeState(new scatter(m));
+            }
+        }, 1000);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -100,7 +111,8 @@ public class Mapa {
                 Position rp = monsters.get(0).getPosition(); // Red monster position
                 Position mt = m.target(player.position, player.facingDirection, rp);
                 m.move(mt,map);
-                if (mt.equals(m.getPosition()) && m.ms.modeOn().equals("eaten")) m.changeState(new hunt(m)); // If he is eaten and gets to the cage, he comes back to hunt state
+                if (mt.equals(m.getPosition()) && m.ms.modeOn().equals("eaten")) m.changeState(new inCage(m)); // If he is eaten and gets to the cage, he comes back to hunt state
+                else if (mt.equals(m.getPosition()) && m.ms.modeOn().equals("inCage")) m.changeState(new hunt(m));
             }
         }
     }
@@ -129,7 +141,7 @@ public class Mapa {
             int dy = dot.getY();
             int px = player.getX();
             int py = player.getY();
-            if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
+            if (px <= dx && px + 10 >= dx && py <= dy && py + 14 >= dy) {
                 dotsCounter--;
                 if (dot.SpecialDote) {
                     gameState.startFrightHour();
@@ -157,6 +169,8 @@ public class Mapa {
                 ||(player.getPosition().getX() < 0 || player.getPosition().getX() > 181))){
             return false;
         }else{
+            if (firstInput)actions();
+            firstInput = false;
             lastInputMove = keyStroke.getKeyType();
         }
         if (lastInputMove == KeyType.ArrowRight){
@@ -242,7 +256,7 @@ public class Mapa {
         }
         for (Monster m : monsters)m.draw(graphics);
         scoreText.drawscore(graphics);
-        ready.drawready(graphics);
+        if (firstInput)ready.drawready(graphics);
         score.draw(graphics);
         player.draw(graphics);
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));

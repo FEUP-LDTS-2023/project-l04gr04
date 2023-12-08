@@ -38,6 +38,7 @@ public class Game {
     private char menu[][];
     private char pausa[][];
     public boolean onPause = false;
+    public boolean firstInput = true;
     private ApplicationState applicationState;
     public Game(int w,int h) throws IOException, FontFormatException {
         gameW = w;
@@ -129,6 +130,7 @@ public class Game {
     }
     public void gameplayInput(KeyStroke keystroke) throws IOException, InterruptedException {
         if (keystroke != null){
+            firstInput = false;
             k = keystroke;
             KeyType keyType = keystroke.getKeyType();
             if (keyType == KeyType.Escape) {
@@ -136,9 +138,13 @@ public class Game {
                 stopGameLoop();
             }
         }
-        if (level.processKey(k))k = null;
-        level.gameLoop(dirtyRegions,score);
+        if (!firstInput){
+            if (level.processKey(k))k = null;
+            level.gameLoop(dirtyRegions,score);
+            firstInput = false;
+        }
         if (level.changeLevel())changeLevel();
+
     }
     public void startGameplay() throws IOException {
         screen.clear();
@@ -147,6 +153,7 @@ public class Game {
         }
     }
     private void changeLevel() throws IOException {
+        firstInput = true;
         level = new Level(level.levelNumber + 1, gameW,gameH,graphics);
     }
     public void drawInicialMap() throws IOException {level.drawInicialMap(graphics);}

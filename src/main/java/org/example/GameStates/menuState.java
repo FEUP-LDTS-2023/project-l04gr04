@@ -27,6 +27,7 @@ public class menuState extends ApplicationState{
             game.screen.clear();
             switch (barOn){
                 case 0:
+                    game.firstInput = true;
                     changeState(new playingState(game));
                     break;
                 case 2:

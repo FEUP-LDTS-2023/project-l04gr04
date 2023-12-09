@@ -289,7 +289,7 @@ public class Mapa {
         bell.drawBell(graphics);
 
     }
-    private boolean canMove(String direction){
+    public boolean canMove(String direction){
         int x = player.getX();
         int y = player.getY();
         switch (direction){

@@ -9,10 +9,10 @@ public class GameState {
     List<GameObserver> observers = new ArrayList<>();
     Timer timer;
     private int timeInFright;
+    private boolean frightH = false;
     public GameState(int k){
         timeInFright = k;
     }
-    private boolean frightH = false;
     public boolean isFrightHour(){return frightH;}
     public void startFrightHour(){
         frightH = true;

@@ -39,12 +39,14 @@ public class Player extends Element implements GameObserver {
     char[][] pacManDie10;
     char[][] pacManDie11;
     char[][] pacManDie12;
+    private int frequency = 15;
 
     public void setFacingDirection(String facingDirection) {
         this.facingDirection = facingDirection;
     }
-
-    private int frequency = 15;
+    public String getMode() {
+        return mode;
+    }
 
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));

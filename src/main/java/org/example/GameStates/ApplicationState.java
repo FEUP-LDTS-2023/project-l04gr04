@@ -6,6 +6,8 @@ import org.example.Game;
 import org.example.Monster.Monster;
 import org.example.Monster.monsterState;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.io.IOException;
 
@@ -18,5 +20,5 @@ public abstract class ApplicationState {
         game.changeState(newState);
     }
     public abstract void draw() throws IOException;
-    public abstract void input(KeyStroke key) throws IOException, InterruptedException;
+    public abstract void input(KeyStroke key) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException;
 }

@@ -4,6 +4,8 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import org.example.Game;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.io.IOException;
 
@@ -20,7 +22,7 @@ public class pauseState extends ApplicationState{
     }
 
     @Override
-    public void input(KeyStroke key) throws IOException {
+    public void input(KeyStroke key) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         if (key == null)return;
         if (key.getKeyType() == KeyType.Enter){
             game.screen.clear();

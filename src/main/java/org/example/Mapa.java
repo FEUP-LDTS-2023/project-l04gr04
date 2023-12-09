@@ -12,7 +12,10 @@ import org.example.Monster.States.inCage;
 import org.example.Monster.States.scatter;
 import org.example.Numbers.Character;
 import org.example.Numbers.Score;
+import org.example.Sounds.soundTrack;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.*;
 
@@ -49,10 +52,15 @@ public class Mapa {
     private int dotsCounter = 246;
     String yellow = "#FFB897";
     private boolean firstInput = true;
+    soundTrack eatingDotsSound = new soundTrack("Sounds/pacman_chomp.wav");
+    soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
+    soundTrack death= new soundTrack("Sounds/pacman_death.wav");
+
+
 
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
-                Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException {
+                Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
         Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
         Double monstersF = baseFrequency + baseFrequency * (1 - gs);
@@ -76,6 +84,8 @@ public class Mapa {
         }
         gameState.addObserver(player);
         drawInicialMap(graphics);
+        soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
+        st.play();
     }
     private void actions(){
         Timer timer = new Timer();
@@ -92,7 +102,7 @@ public class Mapa {
             }
         }, timeInScout * 1000);
     }
-    public void gameLoop(List<Rectangle> dirtyRegions,Score score){
+    public void gameLoop(List<Rectangle> dirtyRegions,Score score) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
         for (Monster m : monsters){
             dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
@@ -133,7 +143,7 @@ public class Mapa {
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
             }}
     }
-    void checkDotCollisions(Score score){
+    void checkDotCollisions(Score score) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Iterator<Dot> iterator = dots.iterator();
         while (iterator.hasNext()) {
             Dot dot = iterator.next();
@@ -142,6 +152,7 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 10 >= dx && py <= dy && py + 14 >= dy) {
+                eatingDotsSound.play();
                 dotsCounter--;
                 if (dot.SpecialDote) {
                     gameState.startFrightHour();
@@ -158,9 +169,17 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if ((px <= mx && px + 14 - 8 >= mx && py <= my && py + 14 - 8 >= my) || (mx <= px && mx + 14 - 8 >= px && my <= py && my + 14 - 8 >= py)) {
-                if (m.ms.modeOn().equals("fright"))m.changeState(new eaten(m));
+                if (m.ms.modeOn().equals("fright")){
+                    eatingGhost.play();
+                    m.changeState(new eaten(m));
+                }else if(m.ms.modeOn().equals("hunt")){
+                    lostOneLife();
+                }
             }
         }
+    }
+    private void lostOneLife(){
+        death.play();
     }
     public boolean readInput(KeyStroke keyStroke) {
         if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&

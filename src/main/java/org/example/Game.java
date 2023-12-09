@@ -16,7 +16,10 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import org.example.GameStates.ApplicationState;
 import org.example.GameStates.menuState;
 import org.example.Numbers.Score;
+import org.example.Sounds.soundTrack;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -40,7 +43,9 @@ public class Game {
     public boolean onPause = false;
     public boolean firstInput = true;
     private ApplicationState applicationState;
-    public Game(int w,int h) throws IOException, FontFormatException {
+    public soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
+    public Game(int w,int h) throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
+        st.play();
         gameW = w;
         gameH = h;
         menu = loadMapFromFile("menu.txt");
@@ -124,11 +129,15 @@ public class Game {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
+                } catch (UnsupportedAudioFileException e) {
+                    throw new RuntimeException(e);
+                } catch (LineUnavailableException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }, 0, 10); // Refresh at each 16 ms ( ~ 60 FPS)
     }
-    public void gameplayInput(KeyStroke keystroke) throws IOException, InterruptedException {
+    public void gameplayInput(KeyStroke keystroke) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         if (keystroke != null){
             firstInput = false;
             k = keystroke;
@@ -146,13 +155,14 @@ public class Game {
         if (level.changeLevel())changeLevel();
 
     }
-    public void startGameplay() throws IOException {
+    public void startGameplay() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        st.stop();
         screen.clear();
         if (!onPause){
             level = new Level(1,gameW,gameH,graphics);
         }
     }
-    private void changeLevel() throws IOException {
+    private void changeLevel() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         firstInput = true;
         level = new Level(level.levelNumber + 1, gameW,gameH,graphics);
     }

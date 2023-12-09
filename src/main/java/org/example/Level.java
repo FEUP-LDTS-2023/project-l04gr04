@@ -4,6 +4,8 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import org.example.Numbers.Score;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -18,7 +20,7 @@ public class Level {
             "Apple","Apple","Grapes","Grapes","Galaxian","Galaxian","Bell","Bell"); // Above is 'Key'
     private List<Integer> bonusPoints = Arrays.asList(1,3,5,5,7,7,10,10,20,20,30,30); // Above is 50
     private Mapa map;
-    public Level(int ln,int width,int height,TextGraphics graphics) throws IOException {
+    public Level(int ln,int width,int height,TextGraphics graphics) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         levelNumber = ln;
         Double pacManSpeed;
         Double ghostSpeed;
@@ -61,7 +63,7 @@ public class Level {
     public boolean processKey(KeyStroke key) throws IOException {
         return map.readInput(key);
     }
-    public void gameLoop(List<Rectangle> dirtyRegion, Score score) throws InterruptedException {
+    public void gameLoop(List<Rectangle> dirtyRegion, Score score) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         map.gameLoop(dirtyRegion,score);
     }
     public boolean changeLevel(){

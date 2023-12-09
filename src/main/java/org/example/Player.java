@@ -18,16 +18,15 @@ public class Player extends Element implements GameObserver {
     public Double playerFrightF;
     public Double atmF;
     public  int playerM = 0;
-    char[][] pacManUp1;
+    public char[][] pacManUp1;
     char[][] pacManUp2;
-
-    char[][] pacManDown1;
+    public char[][] pacManDown1;
     char[][] pacManDown2;
-    char[][] pacManLeft1;
+    public char[][] pacManLeft1;
     char[][] pacManLeft2;
-    char[][] pacManRight1;
-    char[][] pacManClosed;
+    public char[][] pacManRight1;
     char[][] pacManRight2;
+    public char[][] pacManClosed;
     char[][] pacManDie1;
     char[][] pacManDie2;
     char[][] pacManDie3;
@@ -40,6 +39,10 @@ public class Player extends Element implements GameObserver {
     char[][] pacManDie10;
     char[][] pacManDie11;
     char[][] pacManDie12;
+
+    public void setFacingDirection(String facingDirection) {
+        this.facingDirection = facingDirection;
+    }
 
     private int frequency = 15;
 
@@ -276,6 +279,7 @@ public class Player extends Element implements GameObserver {
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
         };
+
         pacManLeft1 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
@@ -291,9 +295,8 @@ public class Player extends Element implements GameObserver {
                 {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
-
-
         };
+
         pacManLeft2 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
@@ -328,6 +331,7 @@ public class Player extends Element implements GameObserver {
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#'},
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
+
         pacManRight2 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
                 {'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#'},

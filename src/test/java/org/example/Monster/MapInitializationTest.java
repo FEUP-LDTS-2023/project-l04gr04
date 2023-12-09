@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class MapElementTest {
+public class MapInitializationTest {
     InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
     Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
     Font customFont = font.deriveFont(Font.PLAIN, 2);
@@ -35,9 +35,9 @@ public class MapElementTest {
     public Screen screen = new TerminalScreen(terminal);
     TextGraphics graphicsMock = screen.newTextGraphics();
 
-    Mapa mapa;
+    private Mapa mapa;
 
-    public MapElementTest() throws IOException, FontFormatException {
+    public MapInitializationTest() throws IOException, FontFormatException {
     }
     @BeforeEach
     public void setMap() throws IOException {

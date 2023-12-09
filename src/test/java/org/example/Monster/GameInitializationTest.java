@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InitializationTest {
+public class GameInitializationTest {
     private Game game;
 
     @BeforeEach

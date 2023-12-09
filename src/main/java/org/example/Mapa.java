@@ -46,10 +46,44 @@ public class Mapa {
     private List<Dot> dots = new ArrayList<>();
     private int dotsCounter = 246;
     String yellow = "#FFB897";
-
     private KeyType lastInputMove ;
+
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public String getGateColor() {
+        return gateColor;
+    }
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+    public String getWallsColor() {
+        return wallsColor;
+    }
+    public String getCoinsColor() {
+        return coinsColor;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+    public List<Monster> getMonsters() {
+        return monsters;
+    }
+    public List<Dot> getDots() {
+        return dots;
+    }
+    public KeyType getLastInputMove() {
+        return lastInputMove;
+    }
+    public int getDotsCounter() {
+        return dotsCounter;
+    }
+
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
-                Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException {
+                Double ps, Double pfs, Double gs, Double gfs, int tInF) throws IOException {
         Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs);
         Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs);
         Double monstersF = baseFrequency + baseFrequency * (1 - gs);
@@ -148,9 +182,10 @@ public class Mapa {
             } else if (lastInputMove == KeyType.ArrowDown) {
                 if(canMove("down"))player.move("down");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
-            }}
+            }
+        }
     }
-    void checkDotCollisions(Score score){
+    public void checkDotCollisions(Score score){
         Iterator<Dot> iterator = dots.iterator();
         while (iterator.hasNext()) {
             Dot dot = iterator.next();

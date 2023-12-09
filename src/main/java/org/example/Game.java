@@ -23,7 +23,7 @@ import java.util.List;
 public class Game {
     public Screen screen;
     public Terminal terminal;
-    private Level level;
+    public Level level;
     private KeyStroke k = null;
     private Score score = new Score();
     List<Rectangle> dirtyRegions = new ArrayList<>();
@@ -31,7 +31,14 @@ public class Game {
     private int gameW;
     private int gameH;
     private TextGraphics graphics;
-    public Game(int w,int h) throws IOException, FontFormatException {
+
+    public int getGameW() {
+        return gameW;
+    }
+    public int getGameH() {
+        return gameH;
+    }
+    public Game(int w, int h) throws IOException, FontFormatException {
         gameW = w;
         gameH = h;
         InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");

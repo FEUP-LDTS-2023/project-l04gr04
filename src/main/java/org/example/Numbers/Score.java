@@ -12,13 +12,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class Score {
-    private int currentScore ;
-    private int lp= 100;
+    private int currentScore;
+    private int lp = 100;
     Numero numero = new Numero(lp+10, 10);
+    private List<Integer> reverseDisplay = new ArrayList<>(Collections.nCopies(1, 0));
     public Score(){
         numero.changeNumber(0);
     }
-    private List<Integer> reverseDisplay = new ArrayList<>(Collections.nCopies(1, 0));
+    public int getCurrentScore() {
+        return currentScore;
+    }
     public boolean updateReverseDisplay(int number) {
         List<Integer> original = reverseDisplay;
         reverseDisplay.clear();

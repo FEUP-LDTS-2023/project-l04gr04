@@ -16,8 +16,8 @@ import java.util.Random;
 
 public class Level {
     public int levelNumber;
-    private List<String> bonusSymbols = Arrays.asList("Cherries","Strawberry","Peach","Peach",
-            "Apple","Apple","Grapes","Grapes","Galaxian","Galaxian","Bell","Bell"); // Above is 'Key'
+    private List<String> bonusSymbols = Arrays.asList("cherry","strawberry","orange","orange",
+            "apple","apple","melon","melon","galaxian","galaxian","bell","bell"); // Above is 'Key'
     private List<Integer> bonusPoints = Arrays.asList(1,3,5,5,7,7,10,10,20,20,30,30); // Above is 50
     private Mapa map;
     public Level(int ln,int width,int height,TextGraphics graphics) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
@@ -51,7 +51,7 @@ public class Level {
         if ((levelNumber >= 2 && levelNumber <= 4) || levelNumber == 21)pacManSpeed = 0.90;
         else pacManSpeed = 1.0;
         if (levelNumber <= 12)map = new Mapa(width,height,graphics,bonusSymbols.get(levelNumber-1),bonusPoints.get(levelNumber-1),pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright);
-        else map = new Mapa(width,height,graphics,"Key",50,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,1);
+        else map = new Mapa(width,height,graphics,"key",50,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,1);
 
     }
     public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score) throws IOException {

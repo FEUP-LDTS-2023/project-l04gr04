@@ -14,6 +14,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import org.example.GameStates.ApplicationState;
+import org.example.GameStates.changingLevel;
 import org.example.GameStates.menuState;
 import org.example.Numbers.Score;
 import org.example.Sounds.soundTrack;
@@ -28,6 +29,10 @@ import java.util.List;
 public class Game {
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
+    private final String gateColor = "#FFB8FF";
+    private final String coinsColor = "#959043";
+    private final String yellow = "#FFB897";
+    private int levelNumber = 100;
     public Screen screen;
     public Terminal terminal;
     private Level level;
@@ -40,6 +45,7 @@ public class Game {
     private TextGraphics graphics;
     private char menu[][];
     private char pausa[][];
+    private char map[][];
     public boolean onPause = false;
     public boolean firstInput = true;
     private ApplicationState applicationState;
@@ -50,6 +56,7 @@ public class Game {
         gameH = h;
         menu = loadMapFromFile("menu.txt");
         pausa = loadMapFromFile("pausa.txt");
+        map = loadMapFromFile("map.txt");
         InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
         Font customFont = font.deriveFont(Font.PLAIN, 2);
@@ -68,6 +75,37 @@ public class Game {
                 graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
             }
         }
+    }
+    public void changingLevelDraw(boolean back) throws IOException {
+        screen.clear();
+        for (int row = 0; row < gameH; row++) {
+            for (int col = 0; col < gameW; col++) {
+                graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                if (map[row][col] == '.') {
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
+                    if(back)graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                    else graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'A') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'R') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'a') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == '0') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }
+            }
+        }
+        screen.refresh();
     }
     public void drawMenu(int barOn) throws IOException {
         for (int row = 0; row < gameH; row++) {
@@ -159,12 +197,13 @@ public class Game {
         st.stop();
         screen.clear();
         if (!onPause){
-            level = new Level(1,gameW,gameH,graphics);
+            level = new Level(levelNumber,gameW,gameH,graphics);
         }
     }
     private void changeLevel() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        levelNumber++;
+        applicationState = new changingLevel(this);
         firstInput = true;
-        level = new Level(level.levelNumber + 1, gameW,gameH,graphics);
     }
     public void drawInicialMap() throws IOException {level.drawInicialMap(graphics);}
     public void stopGameLoop() throws IOException {

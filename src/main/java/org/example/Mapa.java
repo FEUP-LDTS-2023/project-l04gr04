@@ -38,14 +38,7 @@ public class Mapa {
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
     private Player player = new Player(94,180);
-    private Fruit cherry = new Fruit(63,241);
-    private Fruit orange = new Fruit(50,241);
-    private Fruit strawberry = new Fruit(80,241);
-    private Fruit melon = new Fruit(25,241);
-    private Fruit apple = new Fruit(37,241);
-    private Fruit galaxianFlagShip = new Fruit(100,241);
-    private Fruit bell = new Fruit(120,241);
-    private Fruit key = new Fruit(140,241);
+    private Fruit fruta;
     private Character scoreText = new Character(50,10);
     private Character ready = new Character(79,141);
     private List<Dot> dots = new ArrayList<>();
@@ -56,11 +49,10 @@ public class Mapa {
     soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
     soundTrack death= new soundTrack("Sounds/pacman_death.wav");
 
-
-
     private KeyType lastInputMove ;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
                 Double ps, Double pfs, Double gs, Double gfs,int tInF) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        fruta = new Fruit(90,138,bonusSymbol);
         Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
         Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
         Double monstersF = baseFrequency + baseFrequency * (1 - gs);
@@ -111,7 +103,8 @@ public class Mapa {
         monsterMovement();
         checkDotCollisions(score);
         checkMonsterCollisions();
-        if (dotsCounter == 0)level_running = false;
+        if (fruta != null)checkFruitCollision();
+        if (dotsCounter == 0 && fruta == null)level_running = false;
         player.fps++;
     }
     void monsterMovement(){
@@ -151,7 +144,7 @@ public class Mapa {
             int dy = dot.getY();
             int px = player.getX();
             int py = player.getY();
-            if (px <= dx && px + 10 >= dx && py <= dy && py + 14 >= dy) {
+            if (px <= dx && px + 10 >= dx && py <= dy && py + 10 >= dy) {
                 eatingDotsSound.play();
                 dotsCounter--;
                 if (dot.SpecialDote) {
@@ -176,6 +169,15 @@ public class Mapa {
                     lostOneLife();
                 }
             }
+        }
+    }
+    void checkFruitCollision(){
+        int dx = fruta.getX();
+        int dy = fruta.getY();
+        int px = player.getX();
+        int py = player.getY();
+        if (px <= dx && px + 10 >= dx && py <= dy && py + 10 >= dy){
+            fruta = null;
         }
     }
     private void lostOneLife(){
@@ -273,6 +275,7 @@ public class Mapa {
         for (Dot dot : dots){
             dot.draw(graphics);
         }
+        if (!firstInput && fruta != null)fruta.draw(graphics);
         for (Monster m : monsters)m.draw(graphics);
         scoreText.drawscore(graphics);
         if (firstInput)ready.drawready(graphics);
@@ -280,14 +283,6 @@ public class Mapa {
         player.draw(graphics);
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
-        cherry.drawCherry(graphics);
-        strawberry.drawStrawberry(graphics);
-        orange.drawOrange(graphics);
-        apple.drawApple(graphics);
-        melon.drawMelon(graphics);
-        galaxianFlagShip.drawFlagShip(graphics);
-        key.drawKey(graphics);
-        bell.drawBell(graphics);
 
     }
     private boolean canMove(String direction){

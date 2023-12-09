@@ -197,6 +197,7 @@ public class Game {
         st.stop();
         screen.clear();
         if (!onPause){
+            score = new Score();
             level = new Level(levelNumber,gameW,gameH,graphics);
         }
     }

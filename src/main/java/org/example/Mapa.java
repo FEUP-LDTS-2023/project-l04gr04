@@ -45,6 +45,7 @@ public class Mapa {
     private int dotsCounter = 246;
     String yellow = "#FFB897";
     private boolean firstInput = true;
+    private Lifes lifes = new Lifes(5,243);
     soundTrack eatingDotsSound = new soundTrack("Sounds/pacman_chomp.wav");
     soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
     soundTrack death= new soundTrack("Sounds/pacman_death.wav");
@@ -105,6 +106,7 @@ public class Mapa {
         checkMonsterCollisions();
         if (fruta != null)checkFruitCollision();
         if (dotsCounter == 0 && fruta == null)level_running = false;
+        System.out.println(dotsCounter);
         player.fps++;
     }
     void monsterMovement(){
@@ -145,6 +147,7 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 10 >= dx && py <= dy && py + 10 >= dy) {
+                map[dy][dx] = '.';
                 eatingDotsSound.play();
                 dotsCounter--;
                 if (dot.SpecialDote) {
@@ -182,6 +185,7 @@ public class Mapa {
     }
     private void lostOneLife(){
         death.play();
+        lifes.decrementLife();
     }
     public boolean readInput(KeyStroke keyStroke) {
         if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&
@@ -236,6 +240,7 @@ public class Mapa {
                 }
             }
         }
+        lifes.draw(graphics);
     }
     public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score) throws IOException {
         graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));

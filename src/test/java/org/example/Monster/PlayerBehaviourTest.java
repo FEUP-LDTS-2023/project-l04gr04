@@ -8,6 +8,8 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import org.example.*;
+import org.example.Monster.States.eaten;
+import org.example.Monster.States.fright;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -94,6 +96,20 @@ public class PlayerBehaviourTest {
         assertTrue(playerMock.getX() >= 0 && playerMock.getX() < mapa.getWidth());
         playerMock.move("up");
         assertTrue(playerMock.getX() >= 0 && playerMock.getX() < mapa.getWidth());
+    }
+
+    @Test
+    public void testMonsterCollision() {
+        for (Monster monster : mapa.getMonsters()) {
+            monster.changeState(new fright(monster));
+            monster.setPosition(new Position(75, 42));
+        }
+        Player player = mapa.getPlayer();
+        player.setPosition(new Position(75, 42));
+        mapa.checkMonsterCollisions();
+        for (Monster monster : mapa.getMonsters()) {
+            assertEquals(new eaten(monster).modeOn(), monster.ms.modeOn());
+        }
     }
 
     @Test// voltar aqui no final

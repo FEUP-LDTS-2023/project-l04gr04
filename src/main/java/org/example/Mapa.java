@@ -195,7 +195,7 @@ public class Mapa {
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
                 dotsCounter--;
-                if (dot.SpecialDote) {
+                if (dot.isSpecialDote()) {
                     gameState.startFrightHour();
                     score.increment(5);
                 }else score.increment(1);

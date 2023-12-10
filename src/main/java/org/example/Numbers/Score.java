@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Score {
-    private int currentScore;
+    private int currentScore = 0;
     private int lp = 100;
     Numero numero = new Numero(lp+10, 10);
     private List<Integer> reverseDisplay = new ArrayList<>(Collections.nCopies(1, 0));

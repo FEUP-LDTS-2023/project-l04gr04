@@ -112,12 +112,10 @@ public class Game {
             for (int col = 0; col < gameW; col++) {
                 if (Character.getNumericValue(menu[row][col]) == barOn){
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                    screen.setCharacter(row, col, new TextCharacter(' ')); // Basically clearing that area
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#CCCC00"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }else if (menu[row][col] == '0' || menu[row][col] == '1' || menu[row][col] == '2'){
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                    screen.setCharacter(row, col, new TextCharacter(' ')); // Basically clearing that area
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
@@ -130,12 +128,10 @@ public class Game {
             for (int col = 0; col < gameW; col++) {
                 if (Character.getNumericValue(menu[row][col]) == barOn){
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                    screen.setCharacter(row, col, new TextCharacter(' ')); // Basically clearing that area
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#CCCC00"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }else if (menu[row][col] == '0' || menu[row][col] == '1'){
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                    screen.setCharacter(row, col, new TextCharacter(' ')); // Basically clearing that area
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }

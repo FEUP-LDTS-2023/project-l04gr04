@@ -28,7 +28,7 @@ public class pauseState extends ApplicationState{
             game.screen.clear();
             switch (barOn){
                 case 0:
-                    changeState(new playingState(game));
+                    changeState(new playingState(game,false));
                     game.drawInicialMap();
                     break;
                 case 1:

@@ -16,11 +16,12 @@ import java.util.Random;
 
 public class Level {
     public int levelNumber;
+    public String fruta;
     private List<String> bonusSymbols = Arrays.asList("cherry","strawberry","orange","orange",
             "apple","apple","melon","melon","galaxian","galaxian","bell","bell"); // Above is 'Key'
     private List<Integer> bonusPoints = Arrays.asList(1,3,5,5,7,7,10,10,20,20,30,30); // Above is 50
     private Mapa map;
-    public Level(int ln,int width,int height,TextGraphics graphics) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public Level(int ln,int width,int height,TextGraphics graphics,List<Fruit> frutas) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         levelNumber = ln;
         Double pacManSpeed;
         Double ghostSpeed;
@@ -33,8 +34,9 @@ public class Level {
             ghostSpeed = 0.75;
             ghostFrightSpeed = 0.50;
             timeInFright = 6;
-            map = new Mapa(width,height,graphics,bonusSymbols.get(0),bonusPoints.get(0)
-                    ,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright);
+            fruta = bonusSymbols.get(0);
+            map = new Mapa(width,height,graphics,fruta,bonusPoints.get(0)
+                    ,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright,frutas);
             return;
         }
         if ((levelNumber >= 2 && levelNumber <= 4)){
@@ -50,21 +52,27 @@ public class Level {
         }
         if ((levelNumber >= 2 && levelNumber <= 4) || levelNumber == 21)pacManSpeed = 0.90;
         else pacManSpeed = 1.0;
-        if (levelNumber <= 12)map = new Mapa(width,height,graphics,bonusSymbols.get(levelNumber-1),bonusPoints.get(levelNumber-1),pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright);
-        else map = new Mapa(width,height,graphics,"key",50,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,1);
+        if (levelNumber <= 12){
+            fruta = bonusSymbols.get(levelNumber-1);
+            map = new Mapa(width,height,graphics,fruta,bonusPoints.get(levelNumber-1),pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright,frutas);
+        }
+        else{
+            fruta = "key";
+            map = new Mapa(width,height,graphics,"key",50,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,1,frutas);
+        }
 
     }
-    public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score) throws IOException {
-        map.draw(graphics,dirtyRegions,score);
+    public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws IOException {
+        map.draw(graphics,dirtyRegions,score,lifes);
     }
-    public void drawInicialMap(TextGraphics graphics) throws IOException {
-        map.drawInicialMap(graphics);
+    public void drawInicialMap(TextGraphics graphics,List<Fruit> frutas) throws IOException {
+        map.drawInicialMap(graphics,frutas);
     }
     public boolean processKey(KeyStroke key) throws IOException {
         return map.readInput(key);
     }
-    public void gameLoop(List<Rectangle> dirtyRegion, Score score) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
-        map.gameLoop(dirtyRegion,score);
+    public void gameLoop(List<Rectangle> dirtyRegion, Score score, Lifes lifes) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
+        map.gameLoop(dirtyRegion,score,lifes);
     }
     public boolean changeLevel(){
         return !map.level_running;

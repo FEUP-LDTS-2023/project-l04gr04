@@ -30,7 +30,7 @@ public class menuState extends ApplicationState{
             switch (barOn){
                 case 0:
                     game.firstInput = true;
-                    changeState(new playingState(game));
+                    changeState(new playingState(game,true));
                     break;
                 case 2:
                     game.stopGameLoop();

@@ -20,7 +20,8 @@ public class changingLevel extends ApplicationState{
             @Override
             public void run() {
                 try {
-                    changeState(new playingState(game));
+                    changeState(new playingState(game,false));
+                    //game.drawInicialMap();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (UnsupportedAudioFileException e) {

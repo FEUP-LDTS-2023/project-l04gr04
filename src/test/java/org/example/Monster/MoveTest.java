@@ -1,27 +1,9 @@
 package org.example.Monster;
 
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import org.example.Monster.BlueMonster;
-import org.example.Monster.OrangeMonster;
-import org.example.Monster.PinkMonster;
-import org.example.Monster.RedMonster;
-import org.example.Monster.States.fright;
-import org.example.Player;
+import org.example.PacMan.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-
-
-import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
-
 
 
 public class MoveTest {

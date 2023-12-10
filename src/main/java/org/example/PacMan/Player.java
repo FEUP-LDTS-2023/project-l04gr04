@@ -1,7 +1,10 @@
-package org.example;
+package org.example.PacMan;
 
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import org.example.Element;
+import org.example.GameObserver;
+import org.example.Monster.monsterState;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -10,7 +13,7 @@ import java.util.List;
 public class Player extends Element implements GameObserver {
 
     public String facingDirection;
-    private String mode = "hunt";
+    public pacManState ps = new normalState(this);
     public int mouthOpen = 0;
     private String playerColor = "#B5D221";
     public int fps = 0;
@@ -40,10 +43,67 @@ public class Player extends Element implements GameObserver {
     char[][] pacManDie10;
     char[][] pacManDie11;
     char[][] pacManDie12;
-
+    private int CountOfEatenInARow = 0;
     private int frequency = 15;
+    private int dieF = 15;
+    public void draw(TextGraphics  graphics){
+        ps.draw(graphics);
+    }
+    public void drawDead(TextGraphics graphics){
+        if (mouthOpen<=dieF){
+            drawTheStyle(pacManDie1,graphics,playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*2){
+            drawTheStyle(pacManDie2,graphics,playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*3 ) {
+            drawTheStyle(pacManDie3, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*4 ) {
+            drawTheStyle(pacManDie4, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*5) {
+            drawTheStyle(pacManDie5, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*6 ) {
+            drawTheStyle(pacManDie6, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*7 ) {
+            drawTheStyle(pacManDie7, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*8 ) {
+            drawTheStyle(pacManDie8, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*9 ) {
+            drawTheStyle(pacManDie9, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*10 ) {
+            drawTheStyle(pacManDie10, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*11 ) {
+            drawTheStyle(pacManDie11, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*12 ) {
+            drawTheStyle(pacManDie12, graphics, playerColor);
+            mouthOpen++;
+        } else{
+            drawTheStyle(pacManDie11, graphics, playerColor);
+        }
+    }
 
-    public void draw(TextGraphics graphics){
+
+    public void drawNormal(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
         if (position.getX() > 198) return;
         switch (facingDirection){
@@ -151,59 +211,6 @@ public class Player extends Element implements GameObserver {
                     break;
                 }
         }
-        /*if (mouthOpen<=frequency){
-            drawTheStyle(pacManDie1,graphics,playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*3){
-            drawTheStyle(pacManDie2,graphics,playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*6 ) {
-            drawTheStyle(pacManDie3, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*9 ) {
-            drawTheStyle(pacManDie4, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*12 ) {
-            drawTheStyle(pacManDie5, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*15 ) {
-            drawTheStyle(pacManDie6, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*18 ) {
-            drawTheStyle(pacManDie7, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*21 ) {
-            drawTheStyle(pacManDie8, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*24 ) {
-            drawTheStyle(pacManDie9, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*27 ) {
-            drawTheStyle(pacManDie10, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*30 ) {
-            drawTheStyle(pacManDie11, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=frequency*36 ) {
-            drawTheStyle(pacManDie12, graphics, playerColor);
-            mouthOpen++;
-        }
-        else{mouthOpen = 0;}*/
-
-
-
-
     }
     public Player(int x, int y){
         super(x,y);
@@ -558,7 +565,10 @@ public class Player extends Element implements GameObserver {
 
         };
     }
-    public void move(String direction){
+    public void changeState(pacManState newState) {
+        ps = newState;
+    }
+    public void moveNormal(String direction){
         facingDirection = direction;
         switch (direction){
             case "up":
@@ -575,10 +585,20 @@ public class Player extends Element implements GameObserver {
                 break;
         }
     }
+    public void move(String direction){
+        ps.move(direction);
+    }
+    public void incrementCount(){CountOfEatenInARow++;}
+
+    public boolean allMonsterseaten(){
+        if (CountOfEatenInARow == 4){
+            CountOfEatenInARow = 0;
+            return true;
+        }return false;
+    }
 
     @Override
     public void FrightHourStarted() {
-        mode = "fright";
         atmF = playerFrightF;
         playerM = 0;
         fps = 0;
@@ -586,7 +606,7 @@ public class Player extends Element implements GameObserver {
 
     @Override
     public void FrightHourEnded() {
-        mode = "hunt";
+        CountOfEatenInARow = 0;
         atmF = playerF;
         playerM = 0;
         fps = 0;

@@ -13,9 +13,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import org.example.GameStates.ApplicationState;
-import org.example.GameStates.changingLevel;
-import org.example.GameStates.menuState;
+import org.example.GameStates.*;
 import org.example.Numbers.Score;
 import org.example.Sounds.soundTrack;
 
@@ -32,7 +30,7 @@ public class Game {
     private final String gateColor = "#FFB8FF";
     private final String coinsColor = "#959043";
     private final String yellow = "#FFB897";
-    private int levelNumber = 100;
+    private int levelNumber = 1;
     public Screen screen;
     public Terminal terminal;
     private Level level;
@@ -49,6 +47,8 @@ public class Game {
     public boolean onPause = false;
     public boolean firstInput = true;
     private ApplicationState applicationState;
+    private List<Fruit> frutas = new ArrayList<>();
+    private Lifes lifes = new Lifes(5,243);
     public soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
     public Game(int w,int h) throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
         st.play();
@@ -151,7 +151,7 @@ public class Game {
                 }
             }
         }
-        level.draw(graphics, dirtyRegions,score); // Drawing in that area
+        level.draw(graphics, dirtyRegions,score,lifes); // Drawing in that area
         dirtyRegions.clear();
         screen.refresh();
     }
@@ -187,26 +187,33 @@ public class Game {
         }
         if (!firstInput){
             if (level.processKey(k))k = null;
-            level.gameLoop(dirtyRegions,score);
+            level.gameLoop(dirtyRegions,score,lifes);
             firstInput = false;
         }
         if (level.changeLevel())changeLevel();
 
     }
-    public void startGameplay() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public void startNewGameplay() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        st.stop();
+        screen.clear();
+        score = new Score();
+        level = new Level(levelNumber,gameW,gameH,graphics,frutas);
+    }
+    public void changeLevelGameplay() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         st.stop();
         screen.clear();
         if (!onPause){
-            score = new Score();
-            level = new Level(levelNumber,gameW,gameH,graphics);
+            frutas.add(new Fruit(160,243, level.fruta));
+            level = new Level(levelNumber,gameW,gameH,graphics,frutas);
         }
+        onPause = false;
     }
     private void changeLevel() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         levelNumber++;
         applicationState = new changingLevel(this);
         firstInput = true;
     }
-    public void drawInicialMap() throws IOException {level.drawInicialMap(graphics);}
+    public void drawInicialMap() throws IOException {level.drawInicialMap(graphics,frutas);}
     public void stopGameLoop() throws IOException {
         gameLoopTimer.cancel();
         gameLoopTimer.purge();

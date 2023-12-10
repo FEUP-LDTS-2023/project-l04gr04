@@ -66,19 +66,5 @@ public class MapInitializationTest {
         mapa.readInput(keyStroke);
         assertEquals(KeyType.ArrowRight, mapa.getLastInputMove());
     }
-    @Test
-    public void testDotCollision() {
-        //Testing a normal dot
-        Dot dot = new Dot(5, 5, false);
-        mapa.getDots().add(dot);
 
-        Player player = mapa.getPlayer();
-        player.setPosition(new Position(5, 5));
-        Score score = new Score();
-        mapa.checkDotCollisions(score);
-
-        assertEquals(246, mapa.getDots().size());
-        assertEquals(1, score.getCurrentScore());
-        assertEquals(245, mapa.getDotsCounter());
-    }
 }

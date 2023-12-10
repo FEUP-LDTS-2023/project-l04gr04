@@ -20,7 +20,7 @@ public abstract class Monster extends Element implements GenericMonster {
     public Double atmF;
     public Double monsterFrightF;
     public int mouthOpenM = 0;
-    char[][] monsterLeft1;
+    public char[][] monsterLeft1;
     char[][] monsterLeft2;
     char[][] monsterRight1;
     char[][] monsterRight2;
@@ -33,6 +33,11 @@ public abstract class Monster extends Element implements GenericMonster {
     private int frequency = 27;
     protected Position cagePosition = new Position(100,115);
     private boolean rotate180 = false;
+
+    public void setMovingDirection(String movingDirection) {
+        this.movingDirection = movingDirection;
+    }
+
     @Override
     public void FrightHourStarted(){
         ms.FrightHourStarted();

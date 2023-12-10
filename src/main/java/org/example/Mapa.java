@@ -203,7 +203,7 @@ public class Mapa {
             }
         }
     }
-    void checkMonsterCollisions(){
+    public void checkMonsterCollisions(){
         for (Monster m : monsters){
             int mx = m.getX();
             int my = m.getY();

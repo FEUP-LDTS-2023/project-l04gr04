@@ -3,17 +3,14 @@ package org.example.Monster;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.example.Element;
-import org.example.Monster.States.eaten;
-import org.example.Monster.States.fright;
-import org.example.Monster.States.hunt;
-import org.example.Monster.States.scatter;
+import org.example.Monster.States.*;
 import org.example.Position;
 
 import java.util.Objects;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster {
-    public monsterState ms = new scatter(this);
+    public monsterState ms = new inCage(this);
     protected String movingDirection;
     public int monsterM = 0;
     public Double monsterF;
@@ -31,7 +28,7 @@ public abstract class Monster extends Element implements GenericMonster {
     char[][] monsterRun1;
     char[][] monsterRun2;
     private int frequency = 27;
-    protected Position cagePosition = new Position(100,115);
+    protected Position cagePosition = new Position(93,115);
     private boolean rotate180 = false;
     @Override
     public void FrightHourStarted(){
@@ -459,7 +456,7 @@ public abstract class Monster extends Element implements GenericMonster {
                 break;
             }
             if (y-1 >= 0 && y-1 <= 393 && x+i >= 0 && x+i <= 450){
-                if(map[y-1][x+i] == 'P'||map[y-1][x+i] == 'c')t = false;
+                if(map[y-1][x+i] == 'P'||map[y-1][x+i] == 'c'||(map[y-1][x+i] == 'R' && !ms.modeOn().equals("eaten") && !ms.modeOn().equals("inCage")))t = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -468,7 +465,7 @@ public abstract class Monster extends Element implements GenericMonster {
                 break;
             }
             if (y+14 >= 0 && y+14 <= 393 && x+i >= 0 && x+i <= 450){
-                if (map[y+14][x+i] == 'P'||map[y+14][x+i] == 'c')b = false;
+                if (map[y+14][x+i] == 'P'||map[y+14][x+i] == 'c'||(map[y+14][x+i] == 'R' && !ms.modeOn().equals("eaten") && !ms.modeOn().equals("inCage")))b = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -477,7 +474,7 @@ public abstract class Monster extends Element implements GenericMonster {
                 break;
             }
             if (y+i >= 0 && y+i <= 393 && x-1 >= 0 && x-1 <= 450){
-                if (map[y+i][x-1] == 'P'||map[y+i][x-1] == 'c')e = false;
+                if (map[y+i][x-1] == 'P'||map[y+i][x-1] == 'c'||(map[y+i][x-1] == 'R' && !ms.modeOn().equals("eaten") && !ms.modeOn().equals("inCage")))e = false;
             }
         }
         for (int i = 0 ; i < 14 ; i++){
@@ -486,7 +483,7 @@ public abstract class Monster extends Element implements GenericMonster {
                 break;
             }
             if (y+i >= 0 && y+i <= 393 && x+14 >= 0 && x+14 <= 450){
-                if (map[y+i][x+14] == 'P'||map[y+i][x+14] == 'c')d = false;
+                if (map[y+i][x+14] == 'P'||map[y+i][x+14] == 'c'||(map[y+i][x+14] == 'R' && !ms.modeOn().equals("eaten") && !ms.modeOn().equals("inCage")))d = false;
             }
         }
         ms.move(p,map,t,b,d,e);

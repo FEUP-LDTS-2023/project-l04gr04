@@ -13,10 +13,12 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import org.example.GameStates.ApplicationState;
-import org.example.GameStates.menuState;
+import org.example.GameStates.*;
 import org.example.Numbers.Score;
+import org.example.Sounds.soundTrack;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -25,6 +27,10 @@ import java.util.List;
 public class Game {
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
+    private final String gateColor = "#FFB8FF";
+    private final String coinsColor = "#959043";
+    private final String yellow = "#FFB897";
+    private int levelNumber = 1;
     public Screen screen;
     public Terminal terminal;
     private Level level;
@@ -37,13 +43,20 @@ public class Game {
     private TextGraphics graphics;
     private char menu[][];
     private char pausa[][];
+    private char map[][];
     public boolean onPause = false;
+    public boolean firstInput = true;
     private ApplicationState applicationState;
-    public Game(int w,int h) throws IOException, FontFormatException {
+    private List<Fruit> frutas = new ArrayList<>();
+    private Lifes lifes = new Lifes(5,243);
+    public soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
+    public Game(int w,int h) throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
+        st.play();
         gameW = w;
         gameH = h;
         menu = loadMapFromFile("menu.txt");
         pausa = loadMapFromFile("pausa.txt");
+        map = loadMapFromFile("map.txt");
         InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
         Font customFont = font.deriveFont(Font.PLAIN, 2);
@@ -62,6 +75,37 @@ public class Game {
                 graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
             }
         }
+    }
+    public void changingLevelDraw(boolean back) throws IOException {
+        screen.clear();
+        for (int row = 0; row < gameH; row++) {
+            for (int col = 0; col < gameW; col++) {
+                graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                if (map[row][col] == '.') {
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
+                    if(back)graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                    else graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'A') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'R') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'a') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == '0') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }
+            }
+        }
+        screen.refresh();
     }
     public void drawMenu(int barOn) throws IOException {
         for (int row = 0; row < gameH; row++) {
@@ -107,7 +151,7 @@ public class Game {
                 }
             }
         }
-        level.draw(graphics, dirtyRegions,score); // Drawing in that area
+        level.draw(graphics, dirtyRegions,score,lifes); // Drawing in that area
         dirtyRegions.clear();
         screen.refresh();
     }
@@ -123,12 +167,17 @@ public class Game {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
+                } catch (UnsupportedAudioFileException e) {
+                    throw new RuntimeException(e);
+                } catch (LineUnavailableException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }, 0, 10); // Refresh at each 16 ms ( ~ 60 FPS)
     }
-    public void gameplayInput(KeyStroke keystroke) throws IOException, InterruptedException {
+    public void gameplayInput(KeyStroke keystroke) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         if (keystroke != null){
+            firstInput = false;
             k = keystroke;
             KeyType keyType = keystroke.getKeyType();
             if (keyType == KeyType.Escape) {
@@ -136,20 +185,35 @@ public class Game {
                 stopGameLoop();
             }
         }
-        if (level.processKey(k))k = null;
-        level.gameLoop(dirtyRegions,score);
+        if (!firstInput){
+            if (level.processKey(k))k = null;
+            level.gameLoop(dirtyRegions,score,lifes);
+            firstInput = false;
+        }
         if (level.changeLevel())changeLevel();
+
     }
-    public void startGameplay() throws IOException {
+    public void startNewGameplay() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        st.stop();
+        screen.clear();
+        score = new Score();
+        level = new Level(levelNumber,gameW,gameH,graphics,frutas);
+    }
+    public void changeLevelGameplay() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        st.stop();
         screen.clear();
         if (!onPause){
-            level = new Level(1,gameW,gameH,graphics);
+            frutas.add(new Fruit(160,243, level.fruta));
+            level = new Level(levelNumber,gameW,gameH,graphics,frutas);
         }
+        onPause = false;
     }
-    private void changeLevel() throws IOException {
-        level = new Level(level.levelNumber + 1, gameW,gameH,graphics);
+    private void changeLevel() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        levelNumber++;
+        applicationState = new changingLevel(this);
+        firstInput = true;
     }
-    public void drawInicialMap() throws IOException {level.drawInicialMap(graphics);}
+    public void drawInicialMap() throws IOException {level.drawInicialMap(graphics,frutas);}
     public void stopGameLoop() throws IOException {
         gameLoopTimer.cancel();
         gameLoopTimer.purge();

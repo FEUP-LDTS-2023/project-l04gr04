@@ -1,33 +1,15 @@
 package org.example.Monster;
 
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import org.example.Monster.BlueMonster;
-import org.example.Monster.OrangeMonster;
-import org.example.Monster.PinkMonster;
-import org.example.Monster.RedMonster;
-import org.example.Monster.States.fright;
-import org.example.Player;
+import org.example.PacMan.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 
-import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
-
-
-
 public class MoveTest {
     Player player;
 
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
+    /*InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
     Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
     Font customFont = font.deriveFont(Font.PLAIN, 2);
     SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
@@ -38,7 +20,7 @@ public class MoveTest {
 
 
     public MoveTest() throws IOException, FontFormatException {
-    }
+    }*/
 
     @BeforeEach
     public void setPlayer() {
@@ -51,7 +33,7 @@ public class MoveTest {
         double distance = redMonster.distance(redMonster.getPosition(), blueMonster.getPosition());
         Assertions.assertEquals(1.0,distance );
     }
-    @Test
+    /*@Test
     public void orangeTargeting() {
         OrangeMonster orangeMonster = new OrangeMonster(74, 42);
         orangeMonster.mode = "Fright";

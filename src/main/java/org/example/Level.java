@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Level {
+    public int flag = 0;
     public int levelNumber;
     public String fruta;
     private List<String> bonusSymbols = Arrays.asList("cherry","strawberry","orange","orange",
@@ -74,8 +75,8 @@ public class Level {
     public void gameLoop(List<Rectangle> dirtyRegion, Score score, Lifes lifes) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         map.gameLoop(dirtyRegion,score,lifes);
     }
-    public boolean changeLevel(){
-        return !map.level_running;
+    public int changeLevel(){
+        return map.level_running;
     }
 
 }

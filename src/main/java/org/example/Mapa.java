@@ -27,7 +27,7 @@ import java.util.List;
 public class Mapa {
     private int width;
     private int height;
-    public boolean level_running = true;
+    public int level_running = 0;
     private final String gateColor = "#FFB8FF";
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
@@ -46,7 +46,7 @@ public class Mapa {
     String yellow = "#FFB897";
     private boolean firstInput = true;
 
-    soundTrack eatingDotsSound = new soundTrack("Sounds/pacman_chomp.wav");
+    soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
     soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
     soundTrack death= new soundTrack("Sounds/pacman_death.wav");
 
@@ -79,6 +79,7 @@ public class Mapa {
         drawInicialMap(graphics,frutas);
         soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
         st.play();
+
     }
     private void actions(){
         Timer timer = new Timer();
@@ -105,7 +106,7 @@ public class Mapa {
         checkDotCollisions(score);
         checkMonsterCollisions(lifes);
         if (fruta != null)checkFruitCollision();
-        if (dotsCounter == 0 && fruta == null)level_running = false;
+        if (dotsCounter == 0 && fruta == null)level_running = 1;
         if (player.allMonsterseaten())lifes.incrementLife();
         player.fps++;
     }
@@ -150,8 +151,8 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
-                map[dy][dx] = '.';
                 eatingDotsSound.play();
+                map[dy][dx] = '.';
                 dotsCounter--;
                 if (dot.SpecialDote) {
                     gameState.startFrightHour();
@@ -187,6 +188,10 @@ public class Mapa {
         }
     }
     private void lostOneLife(Lifes lifes){
+        lifes.decrementLife();
+        if(lifes.isempty()){
+            level_running = 2;
+        }
         for (Monster m : monsters){
             m.changeState(new onCollision(m));
         }
@@ -194,7 +199,6 @@ public class Mapa {
         player.ps.changeState(new eatingPacMan(player));
         firstInput = true;
         lastInputMove = null;
-        lifes.decrementLife();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override

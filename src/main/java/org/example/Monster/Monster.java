@@ -38,6 +38,7 @@ public abstract class Monster extends Element implements GenericMonster {
     }
     @Override
     public void FrightHourEnded(){
+
         ms.FrightHourEnded();
         monsterM = 0;
         atmF = monsterF;

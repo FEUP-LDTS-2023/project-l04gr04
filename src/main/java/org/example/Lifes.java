@@ -28,6 +28,9 @@ public class Lifes extends Element {
     }
     public void incrementLife(){number++;}
     public void decrementLife(){number--;}
+    public boolean isempty(){
+        return number == 0;
+    }
     public void draw(TextGraphics graphics){
         int initialX = position.getX();
         for (int i = 0 ; i < number ; i++){

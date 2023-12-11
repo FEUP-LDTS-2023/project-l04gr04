@@ -51,7 +51,7 @@ public class Game {
     private Lifes lifes = new Lifes(5,243);
     public soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
     public Game(int w,int h) throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
-        st.play();
+        //st.play();
         gameW = w;
         gameH = h;
         menu = loadMapFromFile("menu.txt");
@@ -110,7 +110,12 @@ public class Game {
     public void drawMenu(int barOn) throws IOException {
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
-                if (Character.getNumericValue(menu[row][col]) == barOn){
+                if(menu[row][col] == '5'){
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString("#d3d3d3"));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }
+                else if (Character.getNumericValue(menu[row][col]) == barOn){
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#CCCC00"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
@@ -126,11 +131,16 @@ public class Game {
     public void drawPause(int barOn) throws IOException {
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
-                if (Character.getNumericValue(menu[row][col]) == barOn){
+                if(pausa[row][col] == '5'){
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString("#d3d3d3"));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }
+                else if (Character.getNumericValue(pausa[row][col]) == barOn){
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#CCCC00"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                }else if (menu[row][col] == '0' || menu[row][col] == '1'){
+                }else if (pausa[row][col] == '0' || pausa[row][col] == '1'){
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
@@ -186,7 +196,14 @@ public class Game {
             level.gameLoop(dirtyRegions,score,lifes);
             firstInput = false;
         }
-        if (level.changeLevel())changeLevel();
+        switch (level.changeLevel()){
+            case 2: screen.clear();
+                    lifes = new Lifes(5,243);
+                    applicationState.changeState(new menuState(this));
+                    break;
+            case 1: changeLevel();
+                    break;
+        }
 
     }
     public void startNewGameplay() throws IOException, UnsupportedAudioFileException, LineUnavailableException {

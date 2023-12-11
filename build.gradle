@@ -1,29 +1,33 @@
-plugins {
-    id 'java'
-    id 'application'
-    id 'info.solidsoft.pitest' version '1.6.0'
-}
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
+    plugins {
+        id 'java'
+        id 'application'
+        id 'info.solidsoft.pitest' version '1.7.0'
+    }
 
-repositories {
-    mavenCentral()
-}
+    group  'org.example'
+    version  '1.0-SNAPSHOT'
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation group: 'com.googlecode.lanterna', name: 'lanterna', version: '3.1.1'
-}
+    sourceCompatibility = 1.8
 
-test {
-    useJUnitPlatform()
-}
-pitest {
-    junit5PluginVersion = '0.12'
-    verbose = true;
-}
-application {
-    mainClass.set("org.example.Application")
-}
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation platform('org.junit:junit-bom:5.7.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+        implementation group: 'com.googlecode.lanterna', name: 'lanterna', version: '3.1.1'
+        testImplementation 'org.mockito:mockito-core:3.7.7'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+    pitest {
+        junit5PluginVersion = '0.12'
+        verbose = true;
+    }
+    application {
+        mainClass.set("org.example.Application")
+    }

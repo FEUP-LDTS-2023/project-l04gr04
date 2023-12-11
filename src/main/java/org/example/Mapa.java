@@ -5,92 +5,129 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import org.example.Numbers.Numero;
+import org.example.Monster.*;
+import org.example.Monster.States.*;
+import org.example.Numbers.Character;
+import org.example.Numbers.Score;
+import org.example.PacMan.Player;
+import org.example.PacMan.eatingPacMan;
+import org.example.PacMan.normalState;
+import org.example.Sounds.soundTrack;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.*;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 public class Mapa {
     private int width;
     private int height;
+    public int level_running = 0;
     private final String gateColor = "#FFB8FF";
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
     private final String coinsColor = "#959043";
-    private int monstersF = 5;
-    private int playerF = 5;
-    private int fpsCount = 0;
-    private final int timeInScout = 10000;
-    private GameState gameState = new GameState();
-    private long startTime;
+    private Double baseFrequency = 1.5; // Base velocity
+    private final int timeInScout = 10;
+    private GameState gameState ;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
-    private Player player = new Player(33,26);
-    private Fruit cherry = new Fruit(7,142);
+    private Player player = new Player(94,180);
+    private Fruit fruta;
+    private Character scoreText = new Character(50,10);
+    private Character ready = new Character(79,141);
     private List<Dot> dots = new ArrayList<>();
+    private int dotsCounter = 246;
     String yellow = "#FFB897";
+    private boolean firstInput = true;
+
+    soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
+    soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
+    soundTrack death= new soundTrack("Sounds/pacman_death.wav");
 
     private KeyType lastInputMove ;
-    public Mapa(int w , int h, TextGraphics graphics) throws IOException {
+    public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
+                Double ps, Double pfs, Double gs, Double gfs,int tInF,List<Fruit> frutas) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        fruta = new Fruit(90,138,bonusSymbol);
+        Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
+        Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
+        Double monstersF = baseFrequency + baseFrequency * (1 - gs);
+        Double playerF = baseFrequency + baseFrequency * (1 - ps);
+        player.atmF = playerF;
+        player.playerF = playerF;
+        player.playerFrightF = playerFrightF;
         width = w;
         height = h;
+        gameState = new GameState(tInF);
         map = loadMapFromFile("map.txt");
-        startTime = System.currentTimeMillis();
-        monsters.add(new RedMonster(130,23));
-        monsters.add(new OrangeMonster(134,126));
-        monsters.add( new BlueMonster(134,126));
-        monsters.add(new PinkMonster(134,126));
+        monsters.add(new RedMonster(90,115));
+        monsters.add(new OrangeMonster(82,115));
+        monsters.add( new BlueMonster(98,115));
+        monsters.add(new PinkMonster(106,115));
         for (Monster m : monsters){
+            m.monsterF = monstersF;
+            m.atmF = monstersF;
+            m.monsterFrightF = monstersFrightF;
             gameState.addObserver(m);
         }
         gameState.addObserver(player);
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                if (map[row][col] == '.') {
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'R') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == '0') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                }else if (map[row][col] == 'd'){
-                    dots.add(new Dot(col,row,false));
-                }else if (map[row][col] == 'D'){
-                    dots.add(new Dot(col,row,true));
-                } else {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                }
-            }
-        }
-        Numero number = new Numero(15,10);
-        number.changeNumber(1);
-        number.draw(graphics);
+        drawInicialMap(graphics,frutas);
+        soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
+        st.play();
+
     }
-    public void gameLoop(List<Rectangle> dirtyRegions){
+    private void actions(){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for(Monster m : monsters)m.changeState(new scatter(m));
+            }
+        }, 1000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                gameState.endFrightHour();
+            }
+        }, timeInScout * 1000);
+    }
+    public void gameLoop(List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
         for (Monster m : monsters){
             dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
         }
-        if (fpsCount % monstersF == 0){ // Monsters movement
-            Position rp = monsters.get(0).getPosition(); // Red monster position
-            for (Monster m : monsters){
+        playerMovement();
+        monsterMovement();
+        checkDotCollisions(score);
+        checkMonsterCollisions(lifes);
+        if (fruta != null)checkFruitCollision();
+        if (dotsCounter == 0 && fruta == null)level_running = 1;
+        if (player.allMonsterseaten())lifes.incrementLife();
+        player.fps++;
+    }
+    void monsterMovement(){
+        for (Monster m : monsters){
+            if ((player.fps > m.atmF * m.monsterM ) || m.ms.modeOn().equals("eaten")){ // Control the frequency of movement
+                m.monsterM++;
+                Position rp = monsters.get(0).getPosition(); // Red monster position
                 Position mt = m.target(player.position, player.facingDirection, rp);
                 m.move(mt,map);
-                if (mt.equals(m.getPosition())) m.mode = "hunt";
+                if (mt.equals(m.getPosition()) && m.ms.modeOn().equals("eaten")){
+                    m.changeState(new inCage(m)); // If he is eaten and gets to the cage, he comes back to hunt state
+                    player.incrementCount();
+                }
+                else if (mt.equals(m.getPosition()) && m.ms.modeOn().equals("inCage")) m.changeState(new hunt(m));
             }
-        }if (fpsCount % playerF == 0){ // Player movement
+        }
+    }
+    void playerMovement(){
+        if ((player.fps > player.atmF * player.playerM )){ // Control the frequency of movement
+            player.playerM++;
             if (lastInputMove == KeyType.ArrowRight){
                 if(canMove("right"))player.move("right");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
@@ -103,15 +140,9 @@ public class Mapa {
             } else if (lastInputMove == KeyType.ArrowDown) {
                 if(canMove("down"))player.move("down");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
-            }
-            System.out.println(player.position.getX());
-            System.out.println(player.position.getY());
-        }
-        checkDotCollisions();
-        checkMonsterColisions();
-        if (dots.isEmpty())System.exit(0);
+            }}
     }
-    void checkDotCollisions(){
+    void checkDotCollisions(Score score) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Iterator<Dot> iterator = dots.iterator();
         while (iterator.hasNext()) {
             Dot dot = iterator.next();
@@ -120,21 +151,81 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 14 >= dx && py <= dy && py + 14 >= dy) {
-                if (dot.SpecialDote)gameState.startHuntHour();
+                eatingDotsSound.play();
+                map[dy][dx] = '.';
+                dotsCounter--;
+                if (dot.SpecialDote) {
+                    gameState.startFrightHour();
+                    score.increment(5);
+                }else score.increment(1);
                 iterator.remove();
             }
         }
     }
-    void checkMonsterColisions(){
+    void checkMonsterCollisions(Lifes lifes){
         for (Monster m : monsters){
             int mx = m.getX();
             int my = m.getY();
             int px = player.getX();
             int py = player.getY();
-            if ((px <= mx && px + 14 >= mx && py <= my && py + 14 >= my) || (mx <= px && mx + 14 >= px && my <= py && my + 14 >= py)) {
-                if (m.mode == "fright") m.mode = "dark";
+            if ((px <= mx && px + 14 - 8 >= mx && py <= my && py + 14 - 8 >= my) || (mx <= px && mx + 14 - 8 >= px && my <= py && my + 14 - 8 >= py)) {
+                if (m.ms.modeOn().equals("fright")){
+                    eatingGhost.play();
+                    m.changeState(new eaten(m));
+                }else if(m.ms.modeOn().equals("hunt") || m.ms.modeOn().equals("scatter")){
+                    lostOneLife(lifes);
+                }
             }
         }
+    }
+    void checkFruitCollision(){
+        int dx = fruta.getX();
+        int dy = fruta.getY();
+        int px = player.getX();
+        int py = player.getY();
+        if (px <= dx && px + 10 >= dx && py <= dy && py + 10 >= dy){
+            fruta = null;
+        }
+    }
+    private void lostOneLife(Lifes lifes){
+        lifes.decrementLife();
+        if(lifes.isempty()){
+            level_running = 2;
+        }
+        for (Monster m : monsters){
+            m.changeState(new onCollision(m));
+        }
+        death.play();
+        player.ps.changeState(new eatingPacMan(player));
+        firstInput = true;
+        lastInputMove = null;
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    rePosition();
+                } catch (UnsupportedAudioFileException e) {
+                    throw new RuntimeException(e);
+                } catch (LineUnavailableException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, 2000);
+
+    }
+    private void rePosition() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        int ix = 82;
+        for (Monster m : monsters){
+            m.changeState(new inCage(m));
+            m.position = new Position(ix,115);
+            ix += 8;
+        }
+        player.position = new Position(94,180);
+        soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
+        st.play();
     }
     public boolean readInput(KeyStroke keyStroke) {
         if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&
@@ -143,6 +234,8 @@ public class Mapa {
                 ||(player.getPosition().getX() < 0 || player.getPosition().getX() > 181))){
             return false;
         }else{
+            if (firstInput)actions();
+            firstInput = false;
             lastInputMove = keyStroke.getKeyType();
         }
         if (lastInputMove == KeyType.ArrowRight){
@@ -156,41 +249,101 @@ public class Mapa {
         }
         return false;
     }
-    public void draw(TextGraphics graphics, Rectangle dirtyRegion) throws IOException {
-        graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
-        int startX = Math.max(dirtyRegion.x, 0);
-        int startY = Math.max(dirtyRegion.y, 0);
-        int endX = Math.min(dirtyRegion.x + dirtyRegion.width, width);
-        int endY = Math.min(dirtyRegion.y + dirtyRegion.height, height);
-        for (int row = startY; row < endY; row++) {
-            for (int col = startX; col < endX; col++) {
+    public void drawInicialMap(TextGraphics graphics,List<Fruit> frutas){
+        dots.clear();
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                 if (map[row][col] == '.') {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'P' || map[row][col] == 'p') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'A') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'R') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                } else if (map[row][col] == 'a') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (map[row][col] == 'd'){
+                    dots.add(new Dot(col,row,false));
+                }else if (map[row][col] == 'D'){
+                    dots.add(new Dot(col,row,true));
                 } else {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
+            ready.drawready(graphics);
         }
+        graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+        int i = 0;
+        for(Fruit f : frutas){
+            int initialX = f.getX();
+            f.position = new Position(f.getX() + i*15 , f.getY());
+            graphics.fillRectangle(new TerminalPosition(f.getX(), f.getY()), new TerminalSize(14, 14), ' ');
+            f.draw(graphics);
+            f.position = new Position(f.getX() - i*15 , f.getY());
+            f.position = new Position(initialX , f.getY());
+            f.draw(graphics);
+            i++;
+        }
+    }
+    public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws IOException {
+        graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+        for (Rectangle dirtyRegion : dirtyRegions){
+            int startX = Math.max(dirtyRegion.x, 0);
+            int startY = Math.max(dirtyRegion.y, 0);
+            int endX = Math.min(dirtyRegion.x + dirtyRegion.width, width);
+            int endY = Math.min(dirtyRegion.y + dirtyRegion.height, height);
+            for (int row = startY; row < endY; row++) {
+                for (int col = startX; col < endX; col++) {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    if (map[row][col] == '.') {
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == 'P' || map[row][col] == 'p') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == 'A') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == 'R') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == '0') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else if (map[row][col] == 'a') {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    } else {
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    }
+                }
+            }
+        }
+
         for (Dot dot : dots){
             dot.draw(graphics);
         }
+        if (!firstInput && fruta != null)fruta.draw(graphics);
         for (Monster m : monsters)m.draw(graphics);
+        scoreText.drawscore(graphics);
+        score.draw(graphics);
         player.draw(graphics);
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        graphics.fillRectangle(new TerminalPosition(5, 243), new TerminalSize(14*5, 14*5), ' ');
+        lifes.draw(graphics);
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
-        cherry.draw(graphics);
-        fpsCount++;
+
     }
     private boolean canMove(String direction){
         int x = player.getX();
@@ -259,4 +412,3 @@ public class Mapa {
         return map;
     }
 }
-

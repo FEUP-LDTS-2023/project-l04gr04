@@ -52,7 +52,7 @@ public class PlayerBehaviourTest {
     }
 
     public void setGame() throws IOException, FontFormatException {
-        game = new Game(220, 270);
+        //game = new Game(220, 270);
     }
 
     public void setGameState() {

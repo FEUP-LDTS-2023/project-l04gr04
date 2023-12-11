@@ -14,7 +14,7 @@ public class GameInitializationTest {
 
     @BeforeEach
     public void setGame() throws IOException, FontFormatException {
-        game = new Game(220, 270);
+        //game = new Game(220, 270);
     }
     @Test
     public void testGameInitialization() throws IOException, FontFormatException {

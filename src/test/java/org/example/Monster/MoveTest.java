@@ -22,20 +22,22 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
 public class MoveTest {
     Player player;
 
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-    TextGraphics graphics = screen.newTextGraphics();
+    //InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
+    //Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+    //Font customFont = font.deriveFont(Font.PLAIN, 2);
+    //SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
+    //DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
+    //Terminal terminal = terminalFactory.createTerminal();
+    //public Screen screen = new TerminalScreen(terminal);
+    //TextGraphics graphics = screen.newTextGraphics();
+    TextGraphics graphics = mock(TextGraphics.class);
 
 
     public MoveTest() throws IOException, FontFormatException {
@@ -47,8 +49,8 @@ public class MoveTest {
     }
     @Test
     public void redTargeting() {
-        RedMonster redMonsterMock = Mockito.mock(RedMonster.class);
-        BlueMonster blueMonsterMock = Mockito.mock(BlueMonster.class);
+        RedMonster redMonsterMock = mock(RedMonster.class);
+        BlueMonster blueMonsterMock = mock(BlueMonster.class);
         redMonsterMock.setPosition(new Position(74, 42));
         blueMonsterMock.setPosition(new Position(75, 42));
         when(redMonsterMock.distance(redMonsterMock.getPosition(), blueMonsterMock.getPosition())).thenReturn(1.0);
@@ -59,7 +61,7 @@ public class MoveTest {
     }
     @Test
     public void orangeTargeting() {
-        OrangeMonster orangeMonsterMock = Mockito.mock(OrangeMonster.class);
+        OrangeMonster orangeMonsterMock = mock(OrangeMonster.class);
         orangeMonsterMock.setPosition(new Position(75, 42));
         orangeMonsterMock.changeState(new fright(orangeMonsterMock));
         double dist = orangeMonsterMock.distance(player.getPosition(), orangeMonsterMock.getPosition());
@@ -71,7 +73,7 @@ public class MoveTest {
     }
     @Test
     public void pinkTargeting() {
-        PinkMonster pinkMonsterMock = Mockito.mock(PinkMonster.class);
+        PinkMonster pinkMonsterMock = mock(PinkMonster.class);
         pinkMonsterMock.setPosition(new Position(75, 42));
         pinkMonsterMock.changeState(new fright(pinkMonsterMock));
         when(pinkMonsterMock.target(player.getPosition(), "up", new Position(0,0))).thenReturn(new Position(player.getX(), player.getY() - 4 * 14));
@@ -81,7 +83,7 @@ public class MoveTest {
     }
     @Test
     public void blueTargeting() {
-        BlueMonster blueMonsterMock = Mockito.mock(BlueMonster.class);
+        BlueMonster blueMonsterMock = mock(BlueMonster.class);
         blueMonsterMock.setPosition(new Position(75, 42));
         blueMonsterMock.changeState(new fright(blueMonsterMock));
         String direction = player.facingDirection;

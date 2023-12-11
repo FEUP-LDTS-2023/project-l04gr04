@@ -24,13 +24,13 @@ public class Game {
     public Screen screen;
     public Terminal terminal;
     public Level level;
+    private TextGraphics graphics;
     private KeyStroke k = null;
     private Score score = new Score();
     List<Rectangle> dirtyRegions = new ArrayList<>();
     private Timer gameLoopTimer;
     private int gameW;
     private int gameH;
-    private TextGraphics graphics;
 
     public int getGameW() {
         return gameW;
@@ -38,21 +38,26 @@ public class Game {
     public int getGameH() {
         return gameH;
     }
-    public Game(int w, int h) throws IOException, FontFormatException {
+    public Game(int w, int h, Terminal terminal, Level level, TextGraphics graphics) {
         gameW = w;
         gameH = h;
+        this.terminal = terminal;
+        this.level = level;
+        this.graphics = graphics;
+    }
+    public void initialize() throws IOException, FontFormatException {
         InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
         Font customFont = font.deriveFont(Font.PLAIN, 2);
         SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(w, h)).setTerminalEmulatorFontConfiguration(fontConfig);
+        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(gameW, gameH)).setTerminalEmulatorFontConfiguration(fontConfig);
         terminal = terminalFactory.createTerminal();
         screen = new TerminalScreen(terminal);
         screen.setCursorPosition(null);
         screen.startScreen();
         screen.doResizeIfNecessary();
         graphics = screen.newTextGraphics();
-        level = new Level(1,w,h,graphics);
+        level = new Level(1,gameW, gameH, graphics);
     }
     private void draw() throws IOException {
         for (Rectangle dirtyRegion : dirtyRegions) {

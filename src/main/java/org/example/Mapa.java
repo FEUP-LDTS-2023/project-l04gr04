@@ -5,6 +5,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.screen.Screen;
 import org.example.Monster.*;
 import org.example.Monster.States.*;
 import org.example.Numbers.Character;
@@ -45,14 +46,16 @@ public class Mapa {
     private int dotsCounter = 246;
     String yellow = "#FFB897";
     private boolean firstInput = true;
+    private boolean stopLevel = false;
+    private MapaListener mapaListener;
 
     soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
     soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
     soundTrack death= new soundTrack("Sounds/pacman_death.wav");
 
-    private KeyType lastInputMove ;
+    private KeyType lastInputMove = KeyType.ArrowLeft;
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
-                Double ps, Double pfs, Double gs, Double gfs,int tInF,List<Fruit> frutas) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+                Double ps, Double pfs, Double gs, Double gfs,int tInF,List<Fruit> frutas,char[][]mapa ) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         fruta = new Fruit(90,138,bonusSymbol);
         Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
         Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
@@ -64,7 +67,7 @@ public class Mapa {
         width = w;
         height = h;
         gameState = new GameState(tInF);
-        map = loadMapFromFile("map.txt");
+        map = mapa;
         monsters.add(new RedMonster(90,115));
         monsters.add(new OrangeMonster(82,115));
         monsters.add( new BlueMonster(98,115));
@@ -76,10 +79,20 @@ public class Mapa {
             gameState.addObserver(m);
         }
         gameState.addObserver(player);
-        drawInicialMap(graphics,frutas);
         soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
         st.play();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                firstInput = false;
+                actions();
+            }
+        }, 2000);
 
+    }
+    public void setMapaListener(MapaListener listener) {
+        this.mapaListener = listener;
     }
     private void actions(){
         Timer timer = new Timer();
@@ -97,17 +110,19 @@ public class Mapa {
         }, timeInScout * 1000);
     }
     public void gameLoop(List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
-        for (Monster m : monsters){
-            dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
+        if (!firstInput){
+            dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
+            for (Monster m : monsters){
+                dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
+            }
+            playerMovement();
+            monsterMovement();
+            checkDotCollisions(score);
+            checkMonsterCollisions(lifes);
+            if (fruta != null)checkFruitCollision();
+            if (dotsCounter == 0 && fruta == null)mapaListener.levelWon();
+            if (player.allMonsterseaten())lifes.incrementLife();
         }
-        playerMovement();
-        monsterMovement();
-        checkDotCollisions(score);
-        checkMonsterCollisions(lifes);
-        if (fruta != null)checkFruitCollision();
-        if (dotsCounter == 0 && fruta == null)level_running = 1;
-        if (player.allMonsterseaten())lifes.incrementLife();
         player.fps++;
     }
     void monsterMovement(){
@@ -126,7 +141,7 @@ public class Mapa {
         }
     }
     void playerMovement(){
-        if ((player.fps > player.atmF * player.playerM )){ // Control the frequency of movement
+        if (player.fps > player.atmF * player.playerM ){ // Control the frequency of movement
             player.playerM++;
             if (lastInputMove == KeyType.ArrowRight){
                 if(canMove("right"))player.move("right");
@@ -188,23 +203,20 @@ public class Mapa {
         }
     }
     private void lostOneLife(Lifes lifes){
-        lifes.decrementLife();
-        if(lifes.isempty()){
-            level_running = 2;
-        }
+        stopLevel = true;
+        player.ps.changeState(new eatingPacMan(player));
         for (Monster m : monsters){
             m.changeState(new onCollision(m));
         }
+        lifes.decrementLife();
         death.play();
-        player.ps.changeState(new eatingPacMan(player));
-        firstInput = true;
-        lastInputMove = null;
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 try {
-                    rePosition();
+                    if(lifes.isempty())mapaListener.gameLost();
+                    else mapaListener.levelLost(map);
                 } catch (UnsupportedAudioFileException e) {
                     throw new RuntimeException(e);
                 } catch (LineUnavailableException e) {
@@ -216,7 +228,7 @@ public class Mapa {
         }, 2000);
 
     }
-    private void rePosition() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    /*private void rePosition() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         int ix = 82;
         for (Monster m : monsters){
             m.changeState(new inCage(m));
@@ -226,16 +238,15 @@ public class Mapa {
         player.position = new Position(94,180);
         soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
         st.play();
-    }
+    }*/
     public boolean readInput(KeyStroke keyStroke) {
+        if (firstInput || stopLevel)return false;
         if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&
                 keyStroke.getKeyType() != KeyType.ArrowUp
                 && keyStroke.getKeyType() != KeyType.ArrowDown
                 ||(player.getPosition().getX() < 0 || player.getPosition().getX() > 181))){
             return false;
         }else{
-            if (firstInput)actions();
-            firstInput = false;
             lastInputMove = keyStroke.getKeyType();
         }
         if (lastInputMove == KeyType.ArrowRight){
@@ -249,7 +260,12 @@ public class Mapa {
         }
         return false;
     }
-    public void drawInicialMap(TextGraphics graphics,List<Fruit> frutas){
+    public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes,List<Fruit> frutas,Screen screen) throws IOException {
+        if (firstInput)drawInicialMap(graphics,frutas,screen);
+        else drawNormal(graphics,dirtyRegions,score,lifes);
+    }
+    public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas, Screen screen) throws IOException {
+        screen.clear();
         dots.clear();
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
@@ -280,6 +296,9 @@ public class Mapa {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
+            for (Dot dot : dots){
+                dot.draw(graphics);
+            }
             ready.drawready(graphics);
         }
         graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
@@ -294,8 +313,13 @@ public class Mapa {
             f.draw(graphics);
             i++;
         }
+        if (!firstInput && fruta != null)fruta.draw(graphics);
+        for (Monster m : monsters)m.draw(graphics);
+        scoreText.drawscore(graphics);
+        player.draw(graphics);
+        screen.refresh();
     }
-    public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws IOException {
+    public void drawNormal(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws IOException {
         graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
         for (Rectangle dirtyRegion : dirtyRegions){
             int startX = Math.max(dirtyRegion.x, 0);
@@ -383,32 +407,5 @@ public class Mapa {
                 return d;
         }
         return true;
-    }
-
-    public char[][] loadMapFromFile(String filename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        String line;
-        int numRows = height;
-        int numCols = width;
-        char[][] map = new char[numRows][numCols];
-        int row = 0;
-        boolean readingFile = true;
-        while (readingFile) {
-            line = reader.readLine();
-            char[] chars = line.toCharArray();
-            for (int col = 0; col < chars.length; col++) {
-                if (chars[col] == '!') {
-                    readingFile = false;
-                    break;
-                } else if (chars[col] == '#') {
-                    break;
-                } else {
-                    map[row][col] = chars[col];
-                }
-            }
-            row++;
-        }
-        reader.close();
-        return map;
     }
 }

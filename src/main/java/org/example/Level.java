@@ -2,6 +2,7 @@ package org.example;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.screen.Screen;
 import org.example.Numbers.Score;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -22,7 +23,7 @@ public class Level {
             "apple","apple","melon","melon","galaxian","galaxian","bell","bell"); // Above is 'Key'
     private List<Integer> bonusPoints = Arrays.asList(1,3,5,5,7,7,10,10,20,20,30,30); // Above is 50
     private Mapa map;
-    public Level(int ln,int width,int height,TextGraphics graphics,List<Fruit> frutas) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public Level(int ln,int width,int height,TextGraphics graphics,List<Fruit> frutas,char[][]mapa) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         levelNumber = ln;
         Double pacManSpeed;
         Double ghostSpeed;
@@ -37,7 +38,7 @@ public class Level {
             timeInFright = 6;
             fruta = bonusSymbols.get(0);
             map = new Mapa(width,height,graphics,fruta,bonusPoints.get(0)
-                    ,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright,frutas);
+                    ,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright,frutas,mapa);
             return;
         }
         if ((levelNumber >= 2 && levelNumber <= 4)){
@@ -55,19 +56,19 @@ public class Level {
         else pacManSpeed = 1.0;
         if (levelNumber <= 12){
             fruta = bonusSymbols.get(levelNumber-1);
-            map = new Mapa(width,height,graphics,fruta,bonusPoints.get(levelNumber-1),pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright,frutas);
+            map = new Mapa(width,height,graphics,fruta,bonusPoints.get(levelNumber-1),pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright,frutas,mapa);
         }
         else{
             fruta = "key";
-            map = new Mapa(width,height,graphics,"key",50,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,1,frutas);
+            map = new Mapa(width,height,graphics,"key",50,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,1,frutas,mapa);
         }
 
     }
-    public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws IOException {
-        map.draw(graphics,dirtyRegions,score,lifes);
+    public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score,Lifes lifes,List<Fruit> frutas,Screen screen) throws IOException {
+        map.draw(graphics,dirtyRegions,score,lifes,frutas,screen);
     }
-    public void drawInicialMap(TextGraphics graphics,List<Fruit> frutas) throws IOException {
-        map.drawInicialMap(graphics,frutas);
+    public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas, Screen screen) throws IOException {
+        map.drawInicialMap(graphics,frutas,screen);
     }
     public boolean processKey(KeyStroke key) throws IOException {
         return map.readInput(key);
@@ -79,4 +80,7 @@ public class Level {
         return map.level_running;
     }
 
+    public void setMapaListener(Game game) {
+        map.setMapaListener(game);
+    }
 }

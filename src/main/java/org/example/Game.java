@@ -24,7 +24,7 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
-public class Game {
+public class Game implements MapaListener{
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
     private final String gateColor = "#FFB8FF";
@@ -45,7 +45,6 @@ public class Game {
     private char pausa[][];
     private char map[][];
     public boolean onPause = false;
-    public boolean firstInput = true;
     private ApplicationState applicationState;
     private List<Fruit> frutas = new ArrayList<>();
     private Lifes lifes = new Lifes(5,243);
@@ -76,6 +75,32 @@ public class Game {
             }
         }
     }
+    ////////////////////////////////////////////////////
+    // Game Loop                                      //
+    ////////////////////////////////////////////////////
+    public void gameLoop(){
+        gameLoopTimer = new Timer();
+        gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                try {
+                    KeyStroke keystroke = screen.pollInput();
+                    applicationState.input(keystroke);
+                    applicationState.draw();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } catch (UnsupportedAudioFileException e) {
+                    throw new RuntimeException(e);
+                } catch (LineUnavailableException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, 0, 10); // Refresh at each 16 ms ( ~ 60 FPS)
+    }
+    ////////////////////////////////////////////////////
+    // Draws                                          //
+    ////////////////////////////////////////////////////
     public void changingLevelDraw(boolean back) throws IOException {
         screen.clear();
         for (int row = 0; row < gameH; row++) {
@@ -157,81 +182,61 @@ public class Game {
                 }
             }
         }
-        level.draw(graphics, dirtyRegions,score,lifes); // Drawing in that area
+        level.draw(graphics, dirtyRegions,score,lifes,frutas,screen); // Drawing in that area
         dirtyRegions.clear();
         screen.refresh();
     }
-    public void gameLoop(){
-        gameLoopTimer = new Timer();
-        gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                try {
-                    KeyStroke keystroke = screen.pollInput();
-                    applicationState.input(keystroke);
-                    applicationState.draw();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                } catch (UnsupportedAudioFileException e) {
-                    throw new RuntimeException(e);
-                } catch (LineUnavailableException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }, 0, 10); // Refresh at each 16 ms ( ~ 60 FPS)
-    }
+    ////////////////////////////////////////////////////
+    // Input                                          //
+    ////////////////////////////////////////////////////
     public void gameplayInput(KeyStroke keystroke) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         if (keystroke != null){
-            firstInput = false;
             k = keystroke;
             KeyType keyType = keystroke.getKeyType();
             if (keyType == KeyType.Escape) {
-                screen.close();
                 stopGameLoop();
             }
         }
-        if (!firstInput){
-            if (level.processKey(k))k = null;
-            level.gameLoop(dirtyRegions,score,lifes);
-            firstInput = false;
-        }
-        switch (level.changeLevel()){
-            case 2: screen.clear();
-                    lifes = new Lifes(5,243);
-                    applicationState.changeState(new menuState(this));
-                    break;
-            case 1: changeLevel();
-                    break;
-        }
-
+        if (level.processKey(k))k = null;
+        level.gameLoop(dirtyRegions,score,lifes);
     }
-    public void startNewGameplay() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        st.stop();
-        screen.clear();
-        score = new Score();
-        level = new Level(levelNumber,gameW,gameH,graphics,frutas);
-    }
-    public void changeLevelGameplay() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        st.stop();
-        screen.clear();
-        if (!onPause){
-            frutas.add(new Fruit(160,243, level.fruta));
-            level = new Level(levelNumber,gameW,gameH,graphics,frutas);
-        }
-        onPause = false;
-    }
-    private void changeLevel() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        levelNumber++;
-        applicationState = new changingLevel(this);
-        firstInput = true;
-    }
-    public void drawInicialMap() throws IOException {level.drawInicialMap(graphics,frutas);}
+    public void drawInicialMap() throws IOException {level.drawInicialMap(graphics,frutas,screen);}
     public void stopGameLoop() throws IOException {
         gameLoopTimer.cancel();
         gameLoopTimer.purge();
         gameLoopTimer = null;
         screen.close();
+    }
+    @Override
+    public void gameLost() {
+        screen.clear();
+        resetStructs();
+        applicationState.changeState(new menuState(this));
+    }
+
+    @Override
+    public void levelLost(char[][] mapa) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        level = new Level(levelNumber,gameW,gameH,graphics,frutas,mapa);
+        level.setMapaListener(this);
+        //applicationState.changeState(new RetryingLevel(this));
+        applicationState.changeState(new playingState(this));
+    }
+
+    @Override
+    public void levelWon() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        levelNumber++;
+        applicationState.changeState(new changingLevel(this));
+    }
+    public void resetStructs(){
+        score = new Score();
+        lifes = new Lifes(5,243);
+        levelNumber = 1;
+        k = null;
+        dirtyRegions.clear();
+    }
+    public void createLevel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        level = new Level(levelNumber,gameW,gameH,graphics,frutas,loadMapFromFile("map.txt"));
+        level.setMapaListener(this);
     }
 
     public void changeState(ApplicationState newState) {
@@ -263,4 +268,6 @@ public class Game {
         reader.close();
         return map;
     }
+
+
 }

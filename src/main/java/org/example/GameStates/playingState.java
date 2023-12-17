@@ -10,10 +10,12 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class playingState extends ApplicationState{
-    public playingState(Game g,boolean newGame) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public playingState(Game g) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         super(g);
-        if (newGame)game.startNewGameplay();
-        else game.changeLevelGameplay();
+    }
+    @Override
+    public String name() {
+        return "playing";
     }
 
     @Override

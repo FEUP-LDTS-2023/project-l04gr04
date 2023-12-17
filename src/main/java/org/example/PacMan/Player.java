@@ -217,9 +217,7 @@ public class Player extends Element implements GameObserver {
     }
     public Player(int x, int y){
         super(x,y);
-        facingDirection = "right";
-
-
+        facingDirection = "left";
         pacManUp1 = new char[][]{
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
                 {'#','#',' ',' ','#','#','#','#','#','#',' ',' ','#','#'},

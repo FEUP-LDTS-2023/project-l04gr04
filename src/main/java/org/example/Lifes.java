@@ -26,7 +26,10 @@ public class Lifes extends Element {
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
     }
-    public void incrementLife(){number++;}
+    public void incrementLife(){
+        number++;
+        if (number > 6)number = 6;
+    }
     public void decrementLife(){number--;}
     public boolean isempty(){
         return number == 0;

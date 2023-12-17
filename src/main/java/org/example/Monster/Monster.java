@@ -46,7 +46,7 @@ public abstract class Monster extends Element implements GenericMonster {
     }
     @Override
     public void FrightHourEnded(){
-
+        rotate180 = false;
         ms.FrightHourEnded();
         monsterM = 0;
         atmF = monsterF;
@@ -402,7 +402,7 @@ public abstract class Monster extends Element implements GenericMonster {
         }
     }
     public void frightMove(boolean t, boolean b, boolean d, boolean e){
-        if (!rotate180) { // Isto tem de ser alterado , variável não tá a ser reposta
+        if (!rotate180) {
             if (movingDirection.equals("up")) {
                 position = moveDown();
                     movingDirection = "down";

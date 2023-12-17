@@ -4,6 +4,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import org.example.Game;
+import org.example.Sounds.soundTrack;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -14,7 +15,11 @@ public class menuState extends ApplicationState{
     private int barOn = 0;
     public menuState(Game g) {
         super(g);
-        game.onPause = false;
+    }
+
+    @Override
+    public String name() {
+        return "menu";
     }
 
     @Override
@@ -29,8 +34,8 @@ public class menuState extends ApplicationState{
             game.screen.clear();
             switch (barOn){
                 case 0:
-                    game.firstInput = true;
-                    changeState(new playingState(game,true));
+                    game.createLevel();
+                    changeState(new playingState(game));
                     break;
                 case 2:
                     game.stopGameLoop();

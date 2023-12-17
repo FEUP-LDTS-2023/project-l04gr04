@@ -26,4 +26,7 @@ public class soundTrack {
         sound.stop();
         sound.setFramePosition(0);
     }
+    public void close() {
+        sound.close();
+    }
 }

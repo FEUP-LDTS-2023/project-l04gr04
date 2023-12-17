@@ -16,6 +16,7 @@ public abstract class ApplicationState {
     public ApplicationState(Game g){
         game = g;
     }
+    public abstract String name();
     public void changeState(ApplicationState newState) {
         game.changeState(newState);
     }

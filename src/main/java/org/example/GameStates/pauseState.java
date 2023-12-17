@@ -20,6 +20,10 @@ public class pauseState extends ApplicationState{
     public void draw() throws IOException {
         game.drawPause(barOn);
     }
+    @Override
+    public String name() {
+        return "pause";
+    }
 
     @Override
     public void input(KeyStroke key) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
@@ -28,10 +32,12 @@ public class pauseState extends ApplicationState{
             game.screen.clear();
             switch (barOn){
                 case 0:
-                    changeState(new playingState(game,false));
+                    changeState(new playingState(game));
                     game.drawInicialMap();
                     break;
                 case 1:
+                    game.warnMapStopMusic();
+                    game.resetStructs();
                     changeState(new menuState(game));
                     break;
             }

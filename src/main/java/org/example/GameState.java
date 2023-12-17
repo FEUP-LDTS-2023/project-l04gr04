@@ -25,7 +25,7 @@ public class GameState {
                 bg.play();
                 bg.loop();
             }
-        }, 3000);
+        }, 4500);
     }
 
 
@@ -45,18 +45,37 @@ public class GameState {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                endFrightHour();
+                if (!observers.isEmpty())endFrightHour();
             }
         }, timeInFright * 1000);
     }
     public void endFrightHour(){
-
         bgScared.stop();
         bg.play();
         bg.loop();
         frightH = false;
         notifyObservers();
     }
+    public void stopMusic(){
+        bg.stop();
+        bgScared.stop();
+
+    }
+    public void closeMusic(){
+        bg.close();
+        bgScared.close();
+    }
+
+    public void startMusic(){
+        if (isFrightHour()){
+            bgScared.play();
+            bgScared.loop();
+        }else{
+            bg.play();
+            bg.loop();
+        }
+    }
+
     public void addObserver(GameObserver observer) {
         observers.add(observer);
     }

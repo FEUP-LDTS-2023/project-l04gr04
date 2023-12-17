@@ -48,9 +48,7 @@ public class Game implements MapaListener{
     private ApplicationState applicationState;
     private List<Fruit> frutas = new ArrayList<>();
     private Lifes lifes = new Lifes(5,243);
-    public soundTrack st = new soundTrack("Sounds/pacman_beginning.wav");
     public Game(int w,int h) throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
-        //st.play();
         gameW = w;
         gameH = h;
         menu = loadMapFromFile("menu.txt");
@@ -192,13 +190,11 @@ public class Game implements MapaListener{
     public void gameplayInput(KeyStroke keystroke) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         if (keystroke != null){
             k = keystroke;
-            KeyType keyType = keystroke.getKeyType();
-            if (keyType == KeyType.Escape) {
-                stopGameLoop();
-            }
         }
-        if (level.processKey(k))k = null;
-        level.gameLoop(dirtyRegions,score,lifes);
+        if (level != null){
+            if (level.processKey(k))k = null;
+            level.gameLoop(dirtyRegions,score,lifes);
+        }
     }
     public void drawInicialMap() throws IOException {level.drawInicialMap(graphics,frutas,screen);}
     public void stopGameLoop() throws IOException {
@@ -208,7 +204,7 @@ public class Game implements MapaListener{
         screen.close();
     }
     @Override
-    public void gameLost() {
+    public void gameLost() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         screen.clear();
         resetStructs();
         applicationState.changeState(new menuState(this));
@@ -216,14 +212,15 @@ public class Game implements MapaListener{
 
     @Override
     public void levelLost(char[][] mapa) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        applicationState.changeState(new RetryingLevel(this));
+        level = null;
         level = new Level(levelNumber,gameW,gameH,graphics,frutas,mapa);
         level.setMapaListener(this);
-        //applicationState.changeState(new RetryingLevel(this));
         applicationState.changeState(new playingState(this));
     }
 
     @Override
-    public void levelWon() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public void levelWon() {
         levelNumber++;
         applicationState.changeState(new changingLevel(this));
     }
@@ -232,7 +229,12 @@ public class Game implements MapaListener{
         lifes = new Lifes(5,243);
         levelNumber = 1;
         k = null;
-        dirtyRegions.clear();
+    }
+    public void warnMapStopMusic(){
+        level.warnMapStopMusic();
+    }
+    public void warnMapStartMusic(){
+        level.warnMapStopMusic();
     }
     public void createLevel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         level = new Level(levelNumber,gameW,gameH,graphics,frutas,loadMapFromFile("map.txt"));

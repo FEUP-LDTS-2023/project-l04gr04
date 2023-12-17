@@ -28,7 +28,6 @@ import java.util.List;
 public class Mapa {
     private int width;
     private int height;
-    public int level_running = 0;
     private final String gateColor = "#FFB8FF";
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
@@ -43,7 +42,7 @@ public class Mapa {
     private Character scoreText = new Character(50,10);
     private Character ready = new Character(79,141);
     private List<Dot> dots = new ArrayList<>();
-    private int dotsCounter = 246;
+    private int dotsCounter;
     String yellow = "#FFB897";
     private boolean firstInput = true;
     private boolean stopLevel = false;
@@ -57,21 +56,22 @@ public class Mapa {
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
                 Double ps, Double pfs, Double gs, Double gfs,int tInF,List<Fruit> frutas,char[][]mapa ) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         fruta = new Fruit(90,138,bonusSymbol);
-        Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
-        Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
-        Double monstersF = baseFrequency + baseFrequency * (1 - gs);
-        Double playerF = baseFrequency + baseFrequency * (1 - ps);
+        Double monstersFrightF = 5.0;
+        Double playerFrightF = 1.0;
+        Double monstersF = 6.0;
+        Double playerF = 1.3;
         player.atmF = playerF;
         player.playerF = playerF;
         player.playerFrightF = playerFrightF;
         width = w;
         height = h;
-        gameState = new GameState(tInF);
         map = mapa;
+        dotsCounter = countDots();
         monsters.add(new RedMonster(90,115));
         monsters.add(new OrangeMonster(82,115));
         monsters.add( new BlueMonster(98,115));
         monsters.add(new PinkMonster(106,115));
+        gameState = new GameState(tInF);
         for (Monster m : monsters){
             m.monsterF = monstersF;
             m.atmF = monstersF;
@@ -85,10 +85,11 @@ public class Mapa {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                st.stop();
                 firstInput = false;
                 actions();
             }
-        }, 2000);
+        }, 4500);
 
     }
     public void setMapaListener(MapaListener listener) {
@@ -109,8 +110,9 @@ public class Mapa {
             }
         }, timeInScout * 1000);
     }
+
     public void gameLoop(List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        if (!firstInput){
+        if (!firstInput || stopLevel){
             dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
             for (Monster m : monsters){
                 dirtyRegions.add(new Rectangle(m.getX(),m.getY(),14,14));
@@ -120,7 +122,12 @@ public class Mapa {
             checkDotCollisions(score);
             checkMonsterCollisions(lifes);
             if (fruta != null)checkFruitCollision();
-            if (dotsCounter == 0 && fruta == null)mapaListener.levelWon();
+            System.out.println(dotsCounter);
+            if (dotsCounter == 0 && fruta == null){
+                gameState.stopMusic();
+                gameState.closeMusic();
+                mapaListener.levelWon();
+            }
             if (player.allMonsterseaten())lifes.incrementLife();
         }
         player.fps++;
@@ -203,6 +210,9 @@ public class Mapa {
         }
     }
     private void lostOneLife(Lifes lifes){
+        gameState.stopMusic();
+        gameState.closeMusic();
+        gameState = null;
         stopLevel = true;
         player.ps.changeState(new eatingPacMan(player));
         for (Monster m : monsters){
@@ -407,5 +417,23 @@ public class Mapa {
                 return d;
         }
         return true;
+    }
+
+    public void warnMapStopMusic() {
+        gameState.stopMusic();
+        gameState.closeMusic();
+    }
+
+    public void warnMapStartMusic() {
+        gameState.startMusic();
+    }
+    private int countDots(){
+        int c = 0;
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (map[row][col] == 'd' || map[row][col] == 'D')c++;
+            }
+        }
+        return c;
     }
 }

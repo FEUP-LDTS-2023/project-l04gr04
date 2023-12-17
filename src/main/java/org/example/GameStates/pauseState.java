@@ -36,6 +36,7 @@ public class pauseState extends ApplicationState{
                     changeState(new playingState(game));
                     break;
                 case 1:
+                    game.warnMapStopMusic();
                     changeState(new menuState(game));
                     break;
             }

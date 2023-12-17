@@ -76,11 +76,10 @@ public class Level {
     public void gameLoop(List<Rectangle> dirtyRegion, Score score, Lifes lifes) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         map.gameLoop(dirtyRegion,score,lifes);
     }
-    public int changeLevel(){
-        return map.level_running;
-    }
 
     public void setMapaListener(Game game) {
         map.setMapaListener(game);
     }
+    public void warnMapStopMusic(){map.warnMapStopMusic();}
+    public void warnMapStartMusic(){map.warnMapStartMusic();}
 }

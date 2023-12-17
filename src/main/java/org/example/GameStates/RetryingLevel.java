@@ -21,7 +21,6 @@ public class RetryingLevel extends ApplicationState{
 
     @Override
     public void draw() throws IOException {
-        game.drawLevel();
     }
 
     @Override

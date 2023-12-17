@@ -5,7 +5,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
 public interface MapaListener {
-    void gameLost();
+    void gameLost() throws UnsupportedAudioFileException, LineUnavailableException, IOException;
     void levelLost(char[][] mapa) throws UnsupportedAudioFileException, LineUnavailableException, IOException;
     void levelWon() throws UnsupportedAudioFileException, LineUnavailableException, IOException;
 }

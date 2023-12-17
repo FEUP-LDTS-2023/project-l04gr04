@@ -9,6 +9,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import org.example.Game;
 import org.example.Level;
+import org.example.Mapa;
 import org.example.Monster.States.fright;
 import org.example.PacMan.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,18 +24,22 @@ import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AnimationsTest {
-    private Terminal terminalMock;
-    private TextGraphics graphicsMock;
-    private Game gameMock;
-    private Level levelMock;
+    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
+    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+    Font customFont = font.deriveFont(Font.PLAIN, 2);
+    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
+    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
+    Terminal terminal = terminalFactory.createTerminal();
+    public Screen screen = new TerminalScreen(terminal);
+    TextGraphics graphicsMock = screen.newTextGraphics();
+
+    private Mapa mapa;
     private Player player;
     private RedMonster redmonster;
 
-    @BeforeEach
-    public void setGame() throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
-        gameMock = new Game(220,270, terminalMock, levelMock, graphicsMock);
-        gameMock.initialize();
+    public AnimationsTest() throws IOException, FontFormatException {
     }
+
 
     @BeforeEach
     public void setPlayer() {

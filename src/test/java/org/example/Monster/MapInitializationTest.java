@@ -12,14 +12,16 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import org.example.Dot;
 import org.example.Mapa;
 import org.example.Numbers.Score;
-import org.example.Player;
 import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -40,8 +42,8 @@ public class MapInitializationTest {
     public MapInitializationTest() throws IOException, FontFormatException {
     }
     @BeforeEach
-    public void setMap() throws IOException {
-        mapa = new Mapa(202, 240, graphicsMock, "", 0, 0.0, 0.0, 0.0, 0.0, 0);
+    public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        mapa = new Mapa(202, 240, graphicsMock, "", 0, 0.0, 0.0, 0.0, 0.0, 0, new ArrayList<>());
     }
 
     @Test

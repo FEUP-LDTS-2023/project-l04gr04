@@ -614,4 +614,5 @@ public class Player extends Element implements GameObserver {
         playerM = 0;
         fps = 0;
     }
+
 }

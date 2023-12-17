@@ -10,6 +10,11 @@ public class Numero extends Element {
     public Numero(int x, int y){
         super(x,y);
     }
+
+    public char[][] getNum() {
+        return num;
+    }
+
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         drawTheStyle(num,graphics,"#FFFFFF");

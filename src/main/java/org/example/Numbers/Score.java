@@ -16,12 +16,18 @@ public class Score {
 
     private int lp = 120;
     Numero numero = new Numero(lp + 10, 10);
+    private List<Integer> reverseDisplay = new ArrayList<>(Collections.nCopies(1, 0));
 
     public Score() {
         numero.changeNumber(0);
     }
 
-    private List<Integer> reverseDisplay = new ArrayList<>(Collections.nCopies(1, 0));
+    public int getCurrentScore() {
+        return currentScore;
+    }
+    public List<Integer> getReverseDisplay() {
+        return reverseDisplay;
+    }
 
     public boolean updateReverseDisplay(int number) {
         List<Integer> original = reverseDisplay;

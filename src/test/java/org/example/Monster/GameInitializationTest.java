@@ -20,8 +20,8 @@ public class GameInitializationTest {
     public void testGameInitialization() throws IOException, FontFormatException {
         assertEquals(game.getGameW(), 220);
         assertEquals(game.getGameH(), 270);
-        assertEquals(game.level.levelNumber, 1);
-        game.level.changeLevel();
-        assertEquals(game.level.levelNumber, 2);
+        assertEquals(game.getLevel().levelNumber, 1);
+        game.getLevel().changeLevel();
+        assertEquals(game.getLevel().levelNumber, 2);
     }
 }

@@ -30,6 +30,11 @@ public abstract class Monster extends Element implements GenericMonster {
     private int frequency = 27;
     protected Position cagePosition = new Position(93,115);
     private boolean rotate180 = false;
+
+    public void setMs(monsterState ms) {
+        this.ms = ms;
+    }
+
     public void setMovingDirection(String movingDirection) {
         this.movingDirection = movingDirection;
     }

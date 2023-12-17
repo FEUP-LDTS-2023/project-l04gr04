@@ -8,9 +8,11 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import org.example.Dot;
+import org.example.Fruit;
 import org.example.Mapa;
 import org.example.Monster.States.fright;
 import org.example.Numbers.Score;
+import org.example.PacMan.Player;
 import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -40,7 +44,7 @@ public class DotTests {
 
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        mapa = new Mapa(202, 240, graphicsMock, "", 0, 0.0, 0.0, 0.0, 0.0, 0, null);
+        mapa = new Mapa(202, 240, graphicsMock, "", 0, 0.0, 0.0, 0.0, 0.0, 0, new ArrayList<>());
     }
     @Test
     public void testDotDraw() {
@@ -112,7 +116,7 @@ public class DotTests {
     }
 
     @Test
-    public void testNormalDotCollision() {
+    public void testNormalDotCollision() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         //Testing a normal dot
         Dot dot = new Dot(5, 5, false);
         mapa.getDots().add(dot);
@@ -127,7 +131,7 @@ public class DotTests {
         assertEquals(245, mapa.getDotsCounter());
     }
     @Test
-    public void testSpecialDotCollision() {
+    public void testSpecialDotCollision() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Dot dot = new Dot(5, 5, true);
         mapa.getDots().add(dot);
 
@@ -144,7 +148,7 @@ public class DotTests {
     // descobrir como testar posições dos pontos
 
     @Test
-    public void testDotConsumption() {
+    public void testDotConsumption() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Player player = mapa.getPlayer();
         Monster monster = mapa.getMonsters().get(0);
         Score score = new Score();

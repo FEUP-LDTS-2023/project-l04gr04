@@ -57,6 +57,15 @@ public class Game {
         this.level = level;
         this.graphics = graphics;
     }
+    public int getGameW() {
+        return gameW;
+    }
+    public int getGameH() {
+        return gameH;
+    }
+    public Level getLevel() {
+        return level;
+    }
     public void initialize() throws IOException, FontFormatException {
         menu = loadMapFromFile("menu.txt");
         pausa = loadMapFromFile("pausa.txt");

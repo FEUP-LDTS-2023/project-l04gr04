@@ -9,7 +9,8 @@ import java.io.IOException;
 
 public class Application {
     public static void main(String[] args) throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
-        Game game = new Game(220,270);
+        Game game = new Game(220,270, null, null, null);
+        game.initialize();
         game.gameLoop();
     }
 }

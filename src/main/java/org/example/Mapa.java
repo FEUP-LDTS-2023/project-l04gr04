@@ -45,14 +45,49 @@ public class Mapa {
     private int dotsCounter = 246;
     String yellow = "#FFB897";
     private boolean firstInput = true;
+    private KeyType lastInputMove ;
 
     soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
     soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
     soundTrack death= new soundTrack("Sounds/pacman_death.wav");
 
-    private KeyType lastInputMove ;
+    public List<Dot> getDots() {
+        return dots;
+    }
+    public int getDotsCounter() {
+        return dotsCounter;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+    public List<Monster> getMonsters() {
+        return monsters;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public String getGateColor() {
+        return gateColor;
+    }
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+    public String getWallsColor() {
+        return wallsColor;
+    }
+    public String getCoinsColor() {
+        return coinsColor;
+    }
+
+    public KeyType getLastInputMove() {
+        return lastInputMove;
+    }
+
     public Mapa(int w , int h, TextGraphics graphics, String bonusSymbol, Integer bonusPoints,
-                Double ps, Double pfs, Double gs, Double gfs,int tInF,List<Fruit> frutas) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+                Double ps, Double pfs, Double gs, Double gfs, int tInF, List<Fruit> frutas) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         fruta = new Fruit(90,138,bonusSymbol);
         Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
         Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
@@ -142,7 +177,7 @@ public class Mapa {
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
             }}
     }
-    void checkDotCollisions(Score score) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public void checkDotCollisions(Score score) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Iterator<Dot> iterator = dots.iterator();
         while (iterator.hasNext()) {
             Dot dot = iterator.next();
@@ -162,7 +197,7 @@ public class Mapa {
             }
         }
     }
-    void checkMonsterCollisions(Lifes lifes){
+    public void checkMonsterCollisions(Lifes lifes){
         for (Monster m : monsters){
             int mx = m.getX();
             int my = m.getY();

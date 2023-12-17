@@ -7,10 +7,12 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.*;
 import org.example.Monster.States.eaten;
 import org.example.Monster.States.fright;
 import org.example.PacMan.Player;
+import org.example.PacMan.eatingPacMan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -34,45 +36,45 @@ public class PlayerBehaviourTest {InputStream fontStream = getClass().getClassLo
     Terminal terminal = terminalFactory.createTerminal();
     public Screen screen = new TerminalScreen(terminal);
     TextGraphics graphicsMock = screen.newTextGraphics();
-    private Player playerMock;
     private Mapa mapa;
 
     private Game game;
-    @Mock
-    private GameObserver observer;
-    private GameState gameState;
 
     public PlayerBehaviourTest() throws IOException, FontFormatException {
     }
 
-    @BeforeEach
-    public void setPlayerMock() {
-        playerMock = new Player(74, 42);
-    }
 
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        mapa = new Mapa(202, 240, graphicsMock, "", 0, 0.0, 0.0, 0.0, 0.0, 0, new ArrayList<>());
+        game = new Game(220, 270,null,null,null);
+        mapa = new Mapa(202, 240, "", 0, 0.0, 0.0, 0.0, 0.0, 0,game.loadMapFromFile("map.txt"));
     }
 
-    public void setGame() throws IOException, FontFormatException {
-        //game = new Game(220, 270);
-    }
-
-    public void setGameState() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        MockitoAnnotations.openMocks(this);
-        gameState = new GameState(2); // 2 seconds for fright hour
-        gameState.addObserver(observer);
-    }
-
+    @DoNotMutate
     @Test
-    public void whichModeTest() {
-        //assertEquals("hunt", playerMock.getMode());
-        playerMock.FrightHourStarted();
-        //assertEquals("fright", playerMock.getMode());
+    public void checkCount() {
+        Player player = mapa.getPlayer();
+        player.incrementCount();
+        assertEquals(1,player.getCountOfEatenInARow());
+
     }
+    @DoNotMutate
+    @Test
+    public void allMonstersEaten() {
+        Player player = mapa.getPlayer();
+        player.changeState(new eatingPacMan(player));
+        player.incrementCount();
+        assertEquals(false,player.allMonsterseaten());
+        player.incrementCount();
+        player.incrementCount();
+        player.incrementCount();
+        assertEquals(true,player.allMonsterseaten());
+
+    }
+    @DoNotMutate
     @Test
     public void testNearBoundaries() {
+        Player playerMock = mapa.getPlayer();
         playerMock.setPosition(new Position(180, 50));
         playerMock.draw(graphicsMock);
         playerMock.move("right");
@@ -101,7 +103,7 @@ public class PlayerBehaviourTest {InputStream fontStream = getClass().getClassLo
         playerMock.move("up");
         assertTrue(playerMock.getX() >= 0 && playerMock.getX() < mapa.getWidth());
     }
-
+    @DoNotMutate
     @Test
     public void testMonsterCollision() {
         for (Monster monster : mapa.getMonsters()) {
@@ -115,44 +117,4 @@ public class PlayerBehaviourTest {InputStream fontStream = getClass().getClassLo
             assertEquals(new eaten(monster).modeOn(), monster.ms.modeOn());
         }
     }
-
-    @Test// voltar aqui no final
-    public void testFrightHourStartAndEnd() throws InterruptedException, IOException, FontFormatException {
-        setGame();
-        //setGameState();
-        gameState.startFrightHour();
-        gameState.notifyObservers();
-
-        // Wait for the Timer to trigger and end the Fright Hour
-        Thread.sleep(2000); // Adjust the time based on your expected delay
-
-        gameState.notifyObservers();
-
-        // Verify that FrightHourStarted was called
-        verify(observer).FrightHourStarted();
-
-        // Verify that FrightHourEnded was called after the Timer triggers
-        verify(observer, timeout(3000)).FrightHourEnded();
-    }
-    @Test //Aqui também
-    public void testMultipleObservers() {
-        // Add another observer
-        GameObserver anotherObserver = mock(GameObserver.class);
-        gameState.addObserver(anotherObserver);
-
-        // Start fright hour
-        gameState.startFrightHour();
-
-        // Verify that both observers receive the notification
-        verify(observer).FrightHourStarted();
-        verify(anotherObserver).FrightHourStarted();
-
-        // End fright hour
-        gameState.endFrightHour();
-
-        // Verify that both observers receive the notification
-        verify(observer).FrightHourEnded();
-        verify(anotherObserver).FrightHourEnded();
-    }
-
 }

@@ -55,4 +55,8 @@ public class menuState extends ApplicationState{
         barOn++;
         if(barOn > 2)barOn = 0;
     }
+
+    public int getBarOn() {
+        return barOn;
+    }
 }

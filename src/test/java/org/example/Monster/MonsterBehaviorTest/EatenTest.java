@@ -7,6 +7,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.eaten;
 import org.example.Position;
@@ -38,6 +39,7 @@ public class EatenTest {
         mockMonster = mock(RedMonster.class);
         mockMonster.setPosition(new Position(75, 42));
     }
+    @DoNotMutate
     @Test
     public void testOnPacManCollision() {
         eaten eatenState = new eaten(mockMonster);
@@ -50,6 +52,7 @@ public class EatenTest {
         //verify(mockMonster, times(0)).move(any(Position.class), any(char[][].class), anyBoolean(), anyBoolean(), anyBoolean(), anyBoolean());
     }
 
+    @DoNotMutate
     @Test
     public void testModeOn() {
         eaten eatenState = new eaten(mockMonster);
@@ -60,6 +63,7 @@ public class EatenTest {
         assertEquals("eaten", mode);
     }
 
+    @DoNotMutate
     @Test
     public void testDraw() {
         eaten eatenState = new eaten(mockMonster);
@@ -69,7 +73,7 @@ public class EatenTest {
         // Verify that draw calls the correct monster.darkDraw method
         verify(mockMonster).darkDraw(eq(mockTextGraphics), eq("#000000"));
     }
-
+    @DoNotMutate
     @Test
     public void testMove() {
         eaten eatenState = new eaten(mockMonster);
@@ -79,7 +83,7 @@ public class EatenTest {
         // Verify that move calls the correct monster.targetMove method
         verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
     }
-
+    @DoNotMutate
     @Test
     public void testFrightHourStarted() {
         eaten eatenState = new eaten(mockMonster);
@@ -89,7 +93,7 @@ public class EatenTest {
         // Verify that FrightHourStarted does not change the state
         verify(mockMonster, never()).changeState(any());
     }
-
+    @DoNotMutate
     @Test
     public void testFrightHourEnded() {
         eaten eatenState = new eaten(mockMonster);

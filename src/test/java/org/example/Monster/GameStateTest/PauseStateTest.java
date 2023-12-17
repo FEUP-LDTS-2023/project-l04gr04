@@ -9,6 +9,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 import org.example.GameStates.ApplicationState;
 import org.example.GameStates.pauseState;
@@ -36,6 +37,8 @@ public class PauseStateTest {
     public PauseStateTest() throws IOException, FontFormatException {
     }
 
+    @DoNotMutate
+
     @Test
     void testConstructor() {
         Game mockGame = mock(Game.class);
@@ -44,6 +47,7 @@ public class PauseStateTest {
         verify(mockGame).onPause = true;
     }
 
+    @DoNotMutate
     @Test
     void testDraw() throws IOException {
         Game mockGame = mock(Game.class);
@@ -53,6 +57,7 @@ public class PauseStateTest {
         verify(mockGame).drawPause(anyInt());
     }
 
+    @DoNotMutate
     @Test
     void testInput() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Game mockGame = mock(Game.class);

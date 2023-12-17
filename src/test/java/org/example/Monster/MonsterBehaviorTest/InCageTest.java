@@ -7,6 +7,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.hunt;
 import org.example.Monster.States.inCage;
@@ -42,7 +43,7 @@ public class InCageTest {
         mockMonster = mock(RedMonster.class);
         mockMonster.setPosition(new Position(75, 42));
     }
-
+    @DoNotMutate
     @Test
     public void testOnPacManCollision() {
         inCage inCageState = new inCage(mockMonster);
@@ -54,7 +55,7 @@ public class InCageTest {
         verify(mockMonster, never()).draw(any(), any());
         //verify(mockMonster, times(0)).move(any(Position.class), any(char[][].class), anyBoolean(), anyBoolean(), anyBoolean(), anyBoolean());
     }
-
+    @DoNotMutate
     @Test
     public void testModeOn() {
         inCage inCageState = new inCage(mockMonster);
@@ -65,7 +66,7 @@ public class InCageTest {
         // Verify that modeOn returns "eaten"
         assertEquals("inCage", mode);
     }
-
+    @DoNotMutate
     @Test
     public void testDraw() {
         inCage inCageState = new inCage(mockMonster);
@@ -75,7 +76,7 @@ public class InCageTest {
         // Verify that draw calls the correct monster.darkDraw method
         verify(mockMonster).darkDraw(eq(mockTextGraphics), eq("#000000"));
     }
-
+    @DoNotMutate
     @Test
     public void testMove() {
         inCage inCageState = new inCage(mockMonster);
@@ -85,7 +86,7 @@ public class InCageTest {
         // Verify that move calls the correct monster.targetMove method
         verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
     }
-
+    @DoNotMutate
     @Test
     public void testFrightHourStarted() {
         inCage inCageState = new inCage(mockMonster);
@@ -95,7 +96,7 @@ public class InCageTest {
         // Verify that FrightHourStarted does not change the state
         verify(mockMonster, never()).changeState(any());
     }
-
+    @DoNotMutate
     @Test
     public void testFrightHourEnded() {
         inCage inCageState = new inCage(mockMonster);

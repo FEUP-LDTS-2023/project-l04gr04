@@ -7,6 +7,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.inCage;
 import org.example.Monster.States.onCollision;
@@ -36,12 +37,13 @@ public class OnCollisionTest {
 
     public OnCollisionTest() throws IOException, FontFormatException {
     }
-
+    @DoNotMutate
     @BeforeEach
     public void setUp() {
         mockMonster = mock(RedMonster.class);
         mockMonster.setPosition(new Position(75, 42));
     }
+    @DoNotMutate
     @Test
     public void testOnPacManCollision() {
         onCollision onCollisionState = new onCollision(mockMonster);
@@ -53,7 +55,7 @@ public class OnCollisionTest {
         verify(mockMonster, never()).draw(any(), any());
         //verify(mockMonster, times(0)).move(any(Position.class), any(char[][].class), anyBoolean(), anyBoolean(), anyBoolean(), anyBoolean());
     }
-
+    @DoNotMutate
     @Test
     public void testModeOn() {
         onCollision onCollisionState = new onCollision(mockMonster);
@@ -63,7 +65,7 @@ public class OnCollisionTest {
         // Verify that modeOn returns "eaten"
         assertEquals("onCollision", mode);
     }
-
+    @DoNotMutate
     @Test
     public void testDraw() {
         onCollision onCollisionState = new onCollision(mockMonster);
@@ -73,7 +75,7 @@ public class OnCollisionTest {
         // Verify that draw calls the correct monster.darkDraw method
         verify(mockMonster).darkDraw(eq(mockTextGraphics), eq("#000000"));
     }
-
+    @DoNotMutate
     @Test
     public void testMove() {
         onCollision onCollisionState = new onCollision(mockMonster);
@@ -83,7 +85,7 @@ public class OnCollisionTest {
         // Verify that move calls the correct monster.targetMove method
         verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
     }
-
+    @DoNotMutate
     @Test
     public void testFrightHourStarted() {
         onCollision onCollisionState = new onCollision(mockMonster);
@@ -93,7 +95,7 @@ public class OnCollisionTest {
         // Verify that FrightHourStarted does not change the state
         verify(mockMonster, never()).changeState(any());
     }
-
+    @DoNotMutate
     @Test
     public void testFrightHourEnded() {
         onCollision onCollisionState = new onCollision(mockMonster);

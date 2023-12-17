@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ChangingLevelStateTest {
     @Test
-    void testDrawAndUpdateState() throws IOException, UnsupportedAudioFileException, LineUnavailableException, NoSuchFieldException, IllegalAccessException {
+    void testDrawAndUpdateState() throws IOException, NoSuchFieldException, IllegalAccessException {
         Game mockGame = Mockito.mock(Game.class);
         changingLevel changingLevelState = new changingLevel(mockGame);
 

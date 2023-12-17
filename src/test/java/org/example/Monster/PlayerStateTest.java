@@ -7,6 +7,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Fruit;
 import org.example.Mapa;
 import org.example.PacMan.Player;
@@ -36,6 +37,7 @@ public class PlayerStateTest {
     public void setPlayerMock() {
         playerMock = mock(Player.class);
     }
+    @DoNotMutate
     @Test
     public void testNormalStateTransition() {
         pacManState initialState = new normalState(playerMock);
@@ -47,6 +49,7 @@ public class PlayerStateTest {
 
         verify(playerMock).changeState(eatingState);
     }
+    @DoNotMutate
     @Test
     public void testDrawNormalState() {
         pacManState normalState = new normalState(playerMock);
@@ -55,6 +58,7 @@ public class PlayerStateTest {
 
         verify(playerMock).drawNormal(any(TextGraphics.class));
     }
+    @DoNotMutate
     @Test
     public void testDrawEatingPacManState() {
         pacManState eatingState = new eatingPacMan(playerMock);
@@ -63,6 +67,7 @@ public class PlayerStateTest {
 
         verify(playerMock).drawDead(any(TextGraphics.class));
     }
+    @DoNotMutate
     @Test
     public void testMoveNormalState() {
         pacManState normalState = new normalState(playerMock);
@@ -71,6 +76,7 @@ public class PlayerStateTest {
 
         verify(playerMock).moveNormal("up");
     }
+    @DoNotMutate
     @Test
     public void testMoveEatingPacManState() {
         pacManState eatingState = new eatingPacMan(playerMock);

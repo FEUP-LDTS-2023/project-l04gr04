@@ -66,16 +66,6 @@ public class GameState {
         bgScared.close();
     }
 
-    public void startMusic(){
-        if (isFrightHour()){
-            bgScared.play();
-            bgScared.loop();
-        }else{
-            bg.play();
-            bg.loop();
-        }
-    }
-
     public void addObserver(GameObserver observer) {
         observers.add(observer);
     }

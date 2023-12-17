@@ -9,9 +9,11 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 import org.example.GameStates.menuState;
 import org.example.GameStates.playingState;
+import org.example.Level;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class MenuStateTest {
@@ -32,49 +35,46 @@ public class MenuStateTest {
     DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
     Terminal terminal = terminalFactory.createTerminal();
     public Screen mockScreen = new TerminalScreen(terminal);
+    TextGraphics graphicsMock =mockScreen.newTextGraphics();
     private Game mockGame;
 
     public MenuStateTest() throws IOException, FontFormatException {
     }
 
-    @BeforeEach
-    void setUp() {
-        mockGame = mock(Game.class);
 
-        //when(mockGame.screen).thenReturn(mockScreen);
+    @BeforeEach
+    void setUp() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        mockGame = new Game(220,270,terminal,new Level(1,220,270,null),graphicsMock);
     }
+    @DoNotMutate
     @Test
     void testDraw() throws IOException {
         menuState menuState = new menuState(mockGame);
-
         menuState.draw();
-
         verify(mockGame).drawMenu(anyInt());
     }
 
+    @DoNotMutate
     @Test
-    void testInputEnter() throws IOException, UnsupportedEncodingException, UnsupportedAudioFileException, LineUnavailableException {
+    void testInputEnter() throws IOException,UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);
         KeyStroke enterKey = new KeyStroke(KeyType.Enter);
         mockGame.screen = mockScreen;
-
         menuState.input(enterKey);
-
-        //verify(mockGame).clearScreen();
         verify(mockGame).changeState(any(playingState.class));
     }
 
+    @DoNotMutate
     @Test
-    void testInputArrowUp() throws IOException, UnsupportedEncodingException, UnsupportedAudioFileException, LineUnavailableException {
+    void testInputArrowUp() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);
         KeyStroke arrowUpKey = new KeyStroke(KeyType.ArrowUp);
         mockGame.screen = mockScreen;
-
         menuState.input(arrowUpKey);
-
-        verify(mockGame).drawMenu(anyInt());
+        assertEquals(mockGame,menuState.getBarOn());
     }
 
+    @DoNotMutate
     @Test
     void testInputArrowDown() throws IOException, UnsupportedEncodingException, UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);

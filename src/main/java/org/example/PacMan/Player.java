@@ -590,6 +590,7 @@ public class Player extends Element implements GameObserver {
         ps.move(direction);
     }
     public void incrementCount(){CountOfEatenInARow++;}
+    public int getCountOfEatenInARow(){return CountOfEatenInARow;}
 
     public boolean allMonsterseaten(){
         if (CountOfEatenInARow == 4){

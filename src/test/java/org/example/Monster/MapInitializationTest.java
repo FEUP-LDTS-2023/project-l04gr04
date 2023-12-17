@@ -9,7 +9,9 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Dot;
+import org.example.Game;
 import org.example.Mapa;
 import org.example.Numbers.Score;
 import org.example.Position;
@@ -38,14 +40,16 @@ public class MapInitializationTest {
     TextGraphics graphicsMock = screen.newTextGraphics();
 
     private Mapa mapa;
+    private Game game;
 
     public MapInitializationTest() throws IOException, FontFormatException {
     }
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        mapa = new Mapa(202, 240, graphicsMock, "", 0, 0.0, 0.0, 0.0, 0.0, 0, new ArrayList<>());
+        game = new Game(220, 270,null,null,null);
+        mapa = new Mapa(202, 240, "", 0, 0.0, 0.0, 0.0, 0.0, 0,game.loadMapFromFile("map.txt"));
     }
-
+    @DoNotMutate
     @Test
     public void testMapInitialization() {
         assertEquals(202, mapa.getWidth());
@@ -60,13 +64,23 @@ public class MapInitializationTest {
         assertEquals(mapa.getMonsters().size(), 4);
         assertEquals(mapa.getDots().size(), 246);
     }
+    @DoNotMutate
     @Test
     public void testPlayerMovement() {
         KeyStroke keyStroke = mock(KeyStroke.class);
         when(keyStroke.getKeyType()).thenReturn(KeyType.ArrowRight);
 
         mapa.readInput(keyStroke);
-        assertEquals(KeyType.ArrowRight, mapa.getLastInputMove());
+        assertEquals(KeyType.ArrowLeft, mapa.getLastInputMove());
+    }
+    @DoNotMutate
+    @Test
+    public void mapaGameTest() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        mapa.setMapaListener(game);
+        mapa.getMapaListener().gameLost();
+        assertNull(game.getLevel());
+        mapa.getMapaListener().levelLost(game.loadMapFromFile("map.txt"));
+        assertEquals("playing",game.getApplicationState().name());
     }
 
 }

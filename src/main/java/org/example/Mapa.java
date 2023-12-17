@@ -37,7 +37,7 @@ public class Mapa {
     private GameState gameState ;
     private char[][] map;
     private List<Monster> monsters = new ArrayList<>();
-    private Player player = new Player(94,180);
+    public Player player = new Player(94,180);
     private Fruit fruta;
     private Character scoreText = new Character(50,10);
     private Character ready = new Character(79,141);
@@ -47,14 +47,22 @@ public class Mapa {
     String yellow = "#FFB897";
     private boolean firstInput = true;
     private MapaListener mapaListener;
-    private KeyType lastInputMove ;
-
     soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
     soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
     soundTrack death= new soundTrack("Sounds/pacman_death.wav");
     private KeyType lastInputMove = KeyType.ArrowLeft;
     public List<Dot> getDots() {
+        List<Dot> dots = new ArrayList<>();
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                    if (map[row][col] == 'd')dots.add(new Dot(row,col,false));
+                    else if(map[row][col] == 'D')dots.add(new Dot(row,col,true));
+                }
+            }
         return dots;
+    }
+    public void setDots( List<Dot> d){
+        dots = d;
     }
     public int getDotsCounter() {
         return dotsCounter;
@@ -86,6 +94,9 @@ public class Mapa {
 
     public KeyType getLastInputMove() {
         return lastInputMove;
+    }
+    public MapaListener getMapaListener() {
+        return mapaListener;
     }
     public Mapa(int w , int h, String bonusSymbol, Integer bonusPoints,
                 Double ps, Double pfs, Double gs, Double gfs,int tInF,char[][]mapa ) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
@@ -318,6 +329,7 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 10 >= dx && py <= dy && py + 10 >= dy) {
+
                 eatingDotsSound.play();
                 map[dy][dx] = '.';
                 dotsCounter--;

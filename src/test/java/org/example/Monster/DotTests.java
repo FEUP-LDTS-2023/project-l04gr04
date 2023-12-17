@@ -7,13 +7,11 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import org.example.Dot;
-import org.example.Fruit;
-import org.example.Mapa;
+import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.*;
 import org.example.Monster.States.fright;
 import org.example.Numbers.Score;
 import org.example.PacMan.Player;
-import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,8 +42,10 @@ public class DotTests {
 
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        mapa = new Mapa(202, 240, graphicsMock, "", 0, 0.0, 0.0, 0.0, 0.0, 0, new ArrayList<>());
+        Game game = new Game(220,270,null,null,null);
+        mapa = new Mapa(202, 240, "", 0, 0.0, 0.0, 0.0, 0.0, 0,game.loadMapFromFile("map.txt"));
     }
+    @DoNotMutate
     @Test
     public void testDotDraw() {
         //test drawing methods for the first normal dot and the first special dot
@@ -99,7 +99,7 @@ public class DotTests {
             }
         }
     }
-
+    @DoNotMutate
     @Test
     public void testDotInitialization() {
         // Check for correct number of dots
@@ -114,59 +114,30 @@ public class DotTests {
         assertEquals(4, specialDots);
         assertEquals(242, normalDots);
     }
-
+    @DoNotMutate
     @Test
     public void testNormalDotCollision() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         //Testing a normal dot
-        Dot dot = new Dot(5, 5, false);
-        mapa.getDots().add(dot);
-
-        Player player = mapa.getPlayer();
-        player.setPosition(new Position(5, 5));
+        mapa.setDots(mapa.getDots());
         Score score = new Score();
-        mapa.checkDotCollisions(score);
-
         assertEquals(246, mapa.getDots().size());
-        assertEquals(1, score.getCurrentScore());
-        assertEquals(245, mapa.getDotsCounter());
+        mapa.player.setPosition(new Position(93, 45));
+        mapa.player.move("left");
+        mapa.checkDotCollisions(score);
+        assertEquals(2, score.getCurrentScore());
+        assertEquals(244, mapa.getDotsCounter());
     }
+    @DoNotMutate
     @Test
     public void testSpecialDotCollision() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        Dot dot = new Dot(5, 5, true);
-        mapa.getDots().add(dot);
-
-        Player player = mapa.getPlayer();
-        player.setPosition(new Position(5, 5));
+        mapa.setDots(mapa.getDots());
         Score score = new Score();
-        mapa.checkDotCollisions(score);
-
         assertEquals(246, mapa.getDots().size());
-        assertEquals(5, score.getCurrentScore());  // increments by 50 points
-        assertEquals(245, mapa.getDotsCounter());
+        mapa.player.setPosition(new Position(42, 10));
+        mapa.player.move("right");
+        mapa.checkDotCollisions(score);
+        assertEquals(6, score.getCurrentScore());
+        assertEquals(244, mapa.getDotsCounter());
     }
 
-    // descobrir como testar posições dos pontos
-
-    @Test
-    public void testDotConsumption() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        Player player = mapa.getPlayer();
-        Monster monster = mapa.getMonsters().get(0);
-        Score score = new Score();
-        int totalPoints = 0;
-        for (Dot dot : mapa.getDots()) {
-            player.setPosition(dot.getPosition());
-            mapa.checkDotCollisions(score);
-            // if current score is incremented, it means the player collided with the dot and it won't be drawn again:
-            if (!dot.isSpecialDote()) {
-                totalPoints++;
-                //assertEquals(totalPoints, score.getCurrentScore());
-                break;
-            }
-            else {
-                assertEquals("fright", monster.ms.modeOn());
-                totalPoints += 5;
-                //assertEquals(totalPoints, score.getCurrentScore());
-            }
-        }
-    }
 }

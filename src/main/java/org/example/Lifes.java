@@ -30,6 +30,9 @@ public class Lifes extends Element {
         number++;
         if (number > 6)number = 6;
     }
+    public int getNumber(){
+        return number;
+    }
     public void decrementLife(){number--;}
     public boolean isempty(){
         return number == 0;

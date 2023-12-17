@@ -7,6 +7,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 import org.example.Level;
 import org.example.Mapa;
@@ -40,18 +41,18 @@ public class AnimationsTest {
     public AnimationsTest() throws IOException, FontFormatException {
     }
 
-
+    @DoNotMutate
     @BeforeEach
     public void setPlayer() {
         player = new Player(74, 42);
     }
-
+    @DoNotMutate
     @BeforeEach
     public void setMonster() {
         redmonster = new RedMonster(75, 42);
     }
 
-    // Player animations
+    @DoNotMutate
     @Test
     public void testPacmanAnimationUp() {
         player.setFacingDirection("up");
@@ -88,7 +89,7 @@ public class AnimationsTest {
         }
     }
 
-
+    @DoNotMutate
     @Test
     public void testPacmanAnimationDown() {
         player.setFacingDirection("down");
@@ -124,7 +125,7 @@ public class AnimationsTest {
             }
         }
     }
-
+    @DoNotMutate
     @Test
     public void testPacmanAnimationLeft() {
         player.setFacingDirection("left");
@@ -160,7 +161,7 @@ public class AnimationsTest {
             }
         }
     }
-
+    @DoNotMutate
     @Test
     public void testPacmanAnimationRight() {
         player.setFacingDirection("right");
@@ -196,7 +197,7 @@ public class AnimationsTest {
             }
         }
     }
-
+    @DoNotMutate
     @Test
     public void testPacmanAnimationMouthClosed() {
         player.mouthOpen = 0;
@@ -233,7 +234,7 @@ public class AnimationsTest {
         }
     }
 
-    // Monster animations
+    @DoNotMutate
     @Test
     public void testMonsterAnimationLeft() {
         redmonster.setMovingDirection("left");
@@ -269,6 +270,7 @@ public class AnimationsTest {
             }
         }
     }
+    @DoNotMutate
     @Test
     public void testMonsterAnimationRight() {
         redmonster.setMovingDirection("right");
@@ -304,6 +306,7 @@ public class AnimationsTest {
             }
         }
     }
+    @DoNotMutate
     @Test
     public void testMonsterAnimationUp() {
         redmonster.setMovingDirection("up");
@@ -340,6 +343,7 @@ public class AnimationsTest {
             }
         }
     }
+    @DoNotMutate
     @Test
     public void testMonsterAnimationDown() {
         redmonster.setMovingDirection("Down");
@@ -376,6 +380,7 @@ public class AnimationsTest {
             }
         }
     }
+    @DoNotMutate
     @Test
     public void testMonsterAnimationRun() {
         redmonster.ms = new fright(redmonster);
@@ -411,7 +416,4 @@ public class AnimationsTest {
             }
         }
     }
-
-    // Character animations
-
 }

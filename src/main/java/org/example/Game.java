@@ -54,6 +54,7 @@ public class Game implements MapaListener{
         this.terminal = terminal;
         this.level = level;
         this.graphics = graphics;
+        applicationState = new menuState(this);
     }
     public int getGameW() {
         return gameW;
@@ -64,6 +65,11 @@ public class Game implements MapaListener{
     public Level getLevel() {
         return level;
     }
+
+    public ApplicationState getApplicationState() {
+        return applicationState;
+    }
+
     public void initialize() throws IOException, FontFormatException {
         menu = loadMapFromFile("menu.txt");
         pausa = loadMapFromFile("pausa.txt");
@@ -79,7 +85,6 @@ public class Game implements MapaListener{
         screen.startScreen();
         screen.doResizeIfNecessary();
         graphics = screen.newTextGraphics();
-        applicationState = new menuState(this);
         graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {

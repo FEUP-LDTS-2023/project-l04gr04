@@ -45,7 +45,7 @@ public class GameState {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                endFrightHour();
+                if (!observers.isEmpty())endFrightHour();
             }
         }, timeInFright * 1000);
     }

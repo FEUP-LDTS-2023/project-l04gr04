@@ -20,9 +20,8 @@ public class RetryingLevel extends ApplicationState{
     }
 
     @Override
-    public void draw() throws IOException {
-    }
+    public void draw() throws IOException {}
 
     @Override
-    public void input(KeyStroke key) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {}
+    public void input(KeyStroke key) {}
 }

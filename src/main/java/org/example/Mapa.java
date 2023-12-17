@@ -47,6 +47,7 @@ public class Mapa {
     String yellow = "#FFB897";
     private boolean firstInput = true;
     private MapaListener mapaListener;
+    private KeyType lastInputMove ;
 
     soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
     soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
@@ -308,7 +309,7 @@ public class Mapa {
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
             }}
     }
-    void checkDotCollisions(Score score){
+    public void checkDotCollisions(Score score){
         Iterator<Dot> iterator = dots.iterator();
         while (iterator.hasNext()) {
             Dot dot = iterator.next();
@@ -328,7 +329,7 @@ public class Mapa {
             }
         }
     }
-    void checkMonsterCollisions(Lifes lifes){
+    public void checkMonsterCollisions(Lifes lifes){
         for (Monster m : monsters){
             int mx = m.getX();
             int my = m.getY();

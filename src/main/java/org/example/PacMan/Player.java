@@ -21,15 +21,15 @@ public class Player extends Element implements GameObserver {
     public Double playerFrightF;
     public Double atmF;
     public  int playerM = 0;
-    char[][] pacManUp1;
+    public char[][] pacManUp1;
     char[][] pacManUp2;
 
-    char[][] pacManDown1;
+    public char[][] pacManDown1;
     char[][] pacManDown2;
-    char[][] pacManLeft1;
+    public char[][] pacManLeft1;
     char[][] pacManLeft2;
-    char[][] pacManRight1;
-    char[][] pacManClosed;
+    public char[][] pacManRight1;
+    public char[][] pacManClosed;
     char[][] pacManRight2;
     char[][] pacManDie1;
     char[][] pacManDie2;
@@ -46,6 +46,9 @@ public class Player extends Element implements GameObserver {
     private int CountOfEatenInARow = 0;
     private int frequency = 15;
     private int dieF = 15;
+    public void setFacingDirection(String facingDirection) {
+        this.facingDirection = facingDirection;
+    }
     public void draw(TextGraphics  graphics){
         ps.draw(graphics);
     }
@@ -609,4 +612,5 @@ public class Player extends Element implements GameObserver {
         playerM = 0;
         fps = 0;
     }
+
 }

@@ -5,8 +5,13 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 
 public class Dot extends Element {
     public boolean SpecialDote;
-    char[][] bigDot;
-    char[][] smallDot;
+    public char[][] bigDot;
+    public char[][] smallDot;
+
+    public boolean isSpecialDote() {
+        return SpecialDote;
+    }
+
     public Dot(int x, int y, boolean bd) {
         super(x, y);
         SpecialDote = bd;
@@ -33,7 +38,7 @@ public class Dot extends Element {
         };
 
     }
-    void draw(TextGraphics graphics){
+    public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
         if (SpecialDote)drawTheStyle(bigDot,graphics,yellow);
         else drawTheStyle(smallDot,graphics,yellow);

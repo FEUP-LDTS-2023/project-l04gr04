@@ -22,7 +22,10 @@ public class Level {
             "apple","apple","melon","melon","galaxian","galaxian","bell","bell"); // Above is 'Key'
     private List<Integer> bonusPoints = Arrays.asList(1,3,5,5,7,7,10,10,20,20,30,30); // Above is 50
     private Mapa map;
-    public Level(int ln,int width,int height,char[][]mapa) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+  public Mapa getMap() {
+        return map;
+    }
+    public Level(int ln,int width,int height,char[][]mapa) throws IOException, UnsupportedAudioFileException, LineUnavailableException {    
         levelNumber = ln;
         Double pacManSpeed;
         Double ghostSpeed;

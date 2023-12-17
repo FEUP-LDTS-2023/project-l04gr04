@@ -7,9 +7,9 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import org.example.Element;
 
 public class Character extends Element {
-    char[][] score;
-    char[][] ready;
-    public Character (int x, int y){
+    public char[][] score;
+    public char[][] ready;
+    public Character(int x, int y){
         super(x,y);
 
         score = new char[][]{

@@ -1,5 +1,7 @@
 package org.example;
 
+import com.googlecode.lanterna.terminal.Terminal;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;

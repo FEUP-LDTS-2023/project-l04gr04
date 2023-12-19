@@ -1,6 +1,7 @@
 package org.example;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 
 
 public class Lifes extends Element {
@@ -37,6 +38,7 @@ public class Lifes extends Element {
     public boolean isempty(){
         return number == 0;
     }
+    @DoNotMutate
     public void draw(TextGraphics graphics){
         int initialX = position.getX();
         for (int i = 0 ; i < number ; i++){

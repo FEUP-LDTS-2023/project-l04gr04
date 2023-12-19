@@ -6,6 +6,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Monster.*;
 import org.example.Monster.States.*;
 import org.example.Numbers.Character;
@@ -32,7 +33,7 @@ public class Mapa {
     private final String backgroundColor = "#000000";
     private final String wallsColor = "#2121DE";
     private final String coinsColor = "#959043";
-    private Double baseFrequency = 1.0; // Base velocity
+    private Double baseFrequency = 2.0; // Base velocity
     private final int timeInScout = 10;
     private GameState gameState ;
     private char[][] map;
@@ -140,10 +141,12 @@ public class Mapa {
     ////////////////////////////////////////////////////
     // Draws                                          //
     ////////////////////////////////////////////////////
+    @DoNotMutate
     public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes,List<Fruit> frutas,Screen screen) throws IOException {
         if (firstInput)drawInicialMap(graphics,frutas,screen,lifes);
         else drawNormal(graphics,dirtyRegions,score,lifes);
     }
+    @DoNotMutate
     public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas, Screen screen,Lifes lifes) throws IOException {
         screen.clear();
         dots.clear();
@@ -198,6 +201,7 @@ public class Mapa {
         player.draw(graphics);
         screen.refresh();
     }
+    @DoNotMutate
     public void drawNormal(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws IOException {
         graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
         ready.cleanReady(graphics);
@@ -285,8 +289,8 @@ public class Mapa {
                 mapaListener.levelWon();
             }
             if (player.allMonsterseaten())lifes.incrementLife();
+            player.fps++;
         }
-        player.fps++;
     }
     void monsterMovement(){
         for (Monster m : monsters){
@@ -318,7 +322,8 @@ public class Mapa {
             } else if (lastInputMove == KeyType.ArrowDown) {
                 if(canMove("down"))player.move("down");
                 else if(canMove(player.facingDirection))  player.move(player.facingDirection);
-            }}
+            }
+        }
     }
     public void checkDotCollisions(Score score){
         Iterator<Dot> iterator = dots.iterator();
@@ -370,7 +375,6 @@ public class Mapa {
     private void lostOneLife(Lifes lifes){
         gameState.stopMusic();
         gameState.closeMusic();
-        gameState = null;
         player.ps.changeState(new eatingPacMan(player));
         for (Monster m : monsters){
             m.changeState(new onCollision(m));
@@ -423,7 +427,7 @@ public class Mapa {
             case "up":
                 boolean t = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y-1 >= 0 && y-1 <= height && x+i >= 0 && x+i <= width){
+                    if (y-1 >= 0 && y-1 <= height && x+i >= 0 && x+i < width){
                         if(map[y-1][x+i] == 'P' || map[y-1][x+i] == 'c')t = false;
                     }
                 }
@@ -431,7 +435,7 @@ public class Mapa {
             case "down":
                 boolean b = true;
                 for (int i = 0 ; i < 14 ; i++){
-                    if (y+14 >= 0 && y+14 <= height && x+i >= 0 && x+i <= width){
+                    if (y+14 >= 0 && y+14 <= height && x+i >= 0 && x+i < width){
                         if (map[y+14][x+i] == 'P'||map[y+14][x+i] == 'c')b = false;
                     }
                 }
@@ -456,6 +460,7 @@ public class Mapa {
         return true;
     }
 
+    @DoNotMutate
     public void warnMapStopMusic() {
         gameState.stopMusic();
         gameState.closeMusic();

@@ -1,27 +1,48 @@
 package org.example.Monster;
 
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Fruit;
-import org.example.Game;
-import org.example.Level;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.TerminalScreen;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.*;
+import org.example.Numbers.Score;
 import org.junit.jupiter.api.Test;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 
 public class LevelTest {
+    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
+    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+    Font customFont = font.deriveFont(Font.PLAIN, 2);
+    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
+    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
+    Terminal terminal = terminalFactory.createTerminal();
+
+    public Screen screen = new TerminalScreen(terminal);
+    TextGraphics graphics = screen.newTextGraphics();
+
+    public LevelTest() throws IOException, FontFormatException {
+    }
 
     @Test
     public void testInitialization() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        Game game = new Game(220, 270,null,null,null);
+       Game game = new Game(220, 270,null,null,null);
 
         // Test level 1 initialization
         Level level1 = new Level(1, 10, 10,game.loadMapFromFile("map.txt"));
@@ -35,6 +56,7 @@ public class LevelTest {
         assertEquals("apple", level5.fruta);
         assertNotNull(level5.getMap());
     }
+
     @Test
     public void testGamefeatures() throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
         Game game = new Game(220, 270,null,null,null);
@@ -43,5 +65,46 @@ public class LevelTest {
         game.gameLoop();
         game.warnMapStopMusic();
     }
-
+    @Test
+    public void processKey() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        Game game = new Game(220,270,null,null,null);
+        Mapa mapMock = mock(Mapa.class);
+        Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
+        level.setMap(mapMock);
+        KeyStroke keyStroke = mock(KeyStroke.class);
+        level.processKey(keyStroke);
+        verify(mapMock).readInput(keyStroke);
+    }
+    @Test
+    public void gameLoop() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        Game game = new Game(220,270,null,null,null);
+        Mapa mapMock = mock(Mapa.class);
+        Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
+        level.setMap(mapMock);
+        Score score = new Score();
+        Lifes lifes = new Lifes(0,0);
+        level.gameLoop(new ArrayList<>(),score,lifes);
+        verify(mapMock).gameLoop(anyList(),eq(score),eq(lifes));
+    }
+    @Test
+    public void drawInicialMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        Game game = new Game(220,270,null,null,null);
+        Mapa mapMock = mock(Mapa.class);
+        Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
+        level.setMap(mapMock);
+        Lifes lifes = new Lifes(0,0);
+        level.drawInicialMap(graphics,new ArrayList<>(),screen,lifes);
+        verify(mapMock).drawInicialMap(eq(graphics),anyList(),eq(screen),eq(lifes));
+    }
+    @Test
+    public void draw() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        Game game = new Game(220,270,null,null,null);
+        Mapa mapMock = mock(Mapa.class);
+        Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
+        level.setMap(mapMock);
+        Lifes lifes = new Lifes(0,0);
+        Score score = new Score();
+        level.draw(graphics,new ArrayList<>(),score,lifes,new ArrayList<>(),screen);
+        verify(mapMock).draw(eq(graphics),anyList(),eq(score),eq(lifes),anyList(),eq(screen));
+    }
 }

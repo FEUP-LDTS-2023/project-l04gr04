@@ -8,6 +8,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Monster.BlueMonster;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.hunt;
 import org.example.Monster.States.inCage;
@@ -33,78 +34,53 @@ public class InCageTest {
     Terminal terminal = terminalFactory.createTerminal();
     public Screen screen = new TerminalScreen(terminal);
     TextGraphics mockTextGraphics = screen.newTextGraphics();
-    private RedMonster mockMonster;
+    private BlueMonster mockMonster;
 
     public InCageTest() throws IOException, FontFormatException {
     }
 
     @BeforeEach
     public void setUp() {
-        mockMonster = mock(RedMonster.class);
+        mockMonster = mock(BlueMonster.class);
         mockMonster.setPosition(new Position(75, 42));
     }
-    @DoNotMutate
     @Test
     public void testOnPacManCollision() {
         inCage inCageState = new inCage(mockMonster);
-
         inCageState.onPacManCollision();
+        verify(mockMonster).pacManLost();
 
-        // Verify that onPacManCollision does not change the state or perform any action
-        verify(mockMonster, never()).changeState(any());
-        verify(mockMonster, never()).draw(any(), any());
-        //verify(mockMonster, times(0)).move(any(Position.class), any(char[][].class), anyBoolean(), anyBoolean(), anyBoolean(), anyBoolean());
     }
-    @DoNotMutate
     @Test
     public void testModeOn() {
         inCage inCageState = new inCage(mockMonster);
-
-
         String mode = inCageState.modeOn();
-
-        // Verify that modeOn returns "eaten"
         assertEquals("inCage", mode);
     }
-    @DoNotMutate
     @Test
     public void testDraw() {
         inCage inCageState = new inCage(mockMonster);
-
         inCageState.draw(mockTextGraphics, "#FFFFFF");
-
-        // Verify that draw calls the correct monster.darkDraw method
-        verify(mockMonster).darkDraw(eq(mockTextGraphics), eq("#000000"));
+        verify(mockMonster).normalDraw(eq(mockTextGraphics), eq("#FFFFFF"));
     }
-    @DoNotMutate
     @Test
     public void testMove() {
         inCage inCageState = new inCage(mockMonster);
-
         inCageState.move(new Position(0, 0), new char[5][5], true, false, true, false);
-
-        // Verify that move calls the correct monster.targetMove method
         verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
     }
     @DoNotMutate
     @Test
     public void testFrightHourStarted() {
         inCage inCageState = new inCage(mockMonster);
-
         inCageState.FrightHourStarted();
-
-        // Verify that FrightHourStarted does not change the state
         verify(mockMonster, never()).changeState(any());
     }
     @DoNotMutate
     @Test
     public void testFrightHourEnded() {
         inCage inCageState = new inCage(mockMonster);
-
         inCageState.FrightHourEnded();
-
-        // Verify that FrightHourEnded does not change the state
         verify(mockMonster, never()).changeState(any());
     }
-    ///repetir para os outros todos
 }

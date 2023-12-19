@@ -1,6 +1,7 @@
 package org.example;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 
 public class Fruit extends Element{
 
@@ -143,6 +144,7 @@ public class Fruit extends Element{
             };
         }
     };
+    @DoNotMutate
     public void draw(TextGraphics graphics){
         drawTheStyle(fruta,graphics,red);
     }

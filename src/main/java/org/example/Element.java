@@ -5,6 +5,7 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 
 public class Element {
     protected Position position;
@@ -51,6 +52,7 @@ public class Element {
         if (position.equals(new Position(205, 117))) return new Position(-20, 117);
         return new Position(position.getX()+1, position.getY());
     }
+    @DoNotMutate
     public void drawTheStyle(char[][] pacManImage,TextGraphics graphics, String colorm){
         int x = position.getX();
         int y = position.getY();

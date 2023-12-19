@@ -1,6 +1,7 @@
 package org.example.PacMan;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.GameStates.playingState;
 import org.example.Monster.Monster;
 import org.example.Monster.monsterState;
@@ -26,9 +27,11 @@ public class eatingPacMan extends pacManState {
     }
 
     @Override
+    @DoNotMutate
     public void draw(TextGraphics graphics) {player.drawDead(graphics);}
 
     @Override
+    @DoNotMutate
     public void move(String direction) {}
 
 }

@@ -1,7 +1,6 @@
 package org.example.Monster.GameStateTest;
 
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -12,8 +11,8 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 import org.example.GameStates.ApplicationState;
+import org.example.GameStates.RetryingLevel;
 import org.example.GameStates.pauseState;
-import org.example.GameStates.playingState;
 import org.junit.jupiter.api.Test;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -27,7 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-public class PauseStateTest {
+public class RetryingLevelTest {
     InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
     Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
     Font customFont = font.deriveFont(Font.PLAIN, 2);
@@ -36,47 +35,33 @@ public class PauseStateTest {
     Terminal terminal = terminalFactory.createTerminal();
     public Screen screen = new TerminalScreen(terminal);
 
-    public PauseStateTest() throws IOException, FontFormatException {
-    }
-    @Test
-    void testConstructor() {
-        Game mockGame = mock(Game.class);
-        pauseState pauseState = new pauseState(mockGame);
-        verify(mockGame).onPause = true;
+    public RetryingLevelTest() throws IOException, FontFormatException {
     }
 
     @Test
-    void testDraw() throws IOException {
+    void testDraw() throws IOException{
+        // Tests that draw of retryingLevel does not call any draw of game, is just empty
         Game mockGame = mock(Game.class);
-        pauseState pauseState = new pauseState(mockGame);
+        RetryingLevel retryingLevel = new RetryingLevel(mockGame);
+        retryingLevel.draw();
+        verify(mockGame, never()).drawLevel();
+        verify(mockGame, never()).drawMenu(anyInt());
+        verify(mockGame, never()).drawPause(anyInt());
 
-        pauseState.draw();
-        verify(mockGame).drawPause(anyInt());
     }
 
     @Test
-    void testInput() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    void testInput() throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
+        // Tests that input of retryingLevel does not call the input in Game class
         Game mockGame = mock(Game.class);
-        mockGame.screen = screen;
-        pauseState pauseState = new pauseState(mockGame);
-
-        KeyStroke enterKey = new KeyStroke(KeyType.Enter);
-        pauseState.input(enterKey);
-        verify(mockGame).changeState(any(ApplicationState.class));
+        RetryingLevel retryingLevel = new RetryingLevel(mockGame);
+        retryingLevel.input(new KeyStroke(KeyType.ArrowLeft));
+        verify(mockGame, never()).gameplayInput(any());
     }
     @Test
-    void testName() {
+    void testName(){
         Game mockGame = mock(Game.class);
-        pauseState pauseState = new pauseState(mockGame);
-        assertEquals("pause",pauseState.name());
-    }
-    @Test
-    void barUp(){
-        Game mockGame = mock(Game.class);
-        pauseState pauseState = new pauseState(mockGame);
-        pauseState.up();
-        assertEquals(1,pauseState.getBarOn());
-        pauseState.down();
-        assertEquals(0,pauseState.getBarOn());
+        RetryingLevel retryingLevel = new RetryingLevel(mockGame);
+        assertEquals("retryingLevel",retryingLevel.name());
     }
 }

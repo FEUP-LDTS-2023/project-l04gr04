@@ -53,5 +53,8 @@ public class pauseState extends ApplicationState{
         barOn++;
         if(barOn > 1)barOn = 0;
     }
+    public int getBarOn(){
+        return barOn;
+    }
 
 }

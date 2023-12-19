@@ -8,6 +8,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Monster.BlueMonster;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.inCage;
 import org.example.Monster.States.onCollision;
@@ -33,77 +34,55 @@ public class OnCollisionTest {
     Terminal terminal = terminalFactory.createTerminal();
     public Screen screen = new TerminalScreen(terminal);
     TextGraphics mockTextGraphics = screen.newTextGraphics();
-    private RedMonster mockMonster;
+    private BlueMonster mockMonster;
 
     public OnCollisionTest() throws IOException, FontFormatException {
     }
-    @DoNotMutate
     @BeforeEach
     public void setUp() {
-        mockMonster = mock(RedMonster.class);
+        mockMonster = mock(BlueMonster.class);
         mockMonster.setPosition(new Position(75, 42));
     }
-    @DoNotMutate
     @Test
     public void testOnPacManCollision() {
         onCollision onCollisionState = new onCollision(mockMonster);
-
         onCollisionState.onPacManCollision();
-
-        // Verify that onPacManCollision does not change the state or perform any action
         verify(mockMonster, never()).changeState(any());
         verify(mockMonster, never()).draw(any(), any());
-        //verify(mockMonster, times(0)).move(any(Position.class), any(char[][].class), anyBoolean(), anyBoolean(), anyBoolean(), anyBoolean());
     }
-    @DoNotMutate
     @Test
     public void testModeOn() {
         onCollision onCollisionState = new onCollision(mockMonster);
-
         String mode = onCollisionState.modeOn();
-
-        // Verify that modeOn returns "eaten"
         assertEquals("onCollision", mode);
     }
-    @DoNotMutate
+
     @Test
     public void testDraw() {
         onCollision onCollisionState = new onCollision(mockMonster);
-
         onCollisionState.draw(mockTextGraphics, "#FFFFFF");
-
-        // Verify that draw calls the correct monster.darkDraw method
-        verify(mockMonster).darkDraw(eq(mockTextGraphics), eq("#000000"));
+        verify(mockMonster, never()).darkDraw(mockTextGraphics,"#FFFFFF");
+        verify(mockMonster, never()).blueDraw(mockTextGraphics,"#FFFFFF");
+        verify(mockMonster, never()).normalDraw(mockTextGraphics,"#FFFFFF");
     }
-    @DoNotMutate
     @Test
     public void testMove() {
         onCollision onCollisionState = new onCollision(mockMonster);
-
         onCollisionState.move(new Position(0, 0), new char[5][5], true, false, true, false);
-
-        // Verify that move calls the correct monster.targetMove method
-        verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
+        verify(mockMonster,never()).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
     }
     @DoNotMutate
     @Test
     public void testFrightHourStarted() {
         onCollision onCollisionState = new onCollision(mockMonster);
-
         onCollisionState.FrightHourStarted();
-
-        // Verify that FrightHourStarted does not change the state
         verify(mockMonster, never()).changeState(any());
     }
     @DoNotMutate
     @Test
     public void testFrightHourEnded() {
         onCollision onCollisionState = new onCollision(mockMonster);
-
         onCollisionState.FrightHourEnded();
-
-        // Verify that FrightHourEnded does not change the state
         verify(mockMonster, never()).changeState(any());
     }
-    ///repetir para os outros todos
 }

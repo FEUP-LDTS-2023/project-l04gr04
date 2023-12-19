@@ -2,17 +2,19 @@ package org.example.Numbers;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Element;
 
 public class Numero extends Element {
     char[][] num;
+    private int n;
 
     public Numero(int x, int y){
         super(x,y);
     }
 
-    public char[][] getNum() {
-        return num;
+    public int getNum() {
+        return n;
     }
 
     public void draw(TextGraphics graphics){
@@ -22,6 +24,7 @@ public class Numero extends Element {
     public void changeNumber(int k){
         switch (k){
             case 0:
+                n = 0;
                 num = new char[][]{
                         {'#','#','Y','Y','Y','#','#'},
                         {'#','Y','#','#','Y','Y','#'},
@@ -33,6 +36,7 @@ public class Numero extends Element {
                 };
                 break;
             case 1:
+                n = 1;
                 num = new char[][]{
                         {'#','#','#','Y','Y','#','#'},
                         {'#','Y','Y','Y','Y','#','#'},
@@ -44,6 +48,7 @@ public class Numero extends Element {
                 };
                 break;
             case 2:
+                n = 2;
                 num = new char[][]{
                         {'#','#','Y','Y','Y','Y','#'},
                         {'Y','Y','#','#','#','Y','Y'},
@@ -56,6 +61,7 @@ public class Numero extends Element {
                 break;
 
             case 3:
+                n = 3;
                 num = new char[][]{
                         {'#','Y','Y','Y','Y','Y','Y'},
                         {'#','#','#','#','Y','Y','#'},
@@ -67,6 +73,7 @@ public class Numero extends Element {
                 };
                 break;
             case 4:
+                n = 4;
                 num = new char[][]{
                         {'#','#','#','Y','Y','Y','#'},
                         {'#','#','Y','Y','Y','Y','#'},
@@ -78,6 +85,7 @@ public class Numero extends Element {
                 };
                 break;
             case 5:
+                n = 5;
                 num = new char[][]{
                         {'Y','Y','Y','Y','Y','Y','#'},
                         {'Y','Y','#','#','#','#','#'},
@@ -89,6 +97,7 @@ public class Numero extends Element {
                 };
                 break;
             case 6:
+                n = 6;
                 num = new char[][]{
                         {'#','#','Y','Y','Y','Y','#'},
                         {'#','Y','Y','#','#','#','#'},
@@ -100,6 +109,7 @@ public class Numero extends Element {
                 };
                 break;
             case 7:
+                n = 7;
                 num = new char[][]{
                         {'Y','Y','Y','Y','Y','Y','Y'},
                         {'Y','Y','#','#','#','Y','Y'},
@@ -111,6 +121,7 @@ public class Numero extends Element {
                 };
                 break;
             case 8:
+                n = 8;
                 num = new char[][]{
                         {'#','Y','Y','Y','Y','#','#'},
                         {'Y','#','#','#','#','Y','#'},
@@ -122,6 +133,7 @@ public class Numero extends Element {
                 };
                 break;
             case 9:
+                n = 9;
                 num = new char[][]{
                         {'#','Y','Y','Y','Y','#','#'},
                         {'Y','Y','#','#','#','Y','Y'},

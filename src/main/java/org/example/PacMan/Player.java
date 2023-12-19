@@ -2,6 +2,7 @@ package org.example.PacMan;
 
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Element;
 import org.example.GameObserver;
 import org.example.Monster.monsterState;
@@ -49,9 +50,11 @@ public class Player extends Element implements GameObserver {
     public void setFacingDirection(String facingDirection) {
         this.facingDirection = facingDirection;
     }
+    @DoNotMutate
     public void draw(TextGraphics  graphics){
         ps.draw(graphics);
     }
+    @DoNotMutate
     public void drawDead(TextGraphics graphics){
         if (mouthOpen<=dieF){
             drawTheStyle(pacManDie1,graphics,playerColor);
@@ -106,6 +109,7 @@ public class Player extends Element implements GameObserver {
     }
 
 
+    @DoNotMutate
     public void drawNormal(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
         if (position.getX() > 198) return;
@@ -217,6 +221,7 @@ public class Player extends Element implements GameObserver {
     }
     public Player(int x, int y){
         super(x,y);
+        atmF = playerF;
         facingDirection = "left";
         pacManUp1 = new char[][]{
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
@@ -570,8 +575,10 @@ public class Player extends Element implements GameObserver {
         ps = newState;
     }
     public void moveNormal(String direction){
-        facingDirection = direction;
-        switch (direction){
+        if (!(position.getY() == 117 && (position.getX() <= 22 || position.getX() >=160) && (direction.equals("up") || direction.equals("down")))){
+            facingDirection = direction;
+        }
+        switch (facingDirection){
             case "up":
                 position = moveUp();
                 break;

@@ -8,9 +8,13 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Monster.BlueMonster;
 import org.example.Monster.RedMonster;
+import org.example.Monster.States.fright;
+import org.example.Monster.States.hunt;
 import org.example.Monster.States.onCollision;
 import org.example.Monster.States.scatter;
+import org.example.Monster.monsterState;
 import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,77 +37,49 @@ public class ScatterTest {
     Terminal terminal = terminalFactory.createTerminal();
     public Screen screen = new TerminalScreen(terminal);
     TextGraphics mockTextGraphics = screen.newTextGraphics();
-    private RedMonster mockMonster;
+    private BlueMonster mockMonster;
 
     public ScatterTest() throws IOException, FontFormatException {
     }
-    @DoNotMutate
     @BeforeEach
     public void setUp() {
-        mockMonster = mock(RedMonster.class);
+        mockMonster = mock(BlueMonster.class);
         mockMonster.setPosition(new Position(75, 42));
     }
-    @DoNotMutate
     @Test
     public void testOnPacManCollision() {
-        scatter scatterState = new scatter(mockMonster);
-
-        scatterState.onPacManCollision();
-
-        // Verify that onPacManCollision does not change the state or perform any action
-        verify(mockMonster, never()).changeState(any());
-        verify(mockMonster, never()).draw(any(), any());
-        //verify(mockMonster, times(0)).move(any(Position.class), any(char[][].class), anyBoolean(), anyBoolean(), anyBoolean(), anyBoolean());
+        monsterState monsterState = new scatter(mockMonster);
+        monsterState.onPacManCollision();
+        verify(mockMonster).pacManLost();
     }
-    @DoNotMutate
     @Test
     public void testModeOn() {
         scatter scatterState = new scatter(mockMonster);
-
         String mode = scatterState.modeOn();
-
-        // Verify that modeOn returns "eaten"
         assertEquals("scatter", mode);
     }
-    @DoNotMutate
     @Test
     public void testDraw() {
         scatter scatterState = new scatter(mockMonster);
-
         scatterState.draw(mockTextGraphics, "#FFFFFF");
-
-        // Verify that draw calls the correct monster.darkDraw method
-        verify(mockMonster).darkDraw(eq(mockTextGraphics), eq("#000000"));
+        verify(mockMonster).normalDraw(eq(mockTextGraphics), eq("#FFFFFF"));
     }
-    @DoNotMutate
     @Test
     public void testMove() {
         scatter scatterState = new scatter(mockMonster);
-
         scatterState.move(new Position(0, 0), new char[5][5], true, false, true, false);
-
-        // Verify that move calls the correct monster.targetMove method
         verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
     }
-    @DoNotMutate
     @Test
     public void testFrightHourStarted() {
-        scatter scatterState = new scatter(mockMonster);
-
-        scatterState.FrightHourStarted();
-
-        // Verify that FrightHourStarted does not change the state
-        verify(mockMonster, never()).changeState(any());
+        monsterState monsterState = new scatter(mockMonster);
+        monsterState.FrightHourStarted();
+        verify(mockMonster).changeState(new fright(any()));
     }
-    @DoNotMutate
     @Test
     public void testFrightHourEnded() {
-        scatter scatterState = new scatter(mockMonster);
-
-        scatterState.FrightHourEnded();
-
-        // Verify that FrightHourEnded does not change the state
-        verify(mockMonster, never()).changeState(any());
+        scatter scatter = new scatter(mockMonster);
+        scatter.FrightHourEnded();
+        verify(mockMonster).changeState(new hunt(any()));
     }
-    ///this.monster = null?
 }

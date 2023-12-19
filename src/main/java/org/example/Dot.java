@@ -2,6 +2,7 @@ package org.example;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 
 public class Dot extends Element {
     public boolean SpecialDote;
@@ -38,6 +39,7 @@ public class Dot extends Element {
         };
 
     }
+    @DoNotMutate
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
         if (SpecialDote)drawTheStyle(bigDot,graphics,yellow);

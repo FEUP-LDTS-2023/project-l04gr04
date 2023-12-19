@@ -24,14 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class ScoreAndNumberTest {
-    /*InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
+    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
     Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
     Font customFont = font.deriveFont(Font.PLAIN, 2);
     SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
     DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
     Terminal terminal = terminalFactory.createTerminal();
     public Screen screen = new TerminalScreen(terminal);
-    TextGraphics graphicsMock = screen.newTextGraphics();
     TextGraphics graphicsMock = mock(TextGraphics.class);
 
     private Mapa mapa;
@@ -41,62 +40,67 @@ public class ScoreAndNumberTest {
 
     public ScoreAndNumberTest() throws IOException, FontFormatException {
     }
-    //voltar aqui e fazer como no player e monster
-    /*@Test
+    @Test
     public void testDrawReady() {
-        character = new Character(5, 5);
-
+        Character character = new Character(5, 5);
+        TextGraphics graphicsMock = mock(TextGraphics.class);
         character.drawready(graphicsMock);
         // Verify that the correct drawing methods are called on graphicsMock
-        verify(graphicsMock, times(1)).fillRectangle(any(), any(), anyChar());
-        verify(graphicsMock, times(1)).setBackgroundColor(any());
-        // Add assertions for the expected calls based on the drawTheStyle method implementation
+        verify(graphicsMock, times(157)).fillRectangle(any(), any(), anyChar());
+        verify(graphicsMock, times(480)).setBackgroundColor(any());
     }
     @Test
     public void testDrawScore() {
         Character character = new Character(5, 5);
         TextGraphics graphicsMock = mock(TextGraphics.class);
-
         character.drawscore(graphicsMock);
-
+        // Verify that the correct drawing methods are called on graphicsMock
+        verify(graphicsMock, times(136)).fillRectangle(any(), any(), anyChar());
+        verify(graphicsMock, times(410)).setBackgroundColor(any());
+    }
+    @Test
+    public void testCleanReady() {
+        Character character = new Character(5, 5);
+        TextGraphics graphicsMock = mock(TextGraphics.class);
+        character.cleanReady(graphicsMock);
         // Verify that the correct drawing methods are called on graphicsMock
         verify(graphicsMock, times(1)).fillRectangle(any(), any(), anyChar());
-        verify(graphicsMock, times(1)).setBackgroundColor(any());        // Add assertions for the expected calls based on the drawTheStyle method implementation
+        verify(graphicsMock, times(1)).setBackgroundColor(any());
     }
+
     @Test
     public void testDrawNumero() {
         Numero numero = new Numero(5, 5);
+        numero.changeNumber(1);
         TextGraphics graphicsMock = mock(TextGraphics.class);
-
         numero.draw(graphicsMock);
-
         // Verify that the correct drawing methods are called on graphicsMock
-        verify(graphicsMock, times(1)).fillRectangle(any(), any(), anyChar());
-        verify(graphicsMock, times(1)).setBackgroundColor(any());        // Add assertions for the expected calls based on the drawTheStyle method implementation
+        verify(graphicsMock, times(21)).fillRectangle(any(), any(), anyChar());
+        verify(graphicsMock, times(71)).setBackgroundColor(any());
+    }
+    @Test
+    public void testDrawScore2() {
+        Score score = new Score();
+        score.draw(graphicsMock);
+        verify(graphicsMock, times(24)).fillRectangle(any(), any(), anyChar());
+        verify(graphicsMock, times(74)).setBackgroundColor(any());
     }
     @Test
     public void testChangeNumber() {
         Numero numero = new Numero(5, 5);
-
-        // Trigger the changeNumber method with different numbers
         numero.changeNumber(3);
-
-        // Assert that the num array is correctly updated based on the provided cases
-        assertEquals(new char[5][5], numero.getNum());
+        assertEquals(3 ,numero.getNum());
+        numero.changeNumber(9);
+        assertEquals(9 ,numero.getNum());
     }
     @Test
     public void testIncrement() {
         Score score = new Score();
-
-        // Trigger the increment method with different increments
         score.increment(10);
-
-        // Assert that the current score and reverseDisplay list are updated correctly
-        assertEquals(0, score.getCurrentScore());
-        assertEquals(new ArrayList<>(), score.getReverseDisplay());
-    }*/
-
-
-
-
+        assertEquals(10, score.getCurrentScore());
+        ArrayList<Integer> k = new ArrayList<>();
+        k.add(0);
+        k.add(1);
+        assertEquals(k, score.getReverseDisplay());
+    }
 }

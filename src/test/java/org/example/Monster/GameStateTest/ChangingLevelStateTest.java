@@ -1,7 +1,11 @@
 package org.example.Monster.GameStateTest;
 
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import org.example.Game;
+import org.example.GameStates.RetryingLevel;
 import org.example.GameStates.changingLevel;
+import org.example.GameStates.menuState;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -14,6 +18,8 @@ import java.util.TimerTask;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class ChangingLevelStateTest {
     @Test
@@ -40,5 +46,19 @@ public class ChangingLevelStateTest {
         }, 2100);
 
         assertEquals(firstDrawState, true);
+    }
+    @Test
+    void testName() {
+        Game mockGame = mock(Game.class);
+        changingLevel changingLevel = new changingLevel(mockGame);
+        assertEquals("changingLevel",changingLevel.name());
+    }
+    @Test
+    void testInput() throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
+        // Tests that input of ChangingLevel does not call the input in Game class
+        Game mockGame = mock(Game.class);
+        changingLevel changingLevel = new changingLevel(mockGame);
+        changingLevel.input(new KeyStroke(KeyType.ArrowRight));
+        verify(mockGame, never()).gameplayInput(any());
     }
 }

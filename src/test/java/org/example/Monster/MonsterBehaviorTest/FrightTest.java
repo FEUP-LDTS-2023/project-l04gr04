@@ -8,10 +8,12 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Monster.BlueMonster;
 import org.example.Monster.Monster;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.eaten;
 import org.example.Monster.States.fright;
+import org.example.Monster.States.hunt;
 import org.example.Monster.monsterState;
 import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +37,7 @@ public class FrightTest {
     Terminal terminal = terminalFactory.createTerminal();
     public Screen screen = new TerminalScreen(terminal);
     TextGraphics mockTextGraphics = screen.newTextGraphics();
-    private RedMonster mockMonster;
+    private BlueMonster mockMonster;
 
 
     public FrightTest() throws IOException, FontFormatException {
@@ -43,58 +45,46 @@ public class FrightTest {
 
     @BeforeEach
     public void setUp() {
-        mockMonster = new RedMonster(75,42);
+        mockMonster = mock(BlueMonster.class);
+        mockMonster.setPosition(new Position(75, 42));
     }
-    @DoNotMutate
     @Test
     public void testOnPacManCollision() {
         monsterState monsterState = new fright(mockMonster);
         monsterState.onPacManCollision();
-        assertEquals("eaten",mockMonster.ms.modeOn());
+        verify(mockMonster).changeState(new eaten(any()));
     }
-    @DoNotMutate
     @Test
     public void testModeOn() {
         fright frightState = new fright(mockMonster);
         String mode = frightState.modeOn();
         assertEquals("fright", mode);
     }
-    @DoNotMutate
     @Test
     public void testDraw() {
-        mockMonster = mock(RedMonster.class);
-        fright frightState = new fright(mockMonster);
-        frightState.draw(mockTextGraphics, "#FFFFFF");
-        verify(mockMonster).darkDraw(eq(mockTextGraphics), eq("#000000"));
+        fright fright = new fright(mockMonster);
+        fright.draw(mockTextGraphics, "#FFFFFF");
+        verify(mockMonster).blueDraw(eq(mockTextGraphics), eq("#FFFFFF"));
     }
-    @DoNotMutate
     @Test
     public void testMove() {
-        mockMonster = mock(RedMonster.class);
         fright frightState = new fright(mockMonster);
         frightState.move(new Position(0, 0), new char[5][5], true, false, true, false);
         // Verify that move calls the correct monster.targetMove method
-        verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
+        verify(mockMonster).frightMove(eq(true), eq(false), eq(true), eq(false));
     }
-    @DoNotMutate
     @Test
     public void testFrightHourStarted() {
         fright frightState = new fright(mockMonster);
-
         frightState.FrightHourStarted();
-
         // Verify that FrightHourStarted does not change the state
         verify(mockMonster, never()).changeState(any());
     }
-    @DoNotMutate
     @Test
     public void testFrightHourEnded() {
-        fright frightState = new fright(mockMonster);
-
-        frightState.FrightHourEnded();
-
-        // Verify that FrightHourEnded does not change the state
-        verify(mockMonster, never()).changeState(any());
+        monsterState monsterState = new fright(mockMonster);
+        monsterState.FrightHourEnded();
+        verify(mockMonster).changeState(new hunt(any()));
     }
-    ///repetir para os outros todos
+
 }

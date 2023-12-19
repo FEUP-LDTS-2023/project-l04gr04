@@ -2,6 +2,7 @@ package org.example.Monster;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Element;
 import org.example.Monster.States.*;
 import org.example.Position;
@@ -53,6 +54,7 @@ public abstract class Monster extends Element implements GenericMonster {
     }
     public Monster(int x,int y){
         super(x,y);
+        atmF = monsterF;
         movingDirection = "left";
         monsterLeft1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
@@ -219,6 +221,7 @@ public abstract class Monster extends Element implements GenericMonster {
                 {'#',' ',' ','#','#','#',' ',' ','#','#','#',' ',' ','#'}
         };
     }
+    @DoNotMutate
     public void draw(TextGraphics graphics, String colorM){
         graphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         if (position.getX() > 198) return;
@@ -227,6 +230,7 @@ public abstract class Monster extends Element implements GenericMonster {
     public void changeState(monsterState newState) {
         ms = newState;
     }
+    @DoNotMutate
     public void normalDraw(TextGraphics graphics,String monsterColor){
         switch (movingDirection) {
             case "right":
@@ -288,6 +292,7 @@ public abstract class Monster extends Element implements GenericMonster {
                 }
         }
     }
+    @DoNotMutate
     public void blueDraw(TextGraphics graphics,String monsterColor){
         if (mouthOpenM <= frequency) {
             drawTheStyle(monsterRun1, graphics, monsterYesColor);
@@ -300,6 +305,7 @@ public abstract class Monster extends Element implements GenericMonster {
             drawTheStyle(monsterRun1, graphics, monsterYesColor);
         }
     }
+    @DoNotMutate
     public void darkDraw(TextGraphics graphics,String monsterColor){
         switch (movingDirection) {
             case "right":

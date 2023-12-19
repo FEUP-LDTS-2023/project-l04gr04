@@ -3,6 +3,7 @@ package org.example;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Numbers.Score;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -22,9 +23,6 @@ public class Level {
             "apple","apple","melon","melon","galaxian","galaxian","bell","bell"); // Above is 'Key'
     private List<Integer> bonusPoints = Arrays.asList(1,3,5,5,7,7,10,10,20,20,30,30); // Above is 50
     private Mapa map;
-  public Mapa getMap() {
-        return map;
-    }
     public Level(int ln,int width,int height,char[][]mapa) throws IOException, UnsupportedAudioFileException, LineUnavailableException {    
         levelNumber = ln;
         Double pacManSpeed;
@@ -83,4 +81,6 @@ public class Level {
         map.setMapaListener(game);
     }
     public void warnMapStopMusic(){map.warnMapStopMusic();}
+    public Mapa getMap(){return map;}
+    public void setMap(Mapa m){map = m;}
 }

@@ -12,6 +12,7 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 import org.example.GameStates.menuState;
+import org.example.GameStates.pauseState;
 import org.example.GameStates.playingState;
 import org.example.Level;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,9 +45,8 @@ public class MenuStateTest {
 
     @BeforeEach
     void setUp() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        mockGame = new Game(220,270,terminal,new Level(1,220,270,null),graphicsMock);
+        mockGame = mock(Game.class);
     }
-    @DoNotMutate
     @Test
     void testDraw() throws IOException {
         menuState menuState = new menuState(mockGame);
@@ -54,7 +54,6 @@ public class MenuStateTest {
         verify(mockGame).drawMenu(anyInt());
     }
 
-    @DoNotMutate
     @Test
     void testInputEnter() throws IOException,UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);
@@ -64,25 +63,25 @@ public class MenuStateTest {
         verify(mockGame).changeState(any(playingState.class));
     }
 
-    @DoNotMutate
     @Test
     void testInputArrowUp() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);
         KeyStroke arrowUpKey = new KeyStroke(KeyType.ArrowUp);
-        mockGame.screen = mockScreen;
         menuState.input(arrowUpKey);
-        assertEquals(mockGame,menuState.getBarOn());
+        assertEquals(2,menuState.getBarOn());
     }
 
-    @DoNotMutate
     @Test
     void testInputArrowDown() throws IOException, UnsupportedEncodingException, UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);
         KeyStroke arrowDownKey = new KeyStroke(KeyType.ArrowDown);
-        mockGame.screen = mockScreen;
-
         menuState.input(arrowDownKey);
-
-        verify(mockGame).drawMenu(anyInt());
+        assertEquals(1,menuState.getBarOn());
+    }
+    @Test
+    void testName() {
+        Game mockGame = mock(Game.class);
+        menuState menuState = new menuState(mockGame);
+        assertEquals("menu",menuState.name());
     }
 }

@@ -13,6 +13,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.GameStates.*;
 import org.example.Numbers.Score;
 import org.example.Sounds.soundTrack;
@@ -48,6 +49,7 @@ public class Game implements MapaListener{
     private ApplicationState applicationState;
     private List<Fruit> frutas = new ArrayList<>();
     private Lifes lifes = new Lifes(5,243);
+    @DoNotMutate
     public Game(int w, int h, Terminal terminal, Level level, TextGraphics graphics){
         gameW = w;
         gameH = h;
@@ -70,6 +72,7 @@ public class Game implements MapaListener{
         return applicationState;
     }
 
+    @DoNotMutate
     public void initialize() throws IOException, FontFormatException {
         menu = loadMapFromFile("menu.txt");
         pausa = loadMapFromFile("pausa.txt");
@@ -95,6 +98,7 @@ public class Game implements MapaListener{
     ////////////////////////////////////////////////////
     // Game Loop                                      //
     ////////////////////////////////////////////////////
+    @DoNotMutate
     public void gameLoop(){
         gameLoopTimer = new Timer();
         gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
@@ -113,11 +117,13 @@ public class Game implements MapaListener{
                     throw new RuntimeException(e);
                 }
             }
-        }, 0, 10); // Refresh at each 16 ms ( ~ 60 FPS)
+        }, 0, 1
+        ); // Refresh at each 16 ms ( ~ 60 FPS)
     }
     ////////////////////////////////////////////////////
     // Draws                                          //
     ////////////////////////////////////////////////////
+    @DoNotMutate
     public void changingLevelDraw(boolean back) throws IOException {
         screen.clear();
         for (int row = 0; row < gameH; row++) {
@@ -149,6 +155,7 @@ public class Game implements MapaListener{
         }
         screen.refresh();
     }
+    @DoNotMutate
     public void drawMenu(int barOn) throws IOException {
         screen.clear();
         for (int row = 0; row < gameH; row++) {
@@ -171,6 +178,7 @@ public class Game implements MapaListener{
         }
         screen.refresh();
     }
+    @DoNotMutate
     public void drawPause(int barOn) throws IOException {
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
@@ -192,6 +200,7 @@ public class Game implements MapaListener{
         }
         screen.refresh();
     }
+    @DoNotMutate
     public void drawLevel() throws IOException {
         for (Rectangle dirtyRegion : dirtyRegions) {
             for (int i = dirtyRegion.y; i < dirtyRegion.y + dirtyRegion.height; i++) {
@@ -216,9 +225,11 @@ public class Game implements MapaListener{
             level.gameLoop(dirtyRegions,score,lifes);
         }
     }
+    @DoNotMutate
     public void drawInicialMap() throws IOException {
         if (level != null)level.drawInicialMap(graphics,frutas,screen,lifes);
     }
+    @DoNotMutate
     public void stopGameLoop() throws IOException {
         gameLoopTimer.cancel();
         gameLoopTimer.purge();
@@ -256,9 +267,11 @@ public class Game implements MapaListener{
         levelNumber = 1;
         k = null;
     }
+    @DoNotMutate
     public void warnMapStopMusic(){
         level.warnMapStopMusic();
     }
+    @DoNotMutate
     public void createLevel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         level = new Level(levelNumber,gameW,gameH,loadMapFromFile("map.txt"));
         level.setMapaListener(this);

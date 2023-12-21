@@ -10,11 +10,8 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Dot;
-import org.example.Game;
-import org.example.Mapa;
+import org.example.*;
 import org.example.Numbers.Score;
-import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +21,10 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class MapInitializationTest {
     InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
@@ -67,11 +64,18 @@ public class MapInitializationTest {
     @DoNotMutate
     @Test
     public void testPlayerMovement() {
-        KeyStroke keyStroke = mock(KeyStroke.class);
-        when(keyStroke.getKeyType()).thenReturn(KeyType.ArrowRight);
-
-        mapa.readInput(keyStroke);
+        mapa.readInput(new KeyStroke(KeyType.ArrowRight));
         assertEquals(KeyType.ArrowLeft, mapa.getLastInputMove());
+        mapa.setOffFirstInput();
+        mapa.readInput(new KeyStroke(KeyType.ArrowRight));
+        assertEquals(KeyType.ArrowRight, mapa.getLastInputMove());
+        mapa.readInput(new KeyStroke(KeyType.ArrowUp));
+        assertEquals(KeyType.ArrowUp, mapa.getLastInputMove());
+        mapa.readInput(new KeyStroke(KeyType.ArrowDown));
+        assertEquals(KeyType.ArrowDown, mapa.getLastInputMove());
+        mapa.readInput(new KeyStroke(KeyType.ArrowLeft));
+        assertEquals(KeyType.ArrowLeft, mapa.getLastInputMove());
+
     }
     @DoNotMutate
     @Test
@@ -81,6 +85,37 @@ public class MapInitializationTest {
         assertNull(game.getLevel());
         mapa.getMapaListener().levelLost(game.loadMapFromFile("map.txt"));
         assertEquals("playing",game.getApplicationState().name());
+    }
+    /*@Test
+    public void drawInitialMap() throws IOException {
+        Lifes lifes = new Lifes(0,0);
+        TextGraphics graphics = mock(TextGraphics.class);
+        mapa.drawInicialMap(graphics,new ArrayList<>(),screen,lifes);
+        //verify(graphics, times(24)).fillRectangle(any(), any(), anyChar());
+        //verify(graphics, times(74)).setBackgroundColor(any());
+    }*/
+    @Test
+    public void gameLoop() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        int i = mapa.getPlayer().fps;
+        mapa.gameLoop(new ArrayList<>(),new Score(),new Lifes(0,0));
+        assertEquals(i,mapa.getPlayer().fps);
+        mapa.setOffFirstInput();
+        mapa.gameLoop(new ArrayList<>(),new Score(),new Lifes(0,0));
+        assertEquals(i+1,mapa.getPlayer().fps);
+    }
+    @Test
+    public void lostOneLife(){
+        Lifes lifes = new Lifes(0,0);
+        mapa.lostOneLife(lifes);
+        assertEquals(2,lifes.getNumber());
+
+    }
+    @Test
+    public void movement(){
+        assertEquals(true,mapa.canMove("left"));
+        assertEquals(true,mapa.canMove("right"));
+        assertEquals(false,mapa.canMove("down"));
+        assertEquals(false,mapa.canMove("up"));
     }
 
 }

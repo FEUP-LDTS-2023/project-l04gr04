@@ -37,37 +37,34 @@ public class PlayerStateTest {
     public void setPlayerMock() {
         playerMock = mock(Player.class);
     }
-    @DoNotMutate
     @Test
     public void testNormalStateTransition() {
         pacManState initialState = new normalState(playerMock);
         pacManState eatingState = new eatingPacMan(playerMock);
-
-        assertTrue(initialState instanceof normalState);
-
         initialState.changeState(eatingState);
-
         verify(playerMock).changeState(eatingState);
     }
-    @DoNotMutate
     @Test
     public void testDrawNormalState() {
         pacManState normalState = new normalState(playerMock);
-
         normalState.draw(mock(TextGraphics.class));
-
         verify(playerMock).drawNormal(any(TextGraphics.class));
     }
-    @DoNotMutate
     @Test
     public void testDrawEatingPacManState() {
         pacManState eatingState = new eatingPacMan(playerMock);
-
         eatingState.draw(mock(TextGraphics.class));
-
         verify(playerMock).drawDead(any(TextGraphics.class));
     }
-    @DoNotMutate
+    @Test
+    public void testDrawDead() {
+        playerMock = new Player(0,0);
+        playerMock.mouthOpen = -30;
+        TextGraphics graphics = mock(TextGraphics.class);
+        playerMock.drawDead(graphics);
+        verify(graphics, times(94)).fillRectangle(any(), any(), anyChar());
+        verify(graphics, times(196)).setBackgroundColor(any());
+    }
     @Test
     public void testMoveNormalState() {
         pacManState normalState = new normalState(playerMock);
@@ -76,7 +73,6 @@ public class PlayerStateTest {
 
         verify(playerMock).moveNormal("up");
     }
-    @DoNotMutate
     @Test
     public void testMoveEatingPacManState() {
         pacManState eatingState = new eatingPacMan(playerMock);

@@ -65,6 +65,9 @@ public class Mapa {
     public void setDots( List<Dot> d){
         dots = d;
     }
+    public void setOffFirstInput( ){
+        firstInput = false;
+    }
     public int getDotsCounter() {
         return dotsCounter;
     }
@@ -372,7 +375,7 @@ public class Mapa {
             score.increment(bonusP);
         }
     }
-    private void lostOneLife(Lifes lifes){
+    public void lostOneLife(Lifes lifes){
         gameState.stopMusic();
         gameState.closeMusic();
         player.ps.changeState(new eatingPacMan(player));
@@ -420,7 +423,7 @@ public class Mapa {
         }
         return false;
     }
-    private boolean canMove(String direction){
+    public boolean canMove(String direction){
         int x = player.getX();
         int y = player.getY();
         switch (direction){

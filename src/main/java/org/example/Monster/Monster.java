@@ -504,7 +504,6 @@ public abstract class Monster extends Element implements GenericMonster {
         ms.move(p,map,t,b,d,e);
     }
     public void pacManLost() {
-
     }
 }
 

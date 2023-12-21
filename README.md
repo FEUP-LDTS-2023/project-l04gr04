@@ -118,6 +118,9 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/onCollisionState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/scatterState.java
 
+![image](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Monster%20State%20Pattern.png)
+
+
 **Consequências**
 
 - Possibilita um controle preciso do comportamento dos inimigos ao longo do jogo.

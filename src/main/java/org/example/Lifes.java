@@ -38,7 +38,6 @@ public class Lifes extends Element {
     public boolean isempty(){
         return number == 0;
     }
-    @DoNotMutate
     public void draw(TextGraphics graphics){
         int initialX = position.getX();
         for (int i = 0 ; i < number ; i++){

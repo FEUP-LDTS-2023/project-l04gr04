@@ -50,11 +50,11 @@ public class Player extends Element implements GameObserver {
     public void setFacingDirection(String facingDirection) {
         this.facingDirection = facingDirection;
     }
-    @DoNotMutate
+
     public void draw(TextGraphics  graphics){
         ps.draw(graphics);
     }
-    @DoNotMutate
+
     public void drawDead(TextGraphics graphics){
         if (mouthOpen<=dieF){
             drawTheStyle(pacManDie1,graphics,playerColor);
@@ -109,7 +109,6 @@ public class Player extends Element implements GameObserver {
     }
 
 
-    @DoNotMutate
     public void drawNormal(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
         if (position.getX() > 198) return;

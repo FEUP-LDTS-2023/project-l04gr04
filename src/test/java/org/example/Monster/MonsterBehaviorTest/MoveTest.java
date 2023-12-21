@@ -30,8 +30,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -177,5 +176,27 @@ public class MoveTest {
         redMonster.setMs(new hunt(redMonster));
         redMonster.move(new Position(97,185), game.loadMapFromFile("map.txt")); //Testar se passa pela parede
         assertEquals(new Position(93, 180), redMonster.getPosition()); //Monstro move para cima
+    }
+    @Test
+    public void moveFright(){
+        BlueMonster blueMonster = new BlueMonster(94,180);
+        blueMonster.setMovingDirection("left");
+        blueMonster.frightMove(true,true,true,true);
+        assertEquals(new Position(95,180),blueMonster.getPosition());
+        blueMonster = new BlueMonster(94,180);
+        blueMonster.setMovingDirection("right");
+        blueMonster.frightMove(true,true,true,true);
+        assertEquals(new Position(93,180),blueMonster.getPosition());
+        blueMonster = new BlueMonster(94,180);
+        blueMonster.setMovingDirection("up");
+        blueMonster.frightMove(true,true,true,true);
+        assertEquals(new Position(94,181),blueMonster.getPosition());
+        blueMonster = new BlueMonster(94,180);
+        blueMonster.setMovingDirection("down");
+        blueMonster.frightMove(true,true,true,true);
+        assertEquals(new Position(94,179),blueMonster.getPosition());
+        blueMonster.frightMove(true,true,true,true);
+        assertNotEquals(new Position(94,179),blueMonster.getPosition());
+
     }
 }

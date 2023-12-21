@@ -1,4 +1,4 @@
-package org.example.Monster.GameStateTest;
+package org.example.GameStateTest;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -27,17 +27,6 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 public class RetryingLevelTest {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-
-    public RetryingLevelTest() throws IOException, FontFormatException {
-    }
-
     @Test
     void testDraw() throws IOException{
         // Tests that draw of retryingLevel does not call any draw of game, is just empty
@@ -49,7 +38,6 @@ public class RetryingLevelTest {
         verify(mockGame, never()).drawPause(anyInt());
 
     }
-
     @Test
     void testInput() throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
         // Tests that input of retryingLevel does not call the input in Game class

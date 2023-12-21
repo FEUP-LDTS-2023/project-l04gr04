@@ -1,4 +1,4 @@
-package org.example.Monster.GameStateTest;
+package org.example.GameStateTest;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -29,22 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class MenuStateTest {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen mockScreen = new TerminalScreen(terminal);
-    TextGraphics graphicsMock =mockScreen.newTextGraphics();
     private Game mockGame;
 
-    public MenuStateTest() throws IOException, FontFormatException {
-    }
-
-
     @BeforeEach
-    void setUp() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    void setUp(){
         mockGame = mock(Game.class);
     }
     @Test
@@ -58,7 +46,7 @@ public class MenuStateTest {
     void testInputEnter() throws IOException,UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);
         KeyStroke enterKey = new KeyStroke(KeyType.Enter);
-        mockGame.screen = mockScreen;
+        mockGame.screen = mock(Screen.class);
         menuState.input(enterKey);
         verify(mockGame).changeState(any(playingState.class));
     }
@@ -72,7 +60,7 @@ public class MenuStateTest {
     }
 
     @Test
-    void testInputArrowDown() throws IOException, UnsupportedEncodingException, UnsupportedAudioFileException, LineUnavailableException {
+    void testInputArrowDown() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);
         KeyStroke arrowDownKey = new KeyStroke(KeyType.ArrowDown);
         menuState.input(arrowDownKey);
@@ -80,7 +68,6 @@ public class MenuStateTest {
     }
     @Test
     void testName() {
-        Game mockGame = mock(Game.class);
         menuState menuState = new menuState(mockGame);
         assertEquals("menu",menuState.name());
     }

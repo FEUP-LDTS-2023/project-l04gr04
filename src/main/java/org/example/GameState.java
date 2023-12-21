@@ -33,19 +33,17 @@ public class GameState {
     public boolean isFrightHour(){return frightH;}
     public void startFrightHour(){
         bg.stop();
+        bgScared.stop();
         bgScared.play();
         bgScared.loop();
         frightH = true;
         notifyObservers();
-        if (timer != null) {
-            timer.cancel();
-            timer.purge();
-        }
+        if (timer != null) timer.cancel();
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!observers.isEmpty())endFrightHour();
+                endFrightHour();
             }
         }, timeInFright * 1000);
     }

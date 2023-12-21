@@ -1,4 +1,4 @@
-package org.example.Monster;
+package org.example.OtherTests;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -8,10 +8,11 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.*;
-import org.example.Monster.States.fright;
+import org.example.Dot;
+import org.example.Game;
+import org.example.Mapa;
+import org.example.Monster.Position;
 import org.example.Numbers.Score;
-import org.example.PacMan.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,26 +21,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class DotTests {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-    TextGraphics graphicsMock = screen.newTextGraphics();
-
     private Mapa mapa;
-
-    public DotTests() throws IOException, FontFormatException {
-    }
-
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Game game = new Game(220,270,null,null,null);
@@ -51,7 +38,7 @@ public class DotTests {
         //test drawing methods for the first normal dot and the first special dot
         for (Dot dot : mapa.getDots()) {
             if (!dot.isSpecialDote()) {
-                dot.draw(graphicsMock);
+                dot.draw(mock(TextGraphics.class));
                 char[][] smallDot = new char[][]{
                         {'#','#','#','#','#','#','#'},
                         {'#','#','#','#','#','#','#'},
@@ -75,7 +62,7 @@ public class DotTests {
                 }
             }
             else {
-                dot.draw(graphicsMock);
+                dot.draw(mock(TextGraphics.class));
                 char[][] bigDot = new char[][]{
                         {'#','#','Y','Y','#','#','#'},
                         {'#','Y','Y','Y','Y','#','#'},

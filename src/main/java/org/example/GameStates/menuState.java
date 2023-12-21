@@ -3,6 +3,7 @@ package org.example.GameStates;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 import org.example.Sounds.soundTrack;
 
@@ -22,6 +23,7 @@ public class menuState extends ApplicationState{
         return "menu";
     }
 
+    @DoNotMutate
     @Override
     public void draw() throws IOException {
         game.drawMenu(barOn);

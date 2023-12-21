@@ -1,4 +1,4 @@
-package org.example.Monster.MonsterBehaviorTest;
+package org.example.OtherTests;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.example.Lifes;

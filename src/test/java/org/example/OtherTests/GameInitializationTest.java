@@ -1,4 +1,4 @@
-package org.example.Monster;
+package org.example.OtherTests;
 
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
@@ -16,12 +16,12 @@ public class GameInitializationTest {
     private Game game;
 
     @BeforeEach
-    public void setGame() throws IOException, FontFormatException {
+    public void setGame(){
         game = new Game(220, 270,null,null,null);
     }
     @DoNotMutate
     @Test
-    public void testGameInitialization() throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
+    public void testGameInitialization() throws IOException,UnsupportedAudioFileException, LineUnavailableException {
         game.createLevel();
         assertEquals(game.getGameW(), 220);
         assertEquals(game.getGameH(), 270);

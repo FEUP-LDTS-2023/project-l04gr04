@@ -5,11 +5,6 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Element;
 import org.example.GameObserver;
-import org.example.Monster.monsterState;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 public class Player extends Element implements GameObserver {
 
@@ -22,28 +17,27 @@ public class Player extends Element implements GameObserver {
     public Double playerFrightF;
     public Double atmF;
     public  int playerM = 0;
-    public char[][] pacManUp1;
-    char[][] pacManUp2;
-
-    public char[][] pacManDown1;
-    char[][] pacManDown2;
-    public char[][] pacManLeft1;
-    char[][] pacManLeft2;
-    public char[][] pacManRight1;
-    public char[][] pacManClosed;
-    char[][] pacManRight2;
-    char[][] pacManDie1;
-    char[][] pacManDie2;
-    char[][] pacManDie3;
-    char[][] pacManDie4;
-    char[][] pacManDie5;
-    char[][] pacManDie6;
-    char[][] pacManDie7;
-    char[][] pacManDie8;
-    char[][] pacManDie9;
-    char[][] pacManDie10;
-    char[][] pacManDie11;
-    char[][] pacManDie12;
+    private char[][] pacManUp1;
+    private char[][] pacManUp2;
+    private char[][] pacManDown1;
+    private char[][] pacManDown2;
+    private char[][] pacManLeft1;
+    private char[][] pacManLeft2;
+    private char[][] pacManRight1;
+    private char[][] pacManClosed;
+    private char[][] pacManRight2;
+    private char[][] pacManDie1;
+    private char[][] pacManDie2;
+    private char[][] pacManDie3;
+    private char[][] pacManDie4;
+    private char[][] pacManDie5;
+    private char[][] pacManDie6;
+    private char[][] pacManDie7;
+    private char[][] pacManDie8;
+    private char[][] pacManDie9;
+    private char[][] pacManDie10;
+    private char[][] pacManDie11;
+    private char[][] pacManDie12;
     private int CountOfEatenInARow = 0;
     private int frequency = 15;
     private int dieF = 15;
@@ -51,10 +45,12 @@ public class Player extends Element implements GameObserver {
         this.facingDirection = facingDirection;
     }
 
+    @DoNotMutate
     public void draw(TextGraphics  graphics){
         ps.draw(graphics);
     }
 
+    @DoNotMutate
     public void drawDead(TextGraphics graphics){
         if (mouthOpen<=dieF){
             drawTheStyle(pacManDie1,graphics,playerColor);
@@ -109,6 +105,7 @@ public class Player extends Element implements GameObserver {
     }
 
 
+    @DoNotMutate
     public void drawNormal(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
         if (position.getX() > 198) return;
@@ -620,4 +617,23 @@ public class Player extends Element implements GameObserver {
         fps = 0;
     }
 
+    public char[][] getPacManUp1() {
+        return pacManUp1;
+    }
+
+    public char[][] getPacManDown1() {
+        return pacManDown1;
+    }
+
+    public char[][] getPacManRight1() {
+        return pacManRight1;
+    }
+
+    public char[][] getPacManClosed() {
+        return pacManClosed;
+    }
+
+    public char[][] getPacManLeft1() {
+        return pacManLeft1;
+    }
 }

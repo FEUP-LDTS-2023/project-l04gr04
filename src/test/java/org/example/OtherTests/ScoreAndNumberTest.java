@@ -1,4 +1,4 @@
-package org.example.Monster;
+package org.example.OtherTests;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -7,11 +7,9 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import org.example.Mapa;
 import org.example.Numbers.Numero;
 import org.example.Numbers.Score;
 import org.example.Numbers.Character;
-import org.example.Position;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -24,22 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class ScoreAndNumberTest {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-    TextGraphics graphicsMock = mock(TextGraphics.class);
-
-    private Mapa mapa;
-    Character character;
-    Score score;
-    Numero numero;
-
-    public ScoreAndNumberTest() throws IOException, FontFormatException {
-    }
     @Test
     public void testDrawReady() {
         Character character = new Character(5, 5);
@@ -80,6 +62,7 @@ public class ScoreAndNumberTest {
     }
     @Test
     public void testDrawScore2() {
+        TextGraphics graphicsMock = mock(TextGraphics.class);
         Score score = new Score();
         score.draw(graphicsMock);
         verify(graphicsMock, times(24)).fillRectangle(any(), any(), anyChar());

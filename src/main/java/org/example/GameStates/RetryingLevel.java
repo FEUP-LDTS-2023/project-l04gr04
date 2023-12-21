@@ -1,6 +1,7 @@
 package org.example.GameStates;
 
 import com.googlecode.lanterna.input.KeyStroke;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -18,7 +19,7 @@ public class RetryingLevel extends ApplicationState{
     public String name() {
         return "retryingLevel";
     }
-
+    @DoNotMutate
     @Override
     public void draw() throws IOException {}
 

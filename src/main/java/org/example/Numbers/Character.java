@@ -49,6 +49,5 @@ public class Character extends Element {
     public void drawscore(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#FFFFFF"));
         drawTheStyle(score, graphics, "#FFFFFF");
-        //drawTheStyle(ready, graphics, "#FFFFFF");
     }
 }

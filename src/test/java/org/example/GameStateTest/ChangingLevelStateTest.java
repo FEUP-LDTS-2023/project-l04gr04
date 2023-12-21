@@ -1,4 +1,4 @@
-package org.example.Monster.GameStateTest;
+package org.example.GameStateTest;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;

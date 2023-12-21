@@ -1,9 +1,8 @@
 package org.example.GameStates;
 
 import com.googlecode.lanterna.input.KeyStroke;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
-import org.example.Monster.Monster;
-import org.example.Monster.States.scatter;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -32,7 +31,7 @@ public class changingLevel extends ApplicationState{
             }
         }, 2000);
     }
-
+    @DoNotMutate
     @Override
     public void draw() throws IOException {
         yellowBack = !yellowBack;

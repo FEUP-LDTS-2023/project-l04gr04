@@ -1,8 +1,7 @@
-package org.example.Monster;
+package org.example;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.GameObserver;
-import org.example.Position;
+import org.example.Monster.Position;
 
 
 public interface GenericMonster extends GameObserver {

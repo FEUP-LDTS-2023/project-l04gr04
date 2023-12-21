@@ -1,4 +1,4 @@
-package org.example.Monster;
+package org.example.OtherTests;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -8,55 +8,31 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Game;
-import org.example.Level;
-import org.example.Mapa;
+import org.example.Monster.RedMonster;
 import org.example.Monster.States.fright;
 import org.example.PacMan.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class AnimationsTest {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-    TextGraphics graphicsMock = screen.newTextGraphics();
-
-    private Mapa mapa;
     private Player player;
     private RedMonster redmonster;
-
-    public AnimationsTest() throws IOException, FontFormatException {
-    }
-
-    @DoNotMutate
     @BeforeEach
     public void setPlayer() {
         player = new Player(74, 42);
-    }
-    @DoNotMutate
-    @BeforeEach
-    public void setMonster() {
         redmonster = new RedMonster(75, 42);
     }
-
-    @DoNotMutate
     @Test
     public void testPacmanAnimationUp() {
         player.setFacingDirection("up");
-        player.draw(graphicsMock);
+        player.draw(mock(TextGraphics.class));
 
         char[][] pacManUp1 = new char[][]{
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
@@ -75,7 +51,7 @@ public class AnimationsTest {
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
 
-        char[][] actualPacManUp1 = player.pacManUp1;
+        char[][] actualPacManUp1 = player.getPacManUp1();
 
         assertEquals(pacManUp1.length, actualPacManUp1.length, "Number of rows doesn't match");
         for (int i = 0; i < pacManUp1.length; i++) {
@@ -88,12 +64,10 @@ public class AnimationsTest {
             }
         }
     }
-
-    @DoNotMutate
     @Test
     public void testPacmanAnimationDown() {
         player.setFacingDirection("down");
-        player.draw(graphicsMock);
+        player.draw(mock(TextGraphics.class));
 
         char[][] pacManDown1 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
@@ -112,7 +86,7 @@ public class AnimationsTest {
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
         };
 
-        char[][] actualPacManDown1 = player.pacManDown1;
+        char[][] actualPacManDown1 = player.getPacManDown1();
 
         assertEquals(pacManDown1.length, actualPacManDown1.length, "Number of rows doesn't match");
         for (int i = 0; i < pacManDown1.length; i++) {
@@ -125,11 +99,10 @@ public class AnimationsTest {
             }
         }
     }
-    @DoNotMutate
     @Test
     public void testPacmanAnimationLeft() {
         player.setFacingDirection("left");
-        player.draw(graphicsMock);
+        player.draw(mock(TextGraphics.class));
 
         char[][] pacManLeft1 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
@@ -148,7 +121,7 @@ public class AnimationsTest {
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
 
-        char[][] actualPacManLeft1 = player.pacManLeft1;
+        char[][] actualPacManLeft1 = player.getPacManLeft1();
 
         assertEquals(pacManLeft1.length, actualPacManLeft1.length, "Number of rows doesn't match");
         for (int i = 0; i < pacManLeft1.length; i++) {
@@ -161,11 +134,10 @@ public class AnimationsTest {
             }
         }
     }
-    @DoNotMutate
     @Test
     public void testPacmanAnimationRight() {
         player.setFacingDirection("right");
-        player.draw(graphicsMock);
+        player.draw(mock(TextGraphics.class));
 
         char[][] pacManRight1 = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
@@ -184,7 +156,7 @@ public class AnimationsTest {
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
 
-        char[][] actualPacManRight1 = player.pacManRight1;
+        char[][] actualPacManRight1 = player.getPacManRight1();
 
         assertEquals(pacManRight1.length, actualPacManRight1.length, "Number of rows doesn't match");
         for (int i = 0; i < pacManRight1.length; i++) {
@@ -197,11 +169,10 @@ public class AnimationsTest {
             }
         }
     }
-    @DoNotMutate
     @Test
     public void testPacmanAnimationMouthClosed() {
         player.mouthOpen = 0;
-        player.draw(graphicsMock);
+        player.draw(mock(TextGraphics.class));
 
         char[][] pacManClosed = new char[][]{
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'},
@@ -220,7 +191,7 @@ public class AnimationsTest {
                 {'#','#','#','#',' ',' ',' ',' ',' ',' ','#','#','#','#'}
         };
 
-        char[][] actualPacManClosed = player.pacManClosed;
+        char[][] actualPacManClosed = player.getPacManClosed();
 
         assertEquals(pacManClosed.length, actualPacManClosed.length, "Number of rows doesn't match");
         for (int i = 0; i < pacManClosed.length; i++) {
@@ -233,12 +204,10 @@ public class AnimationsTest {
             }
         }
     }
-
-    @DoNotMutate
     @Test
     public void testMonsterAnimationLeft() {
         redmonster.setMovingDirection("left");
-        redmonster.draw(graphicsMock);
+        redmonster.draw(mock(TextGraphics.class));
 
         char[][] monsterLeft1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
@@ -257,7 +226,7 @@ public class AnimationsTest {
                 {' ','#','#','#',' ',' ','#','#',' ',' ','#','#','#',' '}
         };
 
-        char[][] actualMonsterLeft1 = redmonster.monsterLeft1;
+        char[][] actualMonsterLeft1 = redmonster.getMonsterLeft1();
 
         assertEquals(monsterLeft1.length, actualMonsterLeft1.length, "Number of rows doesn't match");
         for (int i = 0; i < monsterLeft1.length; i++) {
@@ -270,11 +239,10 @@ public class AnimationsTest {
             }
         }
     }
-    @DoNotMutate
     @Test
     public void testMonsterAnimationRight() {
         redmonster.setMovingDirection("right");
-        redmonster.draw(graphicsMock);
+        redmonster.draw(mock(TextGraphics.class));
 
         char[][] monsterRight1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#'},
@@ -293,7 +261,7 @@ public class AnimationsTest {
                 {' ','#','#','#',' ',' ','#','#',' ',' ','#','#','#',' '}
         };
 
-        char[][] actualMonsterRight1 = redmonster.monsterRight1;
+        char[][] actualMonsterRight1 = redmonster.getMonsterRight1();
 
         assertEquals(monsterRight1.length, actualMonsterRight1.length, "Number of rows doesn't match");
         for (int i = 0; i < monsterRight1.length; i++) {
@@ -306,11 +274,10 @@ public class AnimationsTest {
             }
         }
     }
-    @DoNotMutate
     @Test
     public void testMonsterAnimationUp() {
         redmonster.setMovingDirection("up");
-        redmonster.draw(graphicsMock);
+        redmonster.draw(mock(TextGraphics.class));
 
         char[][] monsterUp1 = new char[][]{
 
@@ -330,7 +297,7 @@ public class AnimationsTest {
                 {' ','#','#','#',' ',' ','#','#',' ',' ','#','#','#',' '}
         };
 
-        char[][] actualMonsterUp1 = redmonster.monsterUp1;
+        char[][] actualMonsterUp1 = redmonster.getMonsterUp1();
 
         assertEquals(monsterUp1.length, actualMonsterUp1.length, "Number of rows doesn't match");
         for (int i = 0; i < monsterUp1.length; i++) {
@@ -343,11 +310,10 @@ public class AnimationsTest {
             }
         }
     }
-    @DoNotMutate
     @Test
     public void testMonsterAnimationDown() {
         redmonster.setMovingDirection("Down");
-        redmonster.draw(graphicsMock);
+        redmonster.draw(mock(TextGraphics.class));
 
         char[][] monsterDown1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#',},
@@ -367,7 +333,7 @@ public class AnimationsTest {
 
         };
 
-        char[][] actualMonsterDown1 = redmonster.monsterDown1;
+        char[][] actualMonsterDown1 = redmonster.getMonsterDown1();
 
         assertEquals(monsterDown1.length, actualMonsterDown1.length, "Number of rows doesn't match");
         for (int i = 0; i < monsterDown1.length; i++) {
@@ -380,11 +346,10 @@ public class AnimationsTest {
             }
         }
     }
-    @DoNotMutate
     @Test
     public void testMonsterAnimationRun() {
         redmonster.ms = new fright(redmonster);
-        redmonster.draw(graphicsMock);
+        redmonster.draw(mock(TextGraphics.class));
 
         char[][] monsterRun1 = new char[][]{
                 {'#','#','#','#','#',' ',' ',' ',' ','#','#','#','#','#',},
@@ -403,7 +368,7 @@ public class AnimationsTest {
                 {' ','#','#','#',' ',' ','#','#',' ',' ','#','#','#',' '}
         };
 
-        char[][] actualMonsterRun1 = redmonster.monsterRun1;
+        char[][] actualMonsterRun1 = redmonster.getMonsterRun1();
 
         assertEquals(monsterRun1.length, actualMonsterRun1.length, "Number of rows doesn't match");
         for (int i = 0; i < monsterRun1.length; i++) {

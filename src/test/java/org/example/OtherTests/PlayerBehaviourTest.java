@@ -1,4 +1,4 @@
-package org.example.Monster;
+package org.example.OtherTests;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -8,42 +8,30 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.*;
+import org.example.Game;
+import org.example.Lifes;
+import org.example.Mapa;
+import org.example.Monster.Monster;
+import org.example.Monster.Position;
 import org.example.Monster.States.eaten;
 import org.example.Monster.States.fright;
 import org.example.PacMan.Player;
 import org.example.PacMan.eatingPacMan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 public class PlayerBehaviourTest {InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-    TextGraphics graphicsMock = screen.newTextGraphics();
     private Mapa mapa;
-
     private Game game;
-
-    public PlayerBehaviourTest() throws IOException, FontFormatException {
-    }
-
-
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         game = new Game(220, 270,null,null,null);
@@ -74,6 +62,7 @@ public class PlayerBehaviourTest {InputStream fontStream = getClass().getClassLo
     @DoNotMutate
     @Test
     public void testNearBoundaries() {
+        TextGraphics graphicsMock = mock(TextGraphics.class);
         Player playerMock = mapa.getPlayer();
         playerMock.setPosition(new Position(180, 50));
         playerMock.draw(graphicsMock);

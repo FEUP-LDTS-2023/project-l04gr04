@@ -13,13 +13,11 @@ import org.example.Numbers.Character;
 import org.example.Numbers.Score;
 import org.example.PacMan.Player;
 import org.example.PacMan.eatingPacMan;
-import org.example.PacMan.normalState;
 import org.example.Sounds.soundTrack;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
-import java.io.*;
 
 
 import java.io.IOException;
@@ -361,6 +359,7 @@ public class Mapa {
                     m.changeState(new eaten(m));
                 }else if(m.ms.modeOn().equals("hunt") || m.ms.modeOn().equals("scatter")){
                     lostOneLife(lifes);
+                    break;
                 }
             }
         }

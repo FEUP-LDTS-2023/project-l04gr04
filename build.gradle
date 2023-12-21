@@ -28,7 +28,12 @@
     pitest {
         junit5PluginVersion = '0.12'
         verbose = true;
-        targetClasses = ['org.example.Game']
+        targetClasses = ['org.example.GameStates.*','org.example.Monster.RedMonster','org.example.Monster.GenericMonster','org.example.Monster.BlueMonster',
+                         'org.example.Monster.PinkMonster','org.example.Monster.OrangeMonster','org.example.Monster.monsterState','org.example.Monster.GenericMonster',
+                         'org.example.Monster.States.*','org.example.Numbers.*','org.example.PacMan.*','org.example.Sounds.*','org.example.Application',
+                         'org.example.Dot','org.example.Element','org.example.Fruit','org.example.GameObserver','org.example.GameState','org.example.Level',
+                         'org.example.Lifes','org.example.Mapa','org.example.MapaListener','org.example.Position']
+        targetTests = ['org.example.OtherTests.*','org.example.GameStateTest.*','org.example.MonsterBehaviorTest.*']
     }
     application {
         mainClass.set("org.example.Application")

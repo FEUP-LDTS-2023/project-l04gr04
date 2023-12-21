@@ -5,8 +5,6 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Element;
-import org.example.Position;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +43,7 @@ public class Score {
         currentScore += inc;
         updateReverseDisplay(currentScore);
     }
-
+    @DoNotMutate
     public void draw(TextGraphics graphics) {
         numero.draw(graphics);
         if (updateReverseDisplay(currentScore)) {

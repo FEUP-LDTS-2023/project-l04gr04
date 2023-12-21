@@ -1,4 +1,4 @@
-package org.example.Monster.GameStateTest;
+package org.example.GameStateTest;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -28,17 +28,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class PlayingStateTest {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-
-    public PlayingStateTest() throws IOException, FontFormatException {
-    }
-
     @Test
     void testDraw() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Game mockGame = mock(Game.class);
@@ -50,7 +39,7 @@ public class PlayingStateTest {
     @Test
     void testInputEscape() throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         Game game = new Game(220,270,null,null,null);
-        game.screen = screen;
+        game.screen = mock(Screen.class);
         KeyStroke keyStroke = new KeyStroke(KeyType.Escape);
         playingState playingState = new playingState(game);
         playingState.input(keyStroke);

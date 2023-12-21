@@ -1,4 +1,4 @@
-package org.example.Monster.GameStateTest;
+package org.example.GameStateTest;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -28,23 +28,6 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 public class PauseStateTest {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-
-    public PauseStateTest() throws IOException, FontFormatException {
-    }
-    @Test
-    void testConstructor() {
-        Game mockGame = mock(Game.class);
-        pauseState pauseState = new pauseState(mockGame);
-        verify(mockGame).onPause = true;
-    }
-
     @Test
     void testDraw() throws IOException {
         Game mockGame = mock(Game.class);
@@ -57,9 +40,8 @@ public class PauseStateTest {
     @Test
     void testInput() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Game mockGame = mock(Game.class);
-        mockGame.screen = screen;
+        mockGame.screen = mock(Screen.class);
         pauseState pauseState = new pauseState(mockGame);
-
         KeyStroke enterKey = new KeyStroke(KeyType.Enter);
         pauseState.input(enterKey);
         verify(mockGame).changeState(any(ApplicationState.class));

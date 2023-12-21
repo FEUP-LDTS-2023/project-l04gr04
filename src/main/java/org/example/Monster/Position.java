@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Monster;
 
 public class Position {
     private int x = 0;

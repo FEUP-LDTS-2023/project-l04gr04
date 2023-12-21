@@ -2,7 +2,6 @@ package org.example.PacMan;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Position;
 
 public class normalState extends pacManState{
     public normalState(Player p) {

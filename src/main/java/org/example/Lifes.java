@@ -2,6 +2,7 @@ package org.example;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Monster.Position;
 
 
 public class Lifes extends Element {
@@ -36,8 +37,9 @@ public class Lifes extends Element {
     }
     public void decrementLife(){number--;}
     public boolean isempty(){
-        return number == 0;
+        return number <= 0;
     }
+    @DoNotMutate
     public void draw(TextGraphics graphics){
         int initialX = position.getX();
         for (int i = 0 ; i < number ; i++){

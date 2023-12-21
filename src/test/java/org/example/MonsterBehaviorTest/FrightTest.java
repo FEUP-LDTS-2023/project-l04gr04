@@ -1,47 +1,20 @@
-package org.example.Monster.MonsterBehaviorTest;
-
-import com.googlecode.lanterna.TerminalSize;
+package org.example.MonsterBehaviorTest;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Monster.BlueMonster;
-import org.example.Monster.Monster;
-import org.example.Monster.RedMonster;
 import org.example.Monster.States.eaten;
 import org.example.Monster.States.fright;
 import org.example.Monster.States.hunt;
 import org.example.Monster.monsterState;
-import org.example.Position;
+import org.example.Monster.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class FrightTest {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-    TextGraphics mockTextGraphics = screen.newTextGraphics();
     private BlueMonster mockMonster;
-
-
-    public FrightTest() throws IOException, FontFormatException {
-    }
 
     @BeforeEach
     public void setUp() {
@@ -62,6 +35,7 @@ public class FrightTest {
     }
     @Test
     public void testDraw() {
+        TextGraphics mockTextGraphics = mock(TextGraphics.class);
         fright fright = new fright(mockMonster);
         fright.draw(mockTextGraphics, "#FFFFFF");
         verify(mockMonster).blueDraw(eq(mockTextGraphics), eq("#FFFFFF"));

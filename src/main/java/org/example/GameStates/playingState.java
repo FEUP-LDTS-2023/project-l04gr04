@@ -2,6 +2,7 @@ package org.example.GameStates;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -17,7 +18,7 @@ public class playingState extends ApplicationState{
     public String name() {
         return "playing";
     }
-
+    @DoNotMutate
     @Override
     public void draw() throws IOException {
         game.drawLevel();

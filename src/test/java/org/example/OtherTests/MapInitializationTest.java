@@ -1,4 +1,4 @@
-package org.example.Monster;
+package org.example.OtherTests;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -27,20 +27,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class MapInitializationTest {
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-    public Screen screen = new TerminalScreen(terminal);
-    TextGraphics graphicsMock = screen.newTextGraphics();
-
     private Mapa mapa;
     private Game game;
-
-    public MapInitializationTest() throws IOException, FontFormatException {
-    }
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         game = new Game(220, 270,null,null,null);
@@ -86,13 +74,14 @@ public class MapInitializationTest {
         mapa.getMapaListener().levelLost(game.loadMapFromFile("map.txt"));
         assertEquals("playing",game.getApplicationState().name());
     }
-    /*@Test
+    /*
+    @Test
     public void drawInitialMap() throws IOException {
         Lifes lifes = new Lifes(0,0);
         TextGraphics graphics = mock(TextGraphics.class);
-        mapa.drawInicialMap(graphics,new ArrayList<>(),screen,lifes);
-        //verify(graphics, times(24)).fillRectangle(any(), any(), anyChar());
-        //verify(graphics, times(74)).setBackgroundColor(any());
+        mapa.drawInicialMap(graphics,new ArrayList<>(),mock(Screen.class),lifes);
+        verify(graphics, times(24)).fillRectangle(any(), any(), anyChar());
+        verify(graphics, times(74)).setBackgroundColor(any());
     }*/
     @Test
     public void gameLoop() throws UnsupportedAudioFileException, LineUnavailableException, IOException {

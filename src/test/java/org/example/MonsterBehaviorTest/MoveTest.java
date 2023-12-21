@@ -1,59 +1,23 @@
-package org.example.Monster.MonsterBehaviorTest;
-
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+package org.example.MonsterBehaviorTest;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Dot;
 import org.example.Game;
-import org.example.Mapa;
 import org.example.Monster.BlueMonster;
 import org.example.Monster.OrangeMonster;
 import org.example.Monster.PinkMonster;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.*;
 import org.example.PacMan.Player;
-import org.example.Position;
+import org.example.Monster.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-import org.mockito.Mockito;
-
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 public class MoveTest {
     Player player;
-
-    InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
-    Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    Font customFont = font.deriveFont(Font.PLAIN, 2);
-    SwingTerminalFontConfiguration fontConfig = new SwingTerminalFontConfiguration(true, SwingTerminalFontConfiguration.BoldMode.EVERYTHING, customFont);
-    DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(1, 1)).setTerminalEmulatorFontConfiguration(fontConfig);
-    Terminal terminal = terminalFactory.createTerminal();
-
-    public Screen screen = new TerminalScreen(terminal);
-    TextGraphics graphics = screen.newTextGraphics();
-
-
-    public MoveTest() throws IOException, FontFormatException {
-    }
-
     @BeforeEach
     public void setPlayer() {
         player = new Player(284, 243);

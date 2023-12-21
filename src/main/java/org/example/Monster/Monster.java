@@ -4,10 +4,9 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Element;
-import org.example.Monster.States.*;
-import org.example.Position;
+import org.example.GenericMonster;
+import org.example.Monster.States.inCage;
 
-import java.util.Objects;
 import java.util.Random;
 
 public abstract class Monster extends Element implements GenericMonster {
@@ -18,16 +17,16 @@ public abstract class Monster extends Element implements GenericMonster {
     public Double atmF;
     public Double monsterFrightF;
     public int mouthOpenM = 0;
-    char[][] monsterLeft1;
-    char[][] monsterLeft2;
-    char[][] monsterRight1;
-    char[][] monsterRight2;
-    char[][] monsterUp1;
-    char[][] monsterUp2;
-    char[][] monsterDown1;
-    char[][] monsterDown2;
-    char[][] monsterRun1;
-    char[][] monsterRun2;
+    private char[][] monsterLeft1;
+    private char[][] monsterLeft2;
+    private char[][] monsterRight1;
+    private char[][] monsterRight2;
+    private char[][] monsterUp1;
+    private char[][] monsterUp2;
+    private char[][] monsterDown1;
+    private char[][] monsterDown2;
+    private char[][] monsterRun1;
+    private char[][] monsterRun2;
     private int frequency = 27;
     protected Position cagePosition = new Position(93,115);
     private boolean rotate180 = false;
@@ -504,6 +503,21 @@ public abstract class Monster extends Element implements GenericMonster {
         ms.move(p,map,t,b,d,e);
     }
     public void pacManLost() {
+    }
+    public char[][] getMonsterDown1() {
+        return monsterDown1;
+    }
+    public char[][] getMonsterLeft1() {
+        return monsterLeft1;
+    }
+    public char[][] getMonsterRight1() {
+        return monsterRight1;
+    }
+    public char[][] getMonsterRun1() {
+        return monsterRun1;
+    }
+    public char[][] getMonsterUp1() {
+        return monsterUp1;
     }
 }
 

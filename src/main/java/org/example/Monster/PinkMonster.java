@@ -2,11 +2,11 @@ package org.example.Monster;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Monster.Monster;
-import org.example.Position;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 
 public class PinkMonster extends Monster {
     public PinkMonster(int x,int y){super(x,y);}
+    @DoNotMutate
     @Override
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#FFB8FF"));

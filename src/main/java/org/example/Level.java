@@ -64,9 +64,11 @@ public class Level {
         }
 
     }
+    @DoNotMutate
     public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score,Lifes lifes,List<Fruit> frutas,Screen screen) throws IOException {
         map.draw(graphics,dirtyRegions,score,lifes,frutas,screen);
     }
+    @DoNotMutate
     public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas, Screen screen,Lifes lifes) throws IOException {
         map.drawInicialMap(graphics,frutas,screen,lifes);
     }

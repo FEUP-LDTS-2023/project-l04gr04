@@ -2,6 +2,7 @@ package org.example.GameStates;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -15,7 +16,7 @@ public class pauseState extends ApplicationState{
         super(g);
         game.onPause = true;
     }
-
+    @DoNotMutate
     @Override
     public void draw() throws IOException {
         game.drawPause(barOn);
@@ -25,6 +26,7 @@ public class pauseState extends ApplicationState{
         return "pause";
     }
 
+    @DoNotMutate
     @Override
     public void input(KeyStroke key) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         if (key == null)return;

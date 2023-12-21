@@ -3,7 +3,7 @@ package org.example.Monster.States;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.example.Monster.Monster;
 import org.example.Monster.monsterState;
-import org.example.Position;
+import org.example.Monster.Position;
 
 public class scatter extends monsterState {
     public scatter(Monster m) {

@@ -3,6 +3,7 @@ package org.example.PacMan;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Color;
 import org.example.Element;
 import org.example.GameObserver;
 
@@ -11,7 +12,6 @@ public class Player extends Element implements GameObserver {
     public String facingDirection;
     public pacManState ps = new normalState(this);
     public int mouthOpen = 0;
-    private String playerColor = "#B5D221";
     public int fps = 0;
     public Double playerF;
     public Double playerFrightF;
@@ -52,6 +52,7 @@ public class Player extends Element implements GameObserver {
 
     @DoNotMutate
     public void drawDead(TextGraphics graphics){
+        String playerColor = Color.getColor("player");
         if (mouthOpen<=dieF){
             drawTheStyle(pacManDie1,graphics,playerColor);
             mouthOpen++;
@@ -107,7 +108,7 @@ public class Player extends Element implements GameObserver {
 
     @DoNotMutate
     public void drawNormal(TextGraphics graphics){
-        graphics.setBackgroundColor(TextColor.Factory.fromString(playerColor));
+        String playerColor = Color.getColor("player");
         if (position.getX() > 198) return;
         switch (facingDirection){
             case "right":

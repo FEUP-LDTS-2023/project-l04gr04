@@ -146,6 +146,6 @@ public class Fruit extends Element{
     };
     @DoNotMutate
     public void draw(TextGraphics graphics){
-        drawTheStyle(fruta,graphics,red);
+        drawTheStyle(fruta,graphics,Color.getColor("red2"));
     }
 }

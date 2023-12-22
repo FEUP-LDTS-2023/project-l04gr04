@@ -41,8 +41,8 @@ public class InCageTest {
     @Test
     public void testMove() {
         inCage inCageState = new inCage(mockMonster);
-        inCageState.move(new Position(0, 0), new char[5][5], true, false, true, false);
-        verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
+        inCageState.move(new Position(0, 0),true, false, true, false);
+        verify(mockMonster).targetMove(any(Position.class),eq(true), eq(false), eq(true), eq(false));
     }
     @DoNotMutate
     @Test

@@ -5,6 +5,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Color;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +49,7 @@ public class Score {
         numero.draw(graphics);
         if (updateReverseDisplay(currentScore)) {
             for (int i = reverseDisplay.size() - 1; i >= 0; i--) {
-                graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+                graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                 graphics.fillRectangle(new TerminalPosition(lp - i * 10, 10), new TerminalSize(7, 7), ' ');
                 Numero n = new Numero(lp - i * 10, 10);
                 n.changeNumber(reverseDisplay.get(i));

@@ -29,7 +29,7 @@ public class ScoreAndNumberTest {
         character.drawready(graphicsMock);
         // Verify that the correct drawing methods are called on graphicsMock
         verify(graphicsMock, times(157)).fillRectangle(any(), any(), anyChar());
-        verify(graphicsMock, times(480)).setBackgroundColor(any());
+        verify(graphicsMock, times(479)).setBackgroundColor(any());
     }
     @Test
     public void testDrawScore() {
@@ -38,7 +38,7 @@ public class ScoreAndNumberTest {
         character.drawscore(graphicsMock);
         // Verify that the correct drawing methods are called on graphicsMock
         verify(graphicsMock, times(136)).fillRectangle(any(), any(), anyChar());
-        verify(graphicsMock, times(410)).setBackgroundColor(any());
+        verify(graphicsMock, times(409)).setBackgroundColor(any());
     }
     @Test
     public void testCleanReady() {

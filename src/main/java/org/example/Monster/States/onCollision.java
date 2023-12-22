@@ -22,7 +22,7 @@ public class onCollision extends monsterState {
     public void draw(TextGraphics graphics, String monsterColor) {}
 
     @Override
-    public void move(Position p, char[][] map, boolean t, boolean b, boolean d, boolean e) {}
+    public void move(Position p,boolean t, boolean b, boolean d, boolean e) {}
 
     @Override
     public void FrightHourStarted() {

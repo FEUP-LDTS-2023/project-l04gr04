@@ -47,9 +47,9 @@ public class EatenTest {
     @Test
     public void testMove() {
         eaten eatenState = new eaten(mockMonster);
-        eatenState.move(new Position(0, 0), new char[5][5], true, false, true, false);
+        eatenState.move(new Position(0, 0),true, false, true, false);
         // Verify that move calls the correct monster.targetMove method
-        verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
+        verify(mockMonster).targetMove(any(Position.class),eq(true), eq(false), eq(true), eq(false));
     }
     @Test
     public void testFrightHourStarted() {

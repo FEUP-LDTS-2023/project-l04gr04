@@ -38,14 +38,14 @@ public class OnCollisionTest {
         onCollision onCollisionState = new onCollision(mockMonster);
         onCollisionState.draw(mockTextGraphics, "#FFFFFF");
         verify(mockMonster, never()).darkDraw(mockTextGraphics,"#FFFFFF");
-        verify(mockMonster, never()).blueDraw(mockTextGraphics,"#FFFFFF");
+        verify(mockMonster, never()).blueDraw(mockTextGraphics);
         verify(mockMonster, never()).normalDraw(mockTextGraphics,"#FFFFFF");
     }
     @Test
     public void testMove() {
         onCollision onCollisionState = new onCollision(mockMonster);
-        onCollisionState.move(new Position(0, 0), new char[5][5], true, false, true, false);
-        verify(mockMonster,never()).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
+        onCollisionState.move(new Position(0, 0),true, false, true, false);
+        verify(mockMonster,never()).targetMove(any(Position.class),eq(true), eq(false), eq(true), eq(false));
     }
     @DoNotMutate
     @Test

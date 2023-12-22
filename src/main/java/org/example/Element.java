@@ -9,24 +9,6 @@ import org.example.Monster.Position;
 
 public class Element {
     protected Position position;
-    String red = "#EC2324";
-    String white ="#FFFFFF";
-    String brown = "#9F6022";
-    String dot = "#FFB897";
-    String yellow = "#FCFF00";
-    String readyColor = "#B5D221";
-    String lightBlue = "#47B3B0";
-    String otherBlue ="#46B6FE";
-    String darkBlue = "#2121FF";
-    String lightgreen = "#00FD00";
-    String lightorange = "#FFB652";
-    String darkOrange = "#DE9751";
-    String appleBrown = "#E49B51";
-
-    public String monsterYesColor = " #0000FF";
-    public Element(){
-        position = new Position(0,0);
-    }
     public Element (int x , int y){
         position = new Position(x,y);
     }
@@ -60,34 +42,9 @@ public class Element {
             for (int col = 0; col < pacManImage[row].length; col++) {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(colorm));
                 if (pacManImage[row][col] != '#') {
-                    if(pacManImage[row][col] == '0'){
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(monsterYesColor));
-                    } else if (pacManImage[row][col] == 'R') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(red));
-                    } else if (pacManImage[row][col] == 'W') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(white));
-                    } else if (pacManImage[row][col] == 'B') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(brown));
-                    }else if (pacManImage[row][col] == 'Y') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(dot));
-                    }else if (pacManImage[row][col] == 'y') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
-                    }else if (pacManImage[row][col] == 'g') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(lightgreen));
-                    }else if (pacManImage[row][col] == 'O') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(darkOrange));
-                    }else if (pacManImage[row][col] == 'o') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(lightorange));
-                    }else if (pacManImage[row][col] == 'b') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(appleBrown));
-                    }else if (pacManImage[row][col] == 'A') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(lightBlue));
-                    }else if (pacManImage[row][col] == 'k') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(darkBlue));
-                    }else if (pacManImage[row][col] == 'K') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(otherBlue));
-                    }else if (pacManImage[row][col] == 'a') {
-                         graphics.setBackgroundColor(TextColor.Factory.fromString(readyColor));}
+                    if (Color.getColor(String.valueOf(pacManImage[row][col])) != null){
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor(String.valueOf(pacManImage[row][col]))));
+                    }
                     graphics.fillRectangle(new TerminalPosition(x+col,y+row),new TerminalSize(1,1),' ');
                 }
             }

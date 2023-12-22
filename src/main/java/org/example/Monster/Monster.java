@@ -3,6 +3,7 @@ package org.example.Monster;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Color;
 import org.example.Element;
 import org.example.GenericMonster;
 import org.example.Monster.States.inCage;
@@ -292,16 +293,16 @@ public abstract class Monster extends Element implements GenericMonster {
         }
     }
     @DoNotMutate
-    public void blueDraw(TextGraphics graphics,String monsterColor){
+    public void blueDraw(TextGraphics graphics){
         if (mouthOpenM <= frequency) {
-            drawTheStyle(monsterRun1, graphics, monsterYesColor);
+            drawTheStyle(monsterRun1, graphics, Color.getColor("monstery"));
             mouthOpenM++;
         } else if (mouthOpenM <= frequency * 2) {
-            drawTheStyle(monsterRun2, graphics, monsterYesColor);
+            drawTheStyle(monsterRun2, graphics,  Color.getColor("monstery"));
             mouthOpenM++;
         } else {
             mouthOpenM = 1;
-            drawTheStyle(monsterRun1, graphics, monsterYesColor);
+            drawTheStyle(monsterRun1, graphics,  Color.getColor("monstery"));
         }
     }
     @DoNotMutate
@@ -371,7 +372,7 @@ public abstract class Monster extends Element implements GenericMonster {
         double difY = p1.getY() - p.getY();
         return Math.sqrt(difX * difX + difY * difY);
     }
-    public void targetMove(Position p,char[][]map, boolean t, boolean b, boolean d, boolean e){
+    public void targetMove(Position p, boolean t, boolean b, boolean d, boolean e){
         int x = this.position.getX();
         int y = this.position.getY();
         double topo = Double.MAX_VALUE;
@@ -500,7 +501,7 @@ public abstract class Monster extends Element implements GenericMonster {
                 if (map[y+i][x+14] == 'P'||map[y+i][x+14] == 'c'||(map[y+i][x+14] == 'R' && !ms.modeOn().equals("eaten") && !ms.modeOn().equals("inCage")))d = false;
             }
         }
-        ms.move(p,map,t,b,d,e);
+        ms.move(p,t,b,d,e);
     }
     public void pacManLost() {
     }

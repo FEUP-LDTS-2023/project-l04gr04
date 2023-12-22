@@ -6,7 +6,6 @@ import org.example.Monster.Position;
 
 
 public class Lifes extends Element {
-    private String playerColor = "#B5D221";
     private char [][]pacman;
     private int number = 3;
     public Lifes(int x, int y){
@@ -44,7 +43,7 @@ public class Lifes extends Element {
         int initialX = position.getX();
         for (int i = 0 ; i < number ; i++){
             position = new Position(position.getX() + i*15 , position.getY());
-            drawTheStyle(pacman,graphics,playerColor);
+            drawTheStyle(pacman,graphics,Color.getColor("player"));
             position = new Position(position.getX() - i*15 , position.getY());
         }
         position = new Position(initialX , position.getY());

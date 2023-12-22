@@ -3,6 +3,7 @@ package org.example.Numbers;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Color;
 import org.example.Element;
 
 public class Numero extends Element {
@@ -18,8 +19,8 @@ public class Numero extends Element {
     }
 
     public void draw(TextGraphics graphics){
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-        drawTheStyle(num,graphics,"#FFFFFF");
+        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
+        drawTheStyle(num,graphics,Color.getColor("white"));
     }
     public void changeNumber(int k){
         switch (k){

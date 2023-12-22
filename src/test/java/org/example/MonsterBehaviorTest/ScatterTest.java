@@ -42,8 +42,8 @@ public class ScatterTest {
     @Test
     public void testMove() {
         scatter scatterState = new scatter(mockMonster);
-        scatterState.move(new Position(0, 0), new char[5][5], true, false, true, false);
-        verify(mockMonster).targetMove(any(Position.class), any(char[][].class), eq(true), eq(false), eq(true), eq(false));
+        scatterState.move(new Position(0, 0),true, false, true, false);
+        verify(mockMonster).targetMove(any(Position.class),eq(true), eq(false), eq(true), eq(false));
     }
     @Test
     public void testFrightHourStarted() {

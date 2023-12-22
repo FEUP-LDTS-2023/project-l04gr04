@@ -5,6 +5,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Color;
 import org.example.Element;
 
 public class Character extends Element {
@@ -37,17 +38,15 @@ public class Character extends Element {
 
     @DoNotMutate
     public void drawready(TextGraphics graphics) {
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#FFFFFF"));
-        drawTheStyle(ready, graphics, "#FFFFFF");
+        drawTheStyle(ready, graphics, Color.getColor("white"));
     }
     @DoNotMutate
     public void cleanReady(TextGraphics graphics){
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
         graphics.fillRectangle(new TerminalPosition(position.getX(), position.getY()),new TerminalSize(46,7),' ');
     }
     @DoNotMutate
     public void drawscore(TextGraphics graphics) {
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#FFFFFF"));
-        drawTheStyle(score, graphics, "#FFFFFF");
+        drawTheStyle(score, graphics, Color.getColor("white"));
     }
 }

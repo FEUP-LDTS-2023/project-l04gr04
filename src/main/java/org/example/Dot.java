@@ -41,8 +41,7 @@ public class Dot extends Element {
     }
     @DoNotMutate
     public void draw(TextGraphics graphics){
-        graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
-        if (SpecialDote)drawTheStyle(bigDot,graphics,yellow);
-        else drawTheStyle(smallDot,graphics,yellow);
+        if (SpecialDote)drawTheStyle(bigDot,graphics,Color.getColor("yellow"));
+        else drawTheStyle(smallDot,graphics,Color.getColor("yellow"));
     }
 }

@@ -38,12 +38,12 @@ public class FrightTest {
         TextGraphics mockTextGraphics = mock(TextGraphics.class);
         fright fright = new fright(mockMonster);
         fright.draw(mockTextGraphics, "#FFFFFF");
-        verify(mockMonster).blueDraw(eq(mockTextGraphics), eq("#FFFFFF"));
+        verify(mockMonster).blueDraw(eq(mockTextGraphics));
     }
     @Test
     public void testMove() {
         fright frightState = new fright(mockMonster);
-        frightState.move(new Position(0, 0), new char[5][5], true, false, true, false);
+        frightState.move(new Position(0, 0),true, false, true, false);
         // Verify that move calls the correct monster.targetMove method
         verify(mockMonster).frightMove(eq(true), eq(false), eq(true), eq(false));
     }

@@ -3,14 +3,14 @@ package org.example.Monster;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Color;
 
 public class RedMonster extends Monster {
     public RedMonster(int x,int y){super(x,y);}
     @DoNotMutate
     @Override
     public void draw(TextGraphics graphics) {
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#FF0000"));
-        super.draw(graphics, "#FF0000");
+        super.draw(graphics, Color.getColor("red"));
     }
     public Position target(Position position, String direction, Position redPosition){
         if (ms.modeOn().equals("eaten")) return cagePosition;

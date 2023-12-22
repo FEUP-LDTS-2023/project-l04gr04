@@ -15,7 +15,7 @@ public abstract class monsterState {
     public abstract String modeOn();
     @DoNotMutate
     public abstract void draw(TextGraphics graphics,String monsterColor);
-    public abstract void move(Position p, char[][]map,boolean t, boolean b, boolean d, boolean e);
+    public abstract void move(Position p,boolean t, boolean b, boolean d, boolean e);
     public abstract void FrightHourStarted();
     public abstract void FrightHourEnded();
 }

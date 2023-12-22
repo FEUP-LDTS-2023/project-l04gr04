@@ -11,6 +11,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.*;
+import org.example.Color;
 import org.example.Numbers.Score;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,10 +41,10 @@ public class MapInitializationTest {
         assertEquals(202, mapa.getWidth());
         assertEquals(240, mapa.getHeight());
 
-        assertEquals("#FFB8FF", mapa.getGateColor());
-        assertEquals("#000000", mapa.getBackgroundColor());
-        assertEquals("#2121DE", mapa.getWallsColor());
-        assertEquals("#959043", mapa.getCoinsColor());
+        assertEquals("#FFB8FF", Color.getColor("gate"));
+        assertEquals("#000000", Color.getColor("background"));
+        assertEquals("#2121DE", Color.getColor("walls"));
+        assertEquals("#959043",  Color.getColor("coins"));
 
         assertNotNull(mapa.getPlayer());
         assertEquals(mapa.getMonsters().size(), 4);

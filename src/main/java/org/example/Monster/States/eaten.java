@@ -23,8 +23,8 @@ public class eaten extends monsterState {
     }
 
     @Override
-    public void move(Position p, char[][] map, boolean t, boolean b, boolean d, boolean e) {
-        monster.targetMove(p,map,t,b,d,e);
+    public void move(Position p, boolean t, boolean b, boolean d, boolean e) {
+        monster.targetMove(p,t,b,d,e);
     }
 
     @Override

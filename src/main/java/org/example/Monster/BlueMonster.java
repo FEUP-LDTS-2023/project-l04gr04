@@ -3,6 +3,7 @@ package org.example.Monster;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
+import org.example.Color;
 import org.example.Monster.Monster;
 import org.example.Monster.Position;
 
@@ -11,8 +12,7 @@ public class BlueMonster extends Monster {
     @DoNotMutate
     @Override
     public void draw(TextGraphics graphics) {
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#00FFFF"));
-        super.draw(graphics, "#00FFFF");
+        super.draw(graphics, Color.getColor("blue"));
     }
     public Position target(Position position, String direction, Position redPosition){
         if (ms.modeOn().equals("eaten")) return cagePosition;

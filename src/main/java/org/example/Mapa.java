@@ -27,10 +27,6 @@ import java.util.List;
 public class Mapa {
     private int width;
     private int height;
-    private final String gateColor = "#FFB8FF";
-    private final String backgroundColor = "#000000";
-    private final String wallsColor = "#2121DE";
-    private final String coinsColor = "#959043";
     private Double baseFrequency = 2.0; // Base velocity
     private final int timeInScout = 10;
     private GameState gameState ;
@@ -43,7 +39,6 @@ public class Mapa {
     private List<Dot> dots = new ArrayList<>();
     private int bonusP = 0;
     private int dotsCounter;
-    String yellow = "#FFB897";
     private boolean firstInput = true;
     private MapaListener mapaListener;
     soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
@@ -81,19 +76,6 @@ public class Mapa {
     public int getHeight() {
         return height;
     }
-    public String getGateColor() {
-        return gateColor;
-    }
-    public String getBackgroundColor() {
-        return backgroundColor;
-    }
-    public String getWallsColor() {
-        return wallsColor;
-    }
-    public String getCoinsColor() {
-        return coinsColor;
-    }
-
     public KeyType getLastInputMove() {
         return lastInputMove;
     }
@@ -153,30 +135,30 @@ public class Mapa {
         dots.clear();
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                 if (map[row][col] == '.') {
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'P' || map[row][col] == 'p') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'A') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'R') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == 'a') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("yellow")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 } else if (map[row][col] == '0') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("coins")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }else if (map[row][col] == 'd'){
                     dots.add(new Dot(col,row,false));
                 }else if (map[row][col] == 'D'){
                     dots.add(new Dot(col,row,true));
                 } else {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
@@ -188,7 +170,7 @@ public class Mapa {
         lifes.draw(graphics);
         int i = 0;
         for(Fruit f : frutas){
-            graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+            graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
             int initialX = f.getX();
             f.position = new Position(f.getX() + i*15 , f.getY());
             graphics.fillRectangle(new TerminalPosition(f.getX(), f.getY()), new TerminalSize(14, 14), ' ');
@@ -204,7 +186,7 @@ public class Mapa {
     }
     @DoNotMutate
     public void drawNormal(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws IOException {
-        graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
         ready.cleanReady(graphics);
         for (Rectangle dirtyRegion : dirtyRegions){
             int startX = Math.max(dirtyRegion.x, 0);
@@ -213,26 +195,26 @@ public class Mapa {
             int endY = Math.min(dirtyRegion.y + dirtyRegion.height, height);
             for (int row = startY; row < endY; row++) {
                 for (int col = startX; col < endX; col++) {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                     if (map[row][col] == '.') {
                         graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                     } else if (map[row][col] == 'P' || map[row][col] == 'p') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(wallsColor));
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
                         graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                     } else if (map[row][col] == 'A') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
                         graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                     } else if (map[row][col] == 'R') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(gateColor));
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
                         graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                     } else if (map[row][col] == '0') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(coinsColor));
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("coins")));
                         graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                     } else if (map[row][col] == 'a') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(yellow));
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("yellow")));
                         graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                     } else {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(backgroundColor));
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                         graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                     }
                 }

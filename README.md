@@ -34,6 +34,8 @@ Foram criadas uma interface genérica e uma classe abstrata para representar as 
 Assim, foram aproveitadas as semelhanças entre os fantasmas, e implementadas apenas as diferenças.
 
 **Implementação**
+
+
 ![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Strategy.JPG)
 
 https://github.com/FEUP-LDTS-2023/project-l04gr04/tree/master/src/main/java/org/example/GenericMonster.java
@@ -62,6 +64,7 @@ Foi criada uma classe "GameState" que possui uma lista de "GameObservers" (Inter
 
 **Implementação**
 
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Observer.JPG)
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Player.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameState.java
@@ -88,6 +91,8 @@ No "normalState" o PacMan existe no seu movimento e animação normal ("drawNorm
 
 **Implementação**
 
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/PacManState.JPG)
+
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/PacMan/Player.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/PacMan/eatingPacMan.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/PacMan/normalState.java
@@ -111,6 +116,8 @@ Foi criada uma classe abstrata "monsterState" na qual foram geridos seis novos e
 No estado "inCageState" os monstros enconram-se dentro da jaula e movem-se em direção ao exterior dela. Passam para o estado "scatterState" se forem os 10 primeiros segundos de jogo em que os monstros se dirigem para os 4 cantos do mapa ou para o modo "huntState" no qual perseguem o pacMan até um ponto especial ser comido pelo jogador. Quando isso acontece é inciado o estado "frightState" em que os fantasmas passam-se a mover na direção oposta ao movimento em que se encontravam, andando aleatóriamente pelo mapa. Neste estado eles podem ser comidos pelo PacMan passando para o estado "eatenState" no qual se dirige para o interior da jaula. O estado "onCollisionState" é implementado quando um monstro colide com o pacMan durante o estado "huntState" e faz com que os monstros desaparareçam.
 
 **Implementação**
+
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/MonsterState.JPG)
 
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/eatenState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/frightState.java
@@ -139,6 +146,8 @@ Foi criada uma classe abstrata "gameState" na qual foram geridos quatro novos es
 O estado "menuState" é iniciado no inicio do jogo e é repsponsáver por desenhar o menu na tela do jogo que permite ao utilizador escolher enicializar ("play"), obter informações ("info") ou saír ("exit") do jogo. O estado "pauseState" é iniciado quando o jogo está a decorrer e é primida a tecla "Escape". É responsavel por parar/pausar o jogo e desenhar o menu de pausa permitindo ao jogador voltar ao jogo ("resume") ou retornar ao menu inicial ("quit") voltando ao "menuState". No "chengingLevelState" é inicializada uma animação durante um periodo de tempo que indica ao utilizador o fim de um nivel e o inicio de outro. O "playingState" quando chamado é responsavel por inicializar um novo jogo caso o estado anterior tenha sido o "menuState".
 
 **Implementação**
+
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/GameState.JPG)
 
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/ApplicationState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/changingLevel.java

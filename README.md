@@ -76,7 +76,7 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 - É fácil adicionar novos observadores (por exemplo, novos tipos de fantasmas) sem modificar o código existente, promovendo a extensibilidade.
 - A lógica relacionada à resposta dos fantasmas às ações do Pac-Man é encapsulada nas classes de observadores, facilitando a manutenção e a compreensão do código.
 
-####STATES PATTERNS:
+#### STATES PATTERNS:
 
 #### States Patterns Player
 

@@ -3,14 +3,13 @@ package org.example.Monster.MonstersTest;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.example.Monster.MonsterStates.fright;
 import org.example.Monster.Monsters.RedMonster;
-import org.example.PacMan.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-public class MonsterTest {
+public class MonsterTestAnimations {
     private RedMonster redmonster;
     @BeforeEach
     public void setPlayer() {

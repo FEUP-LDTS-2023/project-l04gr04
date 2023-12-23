@@ -29,7 +29,7 @@
         junit5PluginVersion = '0.12'
         verbose = true;
         targetClasses = ['org.example.*']
-        targetTests = ['org.example.OtherTests.*','org.example.GameStateTest.*','org.example.MonsterBehaviorTest.*']
+        targetTests = ['org.example.*']
     }
     application {
         mainClass.set("org.example.Application.Application")

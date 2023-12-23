@@ -132,6 +132,7 @@ public class Game implements MapaListener {
                 }
             }
         }
+
         screen.refresh();
     }
     public void drawPause(int barOn) throws IOException {
@@ -150,6 +151,7 @@ public class Game implements MapaListener {
                 }
             }
         }
+
         screen.refresh();
     }
     public void drawInfo() throws IOException {
@@ -172,7 +174,6 @@ public class Game implements MapaListener {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("pink")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
-
             }
         }
         screen.refresh();
@@ -306,5 +307,50 @@ public class Game implements MapaListener {
         return gameState;
     }
 
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+    }
 
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public boolean isGameRunning() {
+        return isGameRunning;
+    }
+
+    public void setGameLoopTimer(Timer gameLoopTimer) {
+        this.gameLoopTimer = gameLoopTimer;
+    }
+
+    public void setGraphics(TextGraphics graphics) {
+        this.graphics = graphics;
+    }
+
+    public void setMap(char[][] map) {
+        this.map = map;
+    }
+
+    public void setMenu(char[][] menu) {
+        this.menu = menu;
+    }
+
+    public void setPausa(char[][] pausa) {
+        this.pausa = pausa;
+    }
+
+    public void setInfo(char[][] info) {
+        this.info = info;
+    }
+    public void setDirtyRegions(List<Rectangle> dirtyRegions) {
+        this.dirtyRegions = dirtyRegions;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
+
+    public void setLifes(Lifes lifes) {
+        this.lifes = lifes;
+    }
 }

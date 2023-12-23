@@ -35,6 +35,7 @@ public class Mapa {
     private int dotsCounter;
     private char[][] map;
     private boolean firstInput = true;
+    private boolean losted = false;
     private MapaListener mapaListener;
     private FrightControl gameState;
     private List<Monster> monsters = new ArrayList<>();
@@ -114,15 +115,15 @@ public class Mapa {
     }
     public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas,Lifes lifes,Score score){
         dots.clear();
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+        for (int row = 0; row < map.length; row++) {
+            for (int col = 0; col < map[0].length; col++) {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                 if (map[row][col] == 'd'){
                     dots.add(new Dot(col,row,false));
                 }else if (map[row][col] == 'D'){
                     dots.add(new Dot(col,row,true));
                 }else if (Color.getColor(String.valueOf(map[row][col])) != null){
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor(String.valueOf(map[row][col]))));
+                   graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor(String.valueOf(map[row][col]))));
                 }
                 graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
             }
@@ -190,6 +191,7 @@ public class Mapa {
             checkDotCollisions(score);
             checkMonsterCollisions(lifes);
             if (fruta != null)checkFruitCollision(score);
+            System.out.println(dotsCounter);
             if (dotsCounter == 0 && fruta == null){
                 gameState.stopMusic();
                 gameState.closeMusic();
@@ -292,7 +294,10 @@ public class Mapa {
                     eatingGhost.play();
                     m.changeState(new eaten(m));
                 }else if(!m.ms.modeOn().equals("eaten") && !m.ms.modeOn().equals("onCollision")){
-                    lostOneLife(lifes);
+                    if (!losted){
+                        lostOneLife(lifes);
+                        losted = true;
+                    }
                     break;
                 }
             }
@@ -409,6 +414,31 @@ public class Mapa {
     public void setOffFirstInput(){
         firstInput = false;
     }
+
+    public void setFruta(Fruit fruta) {
+        this.fruta = fruta;
+    }
+
+    public void setLastInputMove(KeyType lastInputMove) {
+        this.lastInputMove = lastInputMove;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setMonsters(List<Monster> monsters) {
+        this.monsters = monsters;
+    }
+
+    public void setGameState(FrightControl gameState) {
+        this.gameState = gameState;
+    }
+
+    public void setDotsCounter(int dotsCounter) {
+        this.dotsCounter = dotsCounter;
+    }
+
     public int getDotsCounter() {
         return dotsCounter;
     }

@@ -640,4 +640,8 @@ public class Player extends Element implements GameObserver {
     public void setFacingDirection(String facingDirection) {
         this.facingDirection = facingDirection;
     }
+
+    public void setFps(int fps) {
+        this.fps = fps;
+    }
 }

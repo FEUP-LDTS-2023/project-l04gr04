@@ -13,9 +13,9 @@ public abstract class Monster extends Element implements GenericMonster {
     // Public variables used to control the frequency of movement in map and the frequency of animation
     public int monsterM = 0;
     public int mouthOpenM = 0;
-    public Double monsterF; // Frequency in normal modes
-    public Double atmF; // Frequency at the moment
-    public Double monsterFrightF; // Frequency in fright modes
+    public Double monsterF = 0.0; // Frequency in normal modes
+    public Double atmF = 0.0; // Frequency at the moment
+    public Double monsterFrightF = 0.0; // Frequency in fright modes
     //
     private int frequency = 27;
     public monsterState ms = new inCage(this);

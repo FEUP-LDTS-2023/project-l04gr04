@@ -31,15 +31,15 @@ public class LevelTest {
         assertEquals("apple", level5.fruta);
         assertNotNull(level5.getMap());
     }
-    /*
     @Test
-    public void testGamefeatures() throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException {
-        Game game = new Game(220, 270,null,null,null);
-        game.initialize();
-        game.createLevel();
-        game.gameLoop();
-        game.warnMapStopMusic();
-    }*/
+    public void stopMusic() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        Game game = new Game(220, 270);
+        Mapa map = mock(Mapa.class);
+        Level level = new Level(40, 10, 10,game.loadMapFromFile("map.txt"));
+        level.setMap(map);
+        level.warnMapStopMusic();
+        verify(map).warnMapStopMusic();
+    }
     @Test
     public void processKey() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Game game = new Game(220,270);
@@ -73,6 +73,7 @@ public class LevelTest {
         Score score = new Score();
         level.drawInicialMap(graphics,new ArrayList<>(),lifes,score);
         verify(mapMock).drawInicialMap(eq(graphics),anyList(),eq(lifes),eq(score));
+
     }
     @Test
     public void draw() throws IOException, UnsupportedAudioFileException, LineUnavailableException {

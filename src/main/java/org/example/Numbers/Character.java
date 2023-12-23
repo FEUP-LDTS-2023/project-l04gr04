@@ -3,8 +3,8 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Color;
-import org.example.Element;
+import org.example.Others.Color;
+import org.example.Elements.Element;
 
 public class Character extends Element {
     private char[][] score = new char[][]{

@@ -1,22 +1,11 @@
 package org.example.OtherTests;
 
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Monster.RedMonster;
-import org.example.Monster.States.fright;
+import org.example.Monster.Monsters.RedMonster;
+import org.example.Monster.MonsterStates.fright;
 import org.example.PacMan.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;

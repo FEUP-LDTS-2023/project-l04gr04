@@ -1,8 +1,8 @@
 package org.example.Numbers;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Color;
-import org.example.Element;
+import org.example.Others.Color;
+import org.example.Elements.Element;
 
 public class Numero extends Element {
     private char[][] num;

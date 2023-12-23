@@ -1,13 +1,12 @@
 package org.example.OtherTests;
 
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Game;
+import org.example.Game.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.*;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

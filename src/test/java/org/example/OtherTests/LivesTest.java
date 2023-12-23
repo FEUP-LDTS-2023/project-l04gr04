@@ -1,7 +1,7 @@
 package org.example.OtherTests;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Lifes;
+import org.example.Elements.Lifes;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

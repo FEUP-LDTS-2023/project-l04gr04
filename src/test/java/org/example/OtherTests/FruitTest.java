@@ -1,7 +1,7 @@
 package org.example.OtherTests;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Fruit;
+import org.example.Elements.Fruit;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.any;

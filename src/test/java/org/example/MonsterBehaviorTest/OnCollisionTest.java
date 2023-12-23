@@ -1,9 +1,9 @@
 package org.example.MonsterBehaviorTest;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Monster.BlueMonster;
-import org.example.Monster.States.onCollision;
-import org.example.Position;
+import org.example.Monster.Monsters.BlueMonster;
+import org.example.Monster.MonsterStates.onCollision;
+import org.example.Others.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

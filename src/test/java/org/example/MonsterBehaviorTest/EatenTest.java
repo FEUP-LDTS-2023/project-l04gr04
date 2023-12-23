@@ -1,8 +1,8 @@
 package org.example.MonsterBehaviorTest;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Monster.RedMonster;
-import org.example.Monster.States.eaten;
-import org.example.Position;
+import org.example.Monster.Monsters.RedMonster;
+import org.example.Monster.MonsterStates.eaten;
+import org.example.Others.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.awt.*;

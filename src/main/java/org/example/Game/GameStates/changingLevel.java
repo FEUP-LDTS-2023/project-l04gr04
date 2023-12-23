@@ -1,0 +1,45 @@
+package org.example.Game.GameStates;
+
+import com.googlecode.lanterna.input.KeyStroke;
+import org.example.Game.Game;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class changingLevel extends GameState {
+    private boolean yellowBack = false;
+    public changingLevel(Game g) {
+        super(g);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    game.createLevel();
+                    changeState(new playingState(game));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (UnsupportedAudioFileException e) {
+                    throw new RuntimeException(e);
+                } catch (LineUnavailableException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, 2000);
+    }
+    @Override
+    public void draw() throws IOException {
+        yellowBack = !yellowBack;
+        game.changingLevelDraw(yellowBack);
+    }
+    @Override
+    public String name() {
+        return "changingLevel";
+    }
+
+    @Override
+    public void input(KeyStroke key) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {}
+}

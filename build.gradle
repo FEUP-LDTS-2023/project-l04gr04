@@ -36,5 +36,5 @@
         targetTests = ['org.example.OtherTests.*','org.example.GameStateTest.*','org.example.MonsterBehaviorTest.*']
     }
     application {
-        mainClass.set("org.example.Application")
+        mainClass.set("org.example.Application.Application")
     }

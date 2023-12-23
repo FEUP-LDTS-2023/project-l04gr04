@@ -2,10 +2,8 @@ package org.example.GameStateTest;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import org.example.Game;
-import org.example.GameStates.RetryingLevel;
-import org.example.GameStates.changingLevel;
-import org.example.GameStates.menuState;
+import org.example.Game.Game;
+import org.example.Game.GameStates.changingLevel;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

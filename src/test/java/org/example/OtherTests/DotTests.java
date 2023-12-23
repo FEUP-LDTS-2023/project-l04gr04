@@ -2,10 +2,10 @@ package org.example.OtherTests;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Dot;
-import org.example.Game;
-import org.example.Mapa;
-import org.example.Position;
+import org.example.Elements.Dot;
+import org.example.Game.Game;
+import org.example.Game.Mapa;
+import org.example.Others.Position;
 import org.example.Numbers.Score;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

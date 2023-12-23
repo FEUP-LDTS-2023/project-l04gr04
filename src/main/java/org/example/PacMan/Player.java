@@ -1,8 +1,8 @@
 package org.example.PacMan;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Color;
-import org.example.Element;
-import org.example.GameObserver;
+import org.example.Others.Color;
+import org.example.Elements.Element;
+import org.example.Interfaces.GameObserver;
 
 public class Player extends Element implements GameObserver {
     // Public variables used to control the frequency of movement in map and the frequency of animations

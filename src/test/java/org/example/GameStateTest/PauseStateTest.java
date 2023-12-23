@@ -1,26 +1,15 @@
 package org.example.GameStateTest;
 
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import com.groupcdg.pitest.annotations.DoNotMutate;
-import org.example.Game;
-import org.example.GameStates.ApplicationState;
-import org.example.GameStates.pauseState;
-import org.example.GameStates.playingState;
+import org.example.Game.Game;
+import org.example.Game.GameStates.GameState;
+import org.example.Game.GameStates.pauseState;
 import org.junit.jupiter.api.Test;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,7 +32,7 @@ public class PauseStateTest {
         pauseState pauseState = new pauseState(mockGame);
         KeyStroke enterKey = new KeyStroke(KeyType.Enter);
         pauseState.input(enterKey);
-        verify(mockGame).changeState(any(ApplicationState.class));
+        verify(mockGame).changeState(any(GameState.class));
     }
     @Test
     void testName() {

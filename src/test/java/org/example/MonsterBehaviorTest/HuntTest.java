@@ -1,10 +1,10 @@
 package org.example.MonsterBehaviorTest;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import org.example.Monster.BlueMonster;
-import org.example.Monster.States.fright;
-import org.example.Monster.States.hunt;
-import org.example.Monster.monsterState;
-import org.example.Position;
+import org.example.Monster.Monsters.BlueMonster;
+import org.example.Monster.MonsterStates.fright;
+import org.example.Monster.MonsterStates.hunt;
+import org.example.Monster.MonsterStates.monsterState;
+import org.example.Others.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

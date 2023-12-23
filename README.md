@@ -167,6 +167,10 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 
 ![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Coverage.JPG)
 
+### UML geral
+
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/UML.JPG)
+
 ### Auto-avaliação
 
 - Alexandre Costa: 40%

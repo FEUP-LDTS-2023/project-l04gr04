@@ -35,6 +35,6 @@ Mantenha os olhos abertos para pontos especiais que proporcionam momentos de van
 
 ![](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/gifs_images/comer_gif.gif)
 
-### Passagem de nivel
+
 
 

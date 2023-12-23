@@ -153,6 +153,7 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/menuState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/pauseState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/playingState.java
+https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Game/GameStates/retryingLevelState.java
 
 **Consequências**
 

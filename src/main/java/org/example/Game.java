@@ -40,6 +40,7 @@ public class Game implements MapaListener{
     private char menu[][];
     private char pausa[][];
     private char map[][];
+    private char info[][];
     public boolean onPause = false;
     private ApplicationState applicationState;
     private List<Fruit> frutas = new ArrayList<>();
@@ -72,6 +73,7 @@ public class Game implements MapaListener{
         menu = loadMapFromFile("menu.txt");
         pausa = loadMapFromFile("pausa.txt");
         map = loadMapFromFile("map.txt");
+        info = loadMapFromFile("info.txt");
         InputStream fontStream = getClass().getClassLoader().getResourceAsStream("square.ttf");
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
         Font customFont = font.deriveFont(Font.PLAIN, 2);
@@ -152,7 +154,6 @@ public class Game implements MapaListener{
     }
     @DoNotMutate
     public void drawMenu(int barOn) throws IOException {
-        screen.clear();
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
                 if(menu[row][col] == '5'){
@@ -191,6 +192,23 @@ public class Game implements MapaListener{
                     graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
+            }
+        }
+        screen.refresh();
+    }
+    public void drawInfo() throws IOException {
+        for (int row = 0; row < gameH; row++) {
+            for (int col = 0; col < gameW; col++) {
+                if (info[row][col] == '0') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("y")));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (info[row][col] == '5'|| info[row][col] == '1') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }
+
             }
         }
         screen.refresh();

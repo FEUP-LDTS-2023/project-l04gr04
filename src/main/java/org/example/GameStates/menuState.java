@@ -39,6 +39,9 @@ public class menuState extends ApplicationState{
                     game.createLevel();
                     changeState(new playingState(game));
                     break;
+                case 1:
+                    changeState(new infoState(game));
+                    break;
                 case 2:
                     game.stopGameLoop();
                     break;

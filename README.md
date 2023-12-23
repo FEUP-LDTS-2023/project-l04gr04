@@ -158,11 +158,10 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 
 - Facilidade em gerir as transições relativas ao estado em que o jogo se encontra.
 
-#### Alguns defeitos de código
+#### Code Smells
 
 - Algumas funções contêm uma implementação extensa e confusa.
-- Lógica de animação do PacMan e dos fantasmas pode ser melhorada.
-- As cores ainda não estão armazenadas numa lista.
+- Performance podia ser melhorada.
 
 ### Coverage
 
@@ -170,6 +169,6 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 
 ### Auto-avaliação
 
-- Alexandre: 40%
+- Alexandre Costa: 40%
 - Bárbara: 30%
 - Bernardo: 30%

@@ -34,6 +34,7 @@ Foram criadas uma interface genérica e uma classe abstrata para representar as 
 Assim, foram aproveitadas as semelhanças entre os fantasmas, e implementadas apenas as diferenças.
 
 **Implementação**
+![img]([https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/IMG_20231125_170302.jpg?raw=true](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Strategy.JPG))
 
 https://github.com/FEUP-LDTS-2023/project-l04gr04/tree/master/src/main/java/org/example/GenericMonster.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/tree/master/src/main/java/org/example/Monster.java
@@ -155,7 +156,7 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 - Lógica de animação do PacMan e dos fantasmas pode ser melhorada.
 - As cores ainda não estão armazenadas numa lista.
 
-### TESTES
+### Coverage
 
 ![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/IMG_20231125_170302.jpg?raw=true)
 

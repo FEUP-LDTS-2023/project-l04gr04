@@ -31,6 +31,7 @@ public class pauseState extends GameState {
                     game.drawInicialMap();
                     break;
                 case 1:
+                    game.screenClear();
                     game.warnMapStopMusic();
                     game.resetStructs();
                     changeState(new menuState(game));

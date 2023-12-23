@@ -225,6 +225,11 @@ public class Game implements MapaListener {
     ////////////////////////////////////////////////////
     // Others                                         //
     ////////////////////////////////////////////////////
+    public void screenClear(){
+        if(screen != null) {
+            screen.clear();
+        }
+    }
     public void createLevel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         level = new Level(levelNumber,gameW,gameH,loadMapFromFile("map.txt"));
         level.setMapaListener(this);

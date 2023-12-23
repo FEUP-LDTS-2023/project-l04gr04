@@ -23,6 +23,7 @@ public class playingState extends GameState {
     @Override
     public void input(KeyStroke key) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         if (key != null && key.getKeyType() == KeyType.Escape){
+            game.screenClear();
             changeState(new pauseState(game));
             return;
         }

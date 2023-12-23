@@ -20,6 +20,7 @@ public class infoState extends GameState{
     }
     public void input(KeyStroke key){
         if (key != null && key.getKeyType() == KeyType.Escape){
+            game.screenClear();
             changeState(new menuState(game));
         }
     }

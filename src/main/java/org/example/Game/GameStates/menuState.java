@@ -32,6 +32,7 @@ public class menuState extends GameState {
                     break;
 
                 case 1:
+                    game.screenClear();
                     changeState(new infoState(game));
                     break;
                 case 2:

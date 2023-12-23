@@ -15,7 +15,7 @@ import org.example.Monster.Monsters.*;
 import org.example.Chars.Character;
 import org.example.Chars.Score;
 import org.example.PacMan.Player;
-import org.example.PacMan.eatingPacMan;
+import org.example.PacMan.PacManStates.eatingPacManState;
 import org.example.Others.Position;
 import org.example.Sounds.soundTrack;
 
@@ -70,6 +70,7 @@ public class Mapa {
         monsters.add( new BlueMonster(98,115));
         monsters.add(new PinkMonster(106,115));
         gameState = new FrightControl(tInF);
+        gameState.FrightClockIniciate();
         for (Monster m : monsters){
             m.monsterF = monstersF;
             m.atmF = monstersF;
@@ -314,7 +315,7 @@ public class Mapa {
         warnMapStopMusic();
         lifes.decrementLife();
         for (Monster m : monsters)m.changeState(new onCollision(m));
-        player.ps.changeState(new eatingPacMan(player));
+        player.ps.changeState(new eatingPacManState(player));
         death.play();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

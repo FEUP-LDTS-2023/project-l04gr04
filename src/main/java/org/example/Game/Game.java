@@ -209,6 +209,7 @@ public class Game implements MapaListener {
     ////////////////////////////////////////////////////
     @Override
     public void gameLost(){
+        if (screen != null) screen.clear();
         level = null;
         resetStructs();
         gameState.changeState(new menuState(this));

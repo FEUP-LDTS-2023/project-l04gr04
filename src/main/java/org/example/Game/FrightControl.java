@@ -18,6 +18,8 @@ public class FrightControl {
     private boolean frightH = false;
     public FrightControl(int k) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         timeInFright = k;
+    }
+    public void FrightClockIniciate(){
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -67,5 +69,15 @@ public class FrightControl {
         for (GameObserver observer : observers)
             if (isFrightHour()) observer.FrightHourStarted();
             else observer.FrightHourEnded();
+    }
+    ////////////////////////////////////////////////////
+    // Getters e Setters                              //
+    ////////////////////////////////////////////////////
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public void setBg(soundTrack bg) {
+        this.bg = bg;
     }
 }

@@ -165,7 +165,7 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 
 ### Coverage
 
-![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/IMG_20231125_170302.jpg?raw=true)
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Coverage.JPG)
 
 ### Auto-avaliação
 

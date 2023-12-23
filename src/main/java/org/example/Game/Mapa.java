@@ -191,7 +191,6 @@ public class Mapa {
             checkDotCollisions(score);
             checkMonsterCollisions(lifes);
             if (fruta != null)checkFruitCollision(score);
-            System.out.println(dotsCounter);
             if (dotsCounter == 0 && fruta == null){
                 gameState.stopMusic();
                 gameState.closeMusic();

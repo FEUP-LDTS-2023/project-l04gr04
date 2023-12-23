@@ -17,7 +17,6 @@ public abstract class ApplicationState {
     public void changeState(ApplicationState newState) {
         game.changeState(newState);
     }
-    @DoNotMutate
     public abstract void draw() throws IOException;
     public abstract void input(KeyStroke key) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException;
 }

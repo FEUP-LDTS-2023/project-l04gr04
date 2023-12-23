@@ -1,18 +1,12 @@
 package org.example.OtherTests;
 
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Game;
 import org.example.Lifes;
 import org.example.Mapa;
 import org.example.Monster.Monster;
-import org.example.Monster.Position;
+import org.example.Position;
 import org.example.Monster.States.eaten;
 import org.example.Monster.States.fright;
 import org.example.PacMan.Player;
@@ -22,7 +16,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -34,7 +27,7 @@ public class PlayerBehaviourTest {InputStream fontStream = getClass().getClassLo
     private Game game;
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        game = new Game(220, 270,null,null,null);
+        game = new Game(220, 270);
         mapa = new Mapa(202, 240, "", 0, 0.0, 0.0, 0.0, 0.0, 0,game.loadMapFromFile("map.txt"));
     }
 

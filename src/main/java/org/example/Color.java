@@ -31,6 +31,9 @@ public class Color {
         Colors.put("O", "#DE9751");
         Colors.put("b", "#E49B51");
         Colors.put("0", "#0000FF");
+        Colors.put("P", "#2121DE");
+        Colors.put("p", "#2121DE");
+        Colors.put("r", "#FFB8FF");
     }
 
     public static String getColor(String nomeCor) {

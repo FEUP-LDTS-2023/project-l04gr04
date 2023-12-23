@@ -17,23 +17,18 @@ public class menuState extends ApplicationState{
     public menuState(Game g) {
         super(g);
     }
-
     @Override
     public String name() {
         return "menu";
     }
-
-    @DoNotMutate
     @Override
     public void draw() throws IOException {
         game.drawMenu(barOn);
     }
-
     @Override
     public void input(KeyStroke key) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         if (key == null)return;
         if (key.getKeyType() == KeyType.Enter){
-            game.screen.clear();
             switch (barOn){
                 case 0:
                     game.createLevel();
@@ -47,7 +42,6 @@ public class menuState extends ApplicationState{
                     break;
 
             }
-
         }
         if (key.getKeyType() == KeyType.ArrowUp)up();
         else if (key.getKeyType() == KeyType.ArrowDown)down();

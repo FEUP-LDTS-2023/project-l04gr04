@@ -26,49 +26,30 @@ import java.util.*;
 import java.util.List;
 
 public class Game implements MapaListener{
-    private int levelNumber = 1;
-    public Screen screen;
-    public Terminal terminal;
-    private Level level;
-    private KeyStroke k = null;
-    private Score score = new Score();
-    List<Rectangle> dirtyRegions = new ArrayList<>();
-    private Timer gameLoopTimer;
-    private int gameW;
-    private int gameH;
-    private TextGraphics graphics;
     private char menu[][];
     private char pausa[][];
     private char map[][];
     private char info[][];
-    public boolean onPause = false;
+    private int levelNumber = 1;
+    private int gameW;
+    private int gameH;
+    private Screen screen;
+    private Terminal terminal;
+    private TextGraphics graphics;
+    private Timer gameLoopTimer;
+    private Level level;
+    private KeyStroke TemporaryKey = null;
     private ApplicationState applicationState;
+    private Score score = new Score();
     private List<Fruit> frutas = new ArrayList<>();
     private Lifes lifes = new Lifes(5,243);
-    @DoNotMutate
-    public Game(int w, int h, Terminal terminal, Level level, TextGraphics graphics){
+    private List<Rectangle> dirtyRegions = new ArrayList<>(); // Regions where the screen should clear and refresh at every frame
+    private boolean isGameRunning = true;
+    public Game(int w, int h){
         gameW = w;
         gameH = h;
-        this.terminal = terminal;
-        this.level = level;
-        this.graphics = graphics;
         applicationState = new menuState(this);
     }
-    public int getGameW() {
-        return gameW;
-    }
-    public int getGameH() {
-        return gameH;
-    }
-    public Level getLevel() {
-        return level;
-    }
-
-    public ApplicationState getApplicationState() {
-        return applicationState;
-    }
-
-    @DoNotMutate
     public void initialize() throws IOException, FontFormatException {
         menu = loadMapFromFile("menu.txt");
         pausa = loadMapFromFile("pausa.txt");
@@ -85,25 +66,22 @@ public class Game implements MapaListener{
         screen.startScreen();
         screen.doResizeIfNecessary();
         graphics = screen.newTextGraphics();
-        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
-        for (int row = 0; row < gameH; row++) {
-            for (int col = 0; col < gameW; col++) {
-                graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-            }
-        }
     }
     ////////////////////////////////////////////////////
     // Game Loop                                      //
     ////////////////////////////////////////////////////
-    @DoNotMutate
+
     public void gameLoop(){
         gameLoopTimer = new Timer();
         gameLoopTimer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 try {
                     KeyStroke keystroke = screen.pollInput();
-                    applicationState.input(keystroke);
-                    applicationState.draw();
+                    if (keystroke != null && keystroke.getKeyType() == KeyType.EOF)stopGameLoop();
+                    if (isGameRunning) {
+                        applicationState.input(keystroke);
+                        applicationState.draw();
+                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {
@@ -114,45 +92,26 @@ public class Game implements MapaListener{
                     throw new RuntimeException(e);
                 }
             }
-        }, 0, 1
-        ); // Refresh at each 16 ms ( ~ 60 FPS)
+        }, 0, 5);
     }
     ////////////////////////////////////////////////////
     // Draws                                          //
     ////////////////////////////////////////////////////
-    @DoNotMutate
     public void changingLevelDraw(boolean back) throws IOException {
-        screen.clear();
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
-                if (map[row][col] == '.') {
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
-                    if(back)graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
+                if (map[row][col] == 'P' || map[row][col] == 'p') {
+                    if (back) graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
                     else graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("yellow")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'A') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'R') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'a') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("yellow")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == '0') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("coins")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (Color.getColor(String.valueOf(map[row][col])) != null){
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor(String.valueOf(map[row][col]))));
                 }
+                graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
             }
         }
         screen.refresh();
     }
-    @DoNotMutate
     public void drawMenu(int barOn) throws IOException {
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
@@ -174,21 +133,17 @@ public class Game implements MapaListener{
         }
         screen.refresh();
     }
-    @DoNotMutate
     public void drawPause(int barOn) throws IOException {
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
                 if(pausa[row][col] == '5'){
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#d3d3d3"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
                 else if (Character.getNumericValue(pausa[row][col]) == barOn){
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#CCCC00"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }else if (pausa[row][col] == '0' || pausa[row][col] == '1'){
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                     graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
@@ -213,7 +168,6 @@ public class Game implements MapaListener{
         }
         screen.refresh();
     }
-    @DoNotMutate
     public void drawLevel() throws IOException {
         for (Rectangle dirtyRegion : dirtyRegions) {
             for (int i = dirtyRegion.y; i < dirtyRegion.y + dirtyRegion.height; i++) {
@@ -222,40 +176,34 @@ public class Game implements MapaListener{
                 }
             }
         }
-        if (level != null)level.draw(graphics, dirtyRegions,score,lifes,frutas,screen); // Drawing in that area
+        if (level != null)level.draw(graphics, dirtyRegions,score,lifes,frutas); // Drawing in that area
         dirtyRegions.clear();
         screen.refresh();
+    }
+    public void drawInicialMap(){
+        if (level != null)level.drawInicialMap(graphics,frutas,lifes,score);
     }
     ////////////////////////////////////////////////////
     // Input                                          //
     ////////////////////////////////////////////////////
-    public void gameplayInput(KeyStroke keystroke) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
+    public void gameplayInput(KeyStroke keystroke) throws IOException,UnsupportedAudioFileException, LineUnavailableException {
         if (keystroke != null){
-            k = keystroke;
+            TemporaryKey = keystroke;
         }
         if (level != null){
-            if (level.processKey(k))k = null;
+            if (level.processKey(TemporaryKey))TemporaryKey = null;
             level.gameLoop(dirtyRegions,score,lifes);
         }
     }
-    @DoNotMutate
-    public void drawInicialMap() throws IOException {
-        if (level != null)level.drawInicialMap(graphics,frutas,screen,lifes);
-    }
-    @DoNotMutate
-    public void stopGameLoop() throws IOException {
-        gameLoopTimer.cancel();
-        gameLoopTimer.purge();
-        gameLoopTimer = null;
-        screen.close();
-    }
+    ////////////////////////////////////////////////////
+    // Mapa Listener                                  //
+    ////////////////////////////////////////////////////
     @Override
     public void gameLost(){
         level = null;
         resetStructs();
         applicationState.changeState(new menuState(this));
     }
-
     @Override
     public void levelLost(char[][] mapa) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         applicationState.changeState(new RetryingLevel(this));
@@ -273,23 +221,30 @@ public class Game implements MapaListener{
         level = null;
         applicationState.changeState(new changingLevel(this));
     }
+    ////////////////////////////////////////////////////
+    // Others                                         //
+    ////////////////////////////////////////////////////
+    public void createLevel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        level = new Level(levelNumber,gameW,gameH,loadMapFromFile("map.txt"));
+        level.setMapaListener(this);
+    }
     public void resetStructs(){
         score = new Score();
         lifes = new Lifes(5,243);
         frutas = new ArrayList<>();
         levelNumber = 1;
-        k = null;
+        TemporaryKey = null;
     }
-    @DoNotMutate
+    public void stopGameLoop() throws IOException {
+        if (level != null) warnMapStopMusic();
+        isGameRunning = false;
+        gameLoopTimer.cancel();
+        gameLoopTimer = null;
+        screen.close();
+    }
     public void warnMapStopMusic(){
         level.warnMapStopMusic();
     }
-    @DoNotMutate
-    public void createLevel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        level = new Level(levelNumber,gameW,gameH,loadMapFromFile("map.txt"));
-        level.setMapaListener(this);
-    }
-
     public void changeState(ApplicationState newState) {
         applicationState = newState;
     }
@@ -318,6 +273,22 @@ public class Game implements MapaListener{
         }
         reader.close();
         return map;
+    }
+    ////////////////////////////////////////////////////
+    // Getters                                        //
+    ////////////////////////////////////////////////////
+    public int getGameW() {
+        return gameW;
+    }
+    public int getGameH() {
+        return gameH;
+    }
+    public Level getLevel() {
+        return level;
+    }
+
+    public ApplicationState getApplicationState() {
+        return applicationState;
     }
 
 

@@ -40,7 +40,6 @@ public class PauseStateTest {
     @Test
     void testInput() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Game mockGame = mock(Game.class);
-        mockGame.screen = mock(Screen.class);
         pauseState pauseState = new pauseState(mockGame);
         KeyStroke enterKey = new KeyStroke(KeyType.Enter);
         pauseState.input(enterKey);

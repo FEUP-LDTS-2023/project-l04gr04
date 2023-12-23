@@ -11,12 +11,10 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class pauseState extends ApplicationState{
-    int barOn = 0;
+    private int barOn = 0;
     public pauseState(Game g) {
         super(g);
-        game.onPause = true;
     }
-    @DoNotMutate
     @Override
     public void draw() throws IOException {
         game.drawPause(barOn);
@@ -25,13 +23,10 @@ public class pauseState extends ApplicationState{
     public String name() {
         return "pause";
     }
-
-    @DoNotMutate
     @Override
     public void input(KeyStroke key) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         if (key == null)return;
         if (key.getKeyType() == KeyType.Enter){
-            game.screen.clear();
             switch (barOn){
                 case 0:
                     changeState(new playingState(game));

@@ -17,7 +17,7 @@ public class GameInitializationTest {
 
     @BeforeEach
     public void setGame(){
-        game = new Game(220, 270,null,null,null);
+        game = new Game(220, 270);
     }
     @DoNotMutate
     @Test

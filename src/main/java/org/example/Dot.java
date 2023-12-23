@@ -5,43 +5,51 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 
 public class Dot extends Element {
-    public boolean SpecialDote;
-    public char[][] bigDot;
-    public char[][] smallDot;
+    private boolean SpecialDote;
+    private char[][] bigDot = new char[][]{
+            {'#','#','Y','Y','#','#','#'},
+            {'#','Y','Y','Y','Y','#','#'},
+            {'Y','Y','Y','Y','Y','Y','#'},
+            {'Y','Y','Y','Y','Y','Y','#'},
+            {'#','Y','Y','Y','Y','#','#'},
+            {'#','#','Y','Y','#','#','#'},
+            {'#','#','#','#','#','#','#'},
+    };
+    private char[][] smallDot = new char[][]{
+            {'#','#','#','#','#','#','#'},
+            {'#','#','#','#','#','#','#'},
+            {'#','#','#','#','#','#','#'},
+            {'#','#','#','Y','#','#','#'},
+            {'#','#','#','#','#','#','#'},
+            {'#','#','#','#','#','#','#'},
+            {'#','#','#','#','#','#','#'},
 
-    public boolean isSpecialDote() {
-        return SpecialDote;
-    }
-
+    };
     public Dot(int x, int y, boolean bd) {
         super(x, y);
         SpecialDote = bd;
-
-        bigDot = new char[][]{
-                {'#','#','Y','Y','#','#','#'},
-                {'#','Y','Y','Y','Y','#','#'},
-                {'Y','Y','Y','Y','Y','Y','#'},
-                {'Y','Y','Y','Y','Y','Y','#'},
-                {'#','Y','Y','Y','Y','#','#'},
-                {'#','#','Y','Y','#','#','#'},
-                {'#','#','#','#','#','#','#'},
-        };
-
-        smallDot = new char[][]{
-                {'#','#','#','#','#','#','#'},
-                {'#','#','#','#','#','#','#'},
-                {'#','#','#','#','#','#','#'},
-                {'#','#','#','Y','#','#','#'},
-                {'#','#','#','#','#','#','#'},
-                {'#','#','#','#','#','#','#'},
-                {'#','#','#','#','#','#','#'},
-
-        };
-
     }
-    @DoNotMutate
+    ////////////////////////////////////////////////////
+    // Draws                                          //
+    ////////////////////////////////////////////////////
     public void draw(TextGraphics graphics){
         if (SpecialDote)drawTheStyle(bigDot,graphics,Color.getColor("yellow"));
         else drawTheStyle(smallDot,graphics,Color.getColor("yellow"));
+    }
+    ////////////////////////////////////////////////////
+    // Others                                         //
+    ////////////////////////////////////////////////////
+    public boolean isSpecialDote() {
+        return SpecialDote;
+    }
+    ////////////////////////////////////////////////////
+    // Getters e Setters                              //
+    ////////////////////////////////////////////////////
+    public char[][] getBigDot() {
+        return bigDot;
+    }
+
+    public char[][] getSmallDot() {
+        return smallDot;
     }
 }

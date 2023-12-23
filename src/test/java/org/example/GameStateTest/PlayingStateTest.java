@@ -38,8 +38,7 @@ public class PlayingStateTest {
 
     @Test
     void testInputEscape() throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
-        Game game = new Game(220,270,null,null,null);
-        game.screen = mock(Screen.class);
+        Game game = new Game(220,270);
         KeyStroke keyStroke = new KeyStroke(KeyType.Escape);
         playingState playingState = new playingState(game);
         playingState.input(keyStroke);

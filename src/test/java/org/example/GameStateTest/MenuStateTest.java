@@ -46,7 +46,6 @@ public class MenuStateTest {
     void testInputEnter() throws IOException,UnsupportedAudioFileException, LineUnavailableException {
         menuState menuState = new menuState(mockGame);
         KeyStroke enterKey = new KeyStroke(KeyType.Enter);
-        mockGame.screen = mock(Screen.class);
         menuState.input(enterKey);
         verify(mockGame).changeState(any(playingState.class));
     }

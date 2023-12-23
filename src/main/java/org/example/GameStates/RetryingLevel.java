@@ -14,12 +14,10 @@ public class RetryingLevel extends ApplicationState{
     public RetryingLevel(Game g) {
         super(g);
     }
-
     @Override
     public String name() {
         return "retryingLevel";
     }
-    @DoNotMutate
     @Override
     public void draw() throws IOException {}
 

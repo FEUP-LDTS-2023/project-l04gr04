@@ -1,22 +1,24 @@
 package org.example.PacMan;
-
-import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Color;
 import org.example.Element;
 import org.example.GameObserver;
 
 public class Player extends Element implements GameObserver {
-
+    // Public variables used to control the frequency of movement in map and the frequency of animations
+    public int mouthOpen = 0;
+    public  int playerM = 0;
+    private int dieF = 15;
+    public Double playerF; // Frequency in normal modes
+    public Double playerFrightF; // Frequency in fright modes
+    public Double atmF; // Frequency at the moment
+    public int fps = 0;
+    //
+    private int CountOfEatenInARow = 0;
+    private int frequency = 15;
     public String facingDirection;
     public pacManState ps = new normalState(this);
-    public int mouthOpen = 0;
-    public int fps = 0;
-    public Double playerF;
-    public Double playerFrightF;
-    public Double atmF;
-    public  int playerM = 0;
+    // Sprites
     private char[][] pacManUp1;
     private char[][] pacManUp2;
     private char[][] pacManDown1;
@@ -38,184 +40,6 @@ public class Player extends Element implements GameObserver {
     private char[][] pacManDie10;
     private char[][] pacManDie11;
     private char[][] pacManDie12;
-    private int CountOfEatenInARow = 0;
-    private int frequency = 15;
-    private int dieF = 15;
-    public void setFacingDirection(String facingDirection) {
-        this.facingDirection = facingDirection;
-    }
-
-    @DoNotMutate
-    public void draw(TextGraphics  graphics){
-        ps.draw(graphics);
-    }
-
-    @DoNotMutate
-    public void drawDead(TextGraphics graphics){
-        String playerColor = Color.getColor("player");
-        if (mouthOpen<=dieF){
-            drawTheStyle(pacManDie1,graphics,playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*2){
-            drawTheStyle(pacManDie2,graphics,playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*3 ) {
-            drawTheStyle(pacManDie3, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*4 ) {
-            drawTheStyle(pacManDie4, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*5) {
-            drawTheStyle(pacManDie5, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*6 ) {
-            drawTheStyle(pacManDie6, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*7 ) {
-            drawTheStyle(pacManDie7, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*8 ) {
-            drawTheStyle(pacManDie8, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*9 ) {
-            drawTheStyle(pacManDie9, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*10 ) {
-            drawTheStyle(pacManDie10, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*11 ) {
-            drawTheStyle(pacManDie11, graphics, playerColor);
-            mouthOpen++;
-        }
-        else if (mouthOpen<=dieF*12 ) {
-            drawTheStyle(pacManDie12, graphics, playerColor);
-            mouthOpen++;
-        } else{
-            drawTheStyle(pacManDie11, graphics, playerColor);
-        }
-    }
-
-
-    @DoNotMutate
-    public void drawNormal(TextGraphics graphics){
-        String playerColor = Color.getColor("player");
-        if (position.getX() > 198) return;
-        switch (facingDirection){
-            case "right":
-                if (mouthOpen<=frequency){
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*2){
-                    drawTheStyle(pacManRight1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*3 ) {
-                    drawTheStyle(pacManRight2,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*4 ) {
-                    drawTheStyle(pacManRight1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else {
-                    mouthOpen = 1;
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                }
-            case "left":
-                if (mouthOpen<=frequency*1){
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*2){
-                    drawTheStyle(pacManLeft1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*3) {
-                    drawTheStyle(pacManLeft2,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*4) {
-                    drawTheStyle(pacManLeft1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else {
-                    mouthOpen = 1;
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    break;
-                }
-            case "down":
-                if (mouthOpen<=frequency*1){
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*2){
-                    drawTheStyle(pacManDown1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*3) {
-                    drawTheStyle(pacManDown2,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*4) {
-                    drawTheStyle(pacManDown1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else {
-                    mouthOpen = 1;
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    break;
-                }
-            case "up":
-                if (mouthOpen<=frequency){
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*2){
-                    drawTheStyle(pacManUp1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*3) {
-                    drawTheStyle(pacManUp2,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else if (mouthOpen<=frequency*4) {
-                    drawTheStyle(pacManUp1,graphics,playerColor);
-                    mouthOpen++;
-                    break;
-                }
-                else {
-                    mouthOpen = 1;
-                    drawTheStyle(pacManClosed,graphics,playerColor);
-                    break;
-                }
-        }
-    }
     public Player(int x, int y){
         super(x,y);
         atmF = playerF;
@@ -562,14 +386,181 @@ public class Player extends Element implements GameObserver {
                 {'#','#','#','#','#',' ','#','#',' ','#','#',' ','#','#',},
                 {'#','#','#','#',' ','#','#','#','#',' ','#','#','#','#',},
                 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#',}
-
-
-
-
         };
     }
-    public void changeState(pacManState newState) {
-        ps = newState;
+    ////////////////////////////////////////////////////
+    // Draws                                          //
+    ////////////////////////////////////////////////////
+    public void draw(TextGraphics  graphics){
+        ps.draw(graphics);
+    }
+    public void drawDead(TextGraphics graphics){ // This is basically the dead animation of PacMan
+        String playerColor = Color.getColor("player");
+        if (mouthOpen<=dieF){
+            drawTheStyle(pacManDie1,graphics,playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*2){
+            drawTheStyle(pacManDie2,graphics,playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*3 ) {
+            drawTheStyle(pacManDie3, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*4 ) {
+            drawTheStyle(pacManDie4, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*5) {
+            drawTheStyle(pacManDie5, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*6 ) {
+            drawTheStyle(pacManDie6, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*7 ) {
+            drawTheStyle(pacManDie7, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*8 ) {
+            drawTheStyle(pacManDie8, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*9 ) {
+            drawTheStyle(pacManDie9, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*10 ) {
+            drawTheStyle(pacManDie10, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*11 ) {
+            drawTheStyle(pacManDie11, graphics, playerColor);
+            mouthOpen++;
+        }
+        else if (mouthOpen<=dieF*12 ) {
+            drawTheStyle(pacManDie12, graphics, playerColor);
+            mouthOpen++;
+        } else{
+            drawTheStyle(pacManDie11, graphics, playerColor);
+        }
+    }
+    public void drawNormal(TextGraphics graphics){
+        String playerColor = Color.getColor("player");
+        if (position.getX() > 198) return;
+        switch (facingDirection){
+            case "right":
+                if (mouthOpen<=frequency){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*2){
+                    drawTheStyle(pacManRight1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*3 ) {
+                    drawTheStyle(pacManRight2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*4 ) {
+                    drawTheStyle(pacManRight1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else {
+                    mouthOpen = 1;
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                }
+            case "left":
+                if (mouthOpen<=frequency*1){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*2){
+                    drawTheStyle(pacManLeft1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*3) {
+                    drawTheStyle(pacManLeft2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*4) {
+                    drawTheStyle(pacManLeft1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else {
+                    mouthOpen = 1;
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    break;
+                }
+            case "down":
+                if (mouthOpen<=frequency*1){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*2){
+                    drawTheStyle(pacManDown1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*3) {
+                    drawTheStyle(pacManDown2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*4) {
+                    drawTheStyle(pacManDown1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else {
+                    mouthOpen = 1;
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    break;
+                }
+            case "up":
+                if (mouthOpen<=frequency){
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*2){
+                    drawTheStyle(pacManUp1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*3) {
+                    drawTheStyle(pacManUp2,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else if (mouthOpen<=frequency*4) {
+                    drawTheStyle(pacManUp1,graphics,playerColor);
+                    mouthOpen++;
+                    break;
+                }
+                else {
+                    mouthOpen = 1;
+                    drawTheStyle(pacManClosed,graphics,playerColor);
+                    break;
+                }
+        }
+    }
+    ////////////////////////////////////////////////////
+    // Movement                                       //
+    ////////////////////////////////////////////////////
+    public void move(String direction){
+        ps.move(direction);
     }
     public void moveNormal(String direction){
         if (!(position.getY() == 117 && (position.getX() <= 22 || position.getX() >=160) && (direction.equals("up") || direction.equals("down")))){
@@ -590,19 +581,9 @@ public class Player extends Element implements GameObserver {
                 break;
         }
     }
-    public void move(String direction){
-        ps.move(direction);
-    }
-    public void incrementCount(){CountOfEatenInARow++;}
-    public int getCountOfEatenInARow(){return CountOfEatenInARow;}
-
-    public boolean allMonsterseaten(){
-        if (CountOfEatenInARow == 4){
-            CountOfEatenInARow = 0;
-            return true;
-        }return false;
-    }
-
+    ////////////////////////////////////////////////////
+    // Game Observer                                  //
+    ////////////////////////////////////////////////////
     @Override
     public void FrightHourStarted() {
         atmF = playerFrightF;
@@ -617,7 +598,24 @@ public class Player extends Element implements GameObserver {
         playerM = 0;
         fps = 0;
     }
+    ////////////////////////////////////////////////////
+    // Others                                         //
+    ////////////////////////////////////////////////////
+    public void incrementCount(){CountOfEatenInARow++;}
+    public int getCountOfEatenInARow(){return CountOfEatenInARow;}
+    public void changeState(pacManState newState) {
+        ps = newState;
+    }
 
+    public boolean allMonsterseaten(){
+        if (CountOfEatenInARow == 4){
+            CountOfEatenInARow = 0;
+            return true;
+        }return false;
+    }
+    ////////////////////////////////////////////////////
+    // Getters e Setters                              //
+    ////////////////////////////////////////////////////
     public char[][] getPacManUp1() {
         return pacManUp1;
     }
@@ -636,5 +634,8 @@ public class Player extends Element implements GameObserver {
 
     public char[][] getPacManLeft1() {
         return pacManLeft1;
+    }
+    public void setFacingDirection(String facingDirection) {
+        this.facingDirection = facingDirection;
     }
 }

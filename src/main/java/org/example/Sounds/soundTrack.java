@@ -1,7 +1,4 @@
 package org.example.Sounds;
-
-import com.groupcdg.pitest.annotations.DoNotMutate;
-
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
@@ -16,22 +13,17 @@ public class soundTrack {
         sound.open(audioInputStream);
 
     }
-    @DoNotMutate
     public void play(){
         if (sound.isRunning()) {
             return;
         }
         sound.setFramePosition(0);  // Define a posição do frame de volta para o início
         sound.start();}
-    @DoNotMutate
     public void loop(){sound.loop(sound.LOOP_CONTINUOUSLY);}
-
-    @DoNotMutate
     public void stop() {
         sound.stop();
         sound.setFramePosition(0);
     }
-    @DoNotMutate
     public void close() {
         sound.close();
     }

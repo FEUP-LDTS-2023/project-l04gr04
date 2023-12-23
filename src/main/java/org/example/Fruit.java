@@ -1,12 +1,8 @@
 package org.example;
-
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.groupcdg.pitest.annotations.DoNotMutate;
 
 public class Fruit extends Element{
-
-    char[][] fruta;
-
+    private char[][] fruta;
     public Fruit(int x, int y,String name){
         super(x,y);
         if (name.equals("cherry")){
@@ -144,7 +140,6 @@ public class Fruit extends Element{
             };
         }
     };
-    @DoNotMutate
     public void draw(TextGraphics graphics){
         drawTheStyle(fruta,graphics,Color.getColor("red2"));
     }

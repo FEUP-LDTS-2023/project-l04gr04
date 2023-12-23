@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 public class LevelTest {
     @Test
     public void testInitialization() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-       Game game = new Game(220, 270,null,null,null);
+       Game game = new Game(220, 270);
         // Test level 1 initialization
         Level level1 = new Level(1, 10, 10,game.loadMapFromFile("map.txt"));
         assertEquals(1, level1.levelNumber);
@@ -52,7 +52,7 @@ public class LevelTest {
     }*/
     @Test
     public void processKey() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        Game game = new Game(220,270,null,null,null);
+        Game game = new Game(220,270);
         Mapa mapMock = mock(Mapa.class);
         Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
         level.setMap(mapMock);
@@ -62,7 +62,7 @@ public class LevelTest {
     }
     @Test
     public void gameLoop() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        Game game = new Game(220,270,null,null,null);
+        Game game = new Game(220,270);
         Mapa mapMock = mock(Mapa.class);
         Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
         level.setMap(mapMock);
@@ -75,25 +75,26 @@ public class LevelTest {
     public void drawInicialMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         TextGraphics graphics = mock(TextGraphics.class);
         Screen screen = mock(Screen.class);
-        Game game = new Game(220,270,null,null,null);
-        Mapa mapMock = mock(Mapa.class);
-        Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
-        level.setMap(mapMock);
-        Lifes lifes = new Lifes(0,0);
-        level.drawInicialMap(graphics,new ArrayList<>(),screen,lifes);
-        verify(mapMock).drawInicialMap(eq(graphics),anyList(),eq(screen),eq(lifes));
-    }
-    @Test
-    public void draw() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        TextGraphics graphics = mock(TextGraphics.class);
-        Screen screen = mock(Screen.class);
-        Game game = new Game(220,270,null,null,null);
+        Game game = new Game(220,270);
         Mapa mapMock = mock(Mapa.class);
         Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
         level.setMap(mapMock);
         Lifes lifes = new Lifes(0,0);
         Score score = new Score();
-        level.draw(graphics,new ArrayList<>(),score,lifes,new ArrayList<>(),screen);
-        verify(mapMock).draw(eq(graphics),anyList(),eq(score),eq(lifes),anyList(),eq(screen));
+        level.drawInicialMap(graphics,new ArrayList<>(),lifes,score);
+        verify(mapMock).drawInicialMap(eq(graphics),anyList(),eq(lifes),eq(score));
+    }
+    @Test
+    public void draw() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        TextGraphics graphics = mock(TextGraphics.class);
+        Screen screen = mock(Screen.class);
+        Game game = new Game(220,270);
+        Mapa mapMock = mock(Mapa.class);
+        Level level = new Level(1,220,270,game.loadMapFromFile("map.txt"));
+        level.setMap(mapMock);
+        Lifes lifes = new Lifes(0,0);
+        Score score = new Score();
+        level.draw(graphics,new ArrayList<>(),score,lifes,new ArrayList<>());
+        verify(mapMock).draw(eq(graphics),anyList(),eq(score),eq(lifes),anyList());
     }
 }

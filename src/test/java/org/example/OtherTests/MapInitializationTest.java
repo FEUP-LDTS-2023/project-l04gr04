@@ -32,7 +32,7 @@ public class MapInitializationTest {
     private Game game;
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        game = new Game(220, 270,null,null,null);
+        game = new Game(220, 270);
         mapa = new Mapa(202, 240, "", 0, 0.0, 0.0, 0.0, 0.0, 0,game.loadMapFromFile("map.txt"));
     }
     @DoNotMutate

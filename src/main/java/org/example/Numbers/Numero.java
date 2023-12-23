@@ -1,27 +1,25 @@
 package org.example.Numbers;
-
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Color;
 import org.example.Element;
 
 public class Numero extends Element {
-    char[][] num;
+    private char[][] num;
     private int n;
-
     public Numero(int x, int y){
         super(x,y);
     }
-
-    public int getNum() {
-        return n;
-    }
-
+    ////////////////////////////////////////////////////
+    // Draws                                          //
+    ////////////////////////////////////////////////////
     public void draw(TextGraphics graphics){
         graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
         drawTheStyle(num,graphics,Color.getColor("white"));
     }
+    ////////////////////////////////////////////////////
+    // Others                                         //
+    ////////////////////////////////////////////////////
     public void changeNumber(int k){
         switch (k){
             case 0:
@@ -145,10 +143,13 @@ public class Numero extends Element {
                         {'#','Y','Y','Y','Y','#','#'},
                 };
                 break;
-
         }
     }
-
-
+    ////////////////////////////////////////////////////
+    // Getters                                        //
+    ////////////////////////////////////////////////////
+    public int getNum() {
+        return n;
+    }
 
 }

@@ -18,16 +18,13 @@ public class playingState extends ApplicationState{
     public String name() {
         return "playing";
     }
-    @DoNotMutate
     @Override
     public void draw() throws IOException {
         game.drawLevel();
     }
-
     @Override
     public void input(KeyStroke key) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         if (key != null && key.getKeyType() == KeyType.Escape){
-            game.screen.clear();
             changeState(new pauseState(game));
             return;
         }

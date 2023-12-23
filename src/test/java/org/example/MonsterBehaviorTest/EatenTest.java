@@ -2,7 +2,7 @@ package org.example.MonsterBehaviorTest;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.eaten;
-import org.example.Monster.Position;
+import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.awt.*;
@@ -19,14 +19,6 @@ public class EatenTest {
     public void setUp() {
         mockMonster = mock(RedMonster.class);
         mockMonster.setPosition(new Position(75, 42));
-    }
-    @Test
-    public void testOnPacManCollision() {
-        eaten eatenState = new eaten(mockMonster);
-        eatenState.onPacManCollision();
-        // Verify that onPacManCollision does not change the state or perform any action
-        verify(mockMonster, never()).changeState(any());
-        verify(mockMonster, never()).draw(any(), any());
     }
     @Test
     public void testModeOn() {

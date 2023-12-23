@@ -11,7 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class changingLevel extends ApplicationState{
-    boolean yellowBack = false;
+    private boolean yellowBack = false;
     public changingLevel(Game g) {
         super(g);
         Timer timer = new Timer();
@@ -31,7 +31,6 @@ public class changingLevel extends ApplicationState{
             }
         }, 2000);
     }
-    @DoNotMutate
     @Override
     public void draw() throws IOException {
         yellowBack = !yellowBack;

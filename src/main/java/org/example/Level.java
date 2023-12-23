@@ -1,20 +1,13 @@
 package org.example;
-
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.screen.Screen;
-import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Numbers.Score;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class Level {
     public int levelNumber;
@@ -37,8 +30,7 @@ public class Level {
             ghostFrightSpeed = 0.50;
             timeInFright = 6;
             fruta = bonusSymbols.get(0);
-            map = new Mapa(width,height,fruta,bonusPoints.get(0)
-                    ,pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright,mapa);
+            map = new Mapa(width,height,fruta,bonusPoints.get(0),pacManSpeed,pacManFrightSpeed,ghostSpeed,ghostFrightSpeed,timeInFright,mapa);
             return;
         }
         if ((levelNumber >= 2 && levelNumber <= 4)){
@@ -64,25 +56,37 @@ public class Level {
         }
 
     }
-    @DoNotMutate
-    public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score,Lifes lifes,List<Fruit> frutas,Screen screen) throws IOException {
-        map.draw(graphics,dirtyRegions,score,lifes,frutas,screen);
+    ////////////////////////////////////////////////////
+    // Draws                                          //
+    ////////////////////////////////////////////////////
+    public void draw(TextGraphics graphics,List<Rectangle> dirtyRegions,Score score,Lifes lifes,List<Fruit> frutas) throws IOException {
+        map.draw(graphics,dirtyRegions,score,lifes,frutas);
     }
-    @DoNotMutate
-    public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas, Screen screen,Lifes lifes) throws IOException {
-        map.drawInicialMap(graphics,frutas,screen,lifes);
+    public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas,Lifes lifes,Score score){
+        map.drawInicialMap(graphics,frutas,lifes,score);
     }
+    ////////////////////////////////////////////////////
+    // Input                                          //
+    ////////////////////////////////////////////////////
     public boolean processKey(KeyStroke key){
         return map.readInput(key);
     }
+    ////////////////////////////////////////////////////
+    // Game Loop                                      //
+    ////////////////////////////////////////////////////
     public void gameLoop(List<Rectangle> dirtyRegion, Score score, Lifes lifes) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         map.gameLoop(dirtyRegion,score,lifes);
     }
-
+    ////////////////////////////////////////////////////
+    // Others                                         //
+    ////////////////////////////////////////////////////
     public void setMapaListener(Game game) {
         map.setMapaListener(game);
     }
     public void warnMapStopMusic(){map.warnMapStopMusic();}
+    ////////////////////////////////////////////////////
+    // Getters e Setters                              //
+    ////////////////////////////////////////////////////
     public Mapa getMap(){return map;}
     public void setMap(Mapa m){map = m;}
 }

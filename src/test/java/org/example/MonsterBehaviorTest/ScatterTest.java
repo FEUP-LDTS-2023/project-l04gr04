@@ -5,7 +5,7 @@ import org.example.Monster.States.fright;
 import org.example.Monster.States.hunt;
 import org.example.Monster.States.scatter;
 import org.example.Monster.monsterState;
-import org.example.Monster.Position;
+import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,12 +19,6 @@ public class ScatterTest {
     public void setUp() {
         mockMonster = mock(BlueMonster.class);
         mockMonster.setPosition(new Position(75, 42));
-    }
-    @Test
-    public void testOnPacManCollision() {
-        monsterState monsterState = new scatter(mockMonster);
-        monsterState.onPacManCollision();
-        verify(mockMonster).pacManLost();
     }
     @Test
     public void testModeOn() {

@@ -1,7 +1,5 @@
 package org.example;
-
 import org.example.Sounds.soundTrack;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
@@ -11,11 +9,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameState {
-    soundTrack bg= new soundTrack("Sounds/gostNormal.wav");
-    soundTrack bgScared= new soundTrack("Sounds/gostScared.wav");
-    List<GameObserver> observers = new ArrayList<>();
-    Timer timer;
+    private soundTrack bg= new soundTrack("Sounds/gostNormal.wav");
+    private soundTrack bgScared= new soundTrack("Sounds/gostScared.wav");
+    private List<GameObserver> observers = new ArrayList<>();
+    private Timer timer;
     private int timeInFright;
+    private boolean frightH = false;
     public GameState(int k) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         timeInFright = k;
         Timer timer = new Timer();
@@ -27,9 +26,6 @@ public class GameState {
             }
         }, 4500);
     }
-
-
-    private boolean frightH = false;
     public boolean isFrightHour(){return frightH;}
     public void startFrightHour(){
         bg.stop();
@@ -63,7 +59,6 @@ public class GameState {
         bg.close();
         bgScared.close();
     }
-
     public void addObserver(GameObserver observer) {
         observers.add(observer);
     }

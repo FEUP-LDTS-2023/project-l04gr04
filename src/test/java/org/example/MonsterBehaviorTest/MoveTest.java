@@ -7,7 +7,7 @@ import org.example.Monster.PinkMonster;
 import org.example.Monster.RedMonster;
 import org.example.Monster.States.*;
 import org.example.PacMan.Player;
-import org.example.Monster.Position;
+import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import javax.sound.sampled.LineUnavailableException;
@@ -126,7 +126,7 @@ public class MoveTest {
     @DoNotMutate
     @Test
     public void movingWall() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        Game game = new Game(220, 270, null, null, null);
+        Game game = new Game(220, 270);
         RedMonster redMonster = new RedMonster(94,180);
         redMonster.setMs(new hunt(redMonster));
         redMonster.move(new Position(93,178), game.loadMapFromFile("map.txt")); //Testar se passa pela parede
@@ -135,7 +135,7 @@ public class MoveTest {
     @DoNotMutate
     @Test
     public void movingNoWall() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        Game game = new Game(220, 270, null, null, null);
+        Game game = new Game(220, 270);
         RedMonster redMonster = new RedMonster(94,180);
         redMonster.setMs(new hunt(redMonster));
         redMonster.move(new Position(97,185), game.loadMapFromFile("map.txt")); //Testar se passa pela parede

@@ -5,8 +5,6 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
-import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Monster.*;
 import org.example.Monster.States.*;
 import org.example.Numbers.Character;
@@ -27,76 +25,40 @@ import java.util.List;
 public class Mapa {
     private int width;
     private int height;
-    private Double baseFrequency = 2.0; // Base velocity
-    private final int timeInScout = 10;
-    private GameState gameState ;
+    private int bonusP;
+    private int dotsCounter;
     private char[][] map;
+    private boolean firstInput = true;
+    private MapaListener mapaListener;
+    private GameState gameState;
     private List<Monster> monsters = new ArrayList<>();
     public Player player = new Player(94,180);
     private Fruit fruta;
     private Character scoreText = new Character(50,10);
     private Character ready = new Character(79,141);
     private List<Dot> dots = new ArrayList<>();
-    private int bonusP = 0;
-    private int dotsCounter;
-    private boolean firstInput = true;
-    private MapaListener mapaListener;
-    soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
-    soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
-    soundTrack death= new soundTrack("Sounds/pacman_death.wav");
-    private KeyType lastInputMove = KeyType.ArrowLeft;
-    public List<Dot> getDots() {
-        List<Dot> dots = new ArrayList<>();
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                    if (map[row][col] == 'd')dots.add(new Dot(row,col,false));
-                    else if(map[row][col] == 'D')dots.add(new Dot(row,col,true));
-                }
-            }
-        return dots;
-    }
-    public void setDots( List<Dot> d){
-        dots = d;
-    }
-    public void setOffFirstInput( ){
-        firstInput = false;
-    }
-    public int getDotsCounter() {
-        return dotsCounter;
-    }
-    public Player getPlayer() {
-        return player;
-    }
-    public List<Monster> getMonsters() {
-        return monsters;
-    }
-    public int getWidth() {
-        return width;
-    }
-    public int getHeight() {
-        return height;
-    }
-    public KeyType getLastInputMove() {
-        return lastInputMove;
-    }
-    public MapaListener getMapaListener() {
-        return mapaListener;
-    }
-    public Mapa(int w , int h, String bonusSymbol, Integer bonusPoints,
-                Double ps, Double pfs, Double gs, Double gfs,int tInF,char[][]mapa ) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        bonusP = bonusPoints;
-        fruta = new Fruit(90,138,bonusSymbol);
-        Double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
-        Double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
-        Double monstersF = baseFrequency + baseFrequency * (1 - gs);
-        Double playerF = baseFrequency + baseFrequency * (1 - ps);
-        player.atmF = playerF;
-        player.playerF = playerF;
-        player.playerFrightF = playerFrightF;
+    private soundTrack eatingDotsSound = new soundTrack("Sounds/pacmanEating.wav");
+    private soundTrack eatingGhost= new soundTrack("Sounds/pacman_eatghost.wav");
+    private soundTrack death= new soundTrack("Sounds/pacman_death.wav");
+    private KeyType lastInputMove = KeyType.ArrowLeft; // By default, the PacMan start by moving left
+    public Mapa(int w , int h, String bonusSymbol, Integer bonusPoints, Double ps, Double pfs, Double gs,
+                Double gfs,int tInF,char[][]mapa ) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         width = w;
         height = h;
         map = mapa;
         dotsCounter = countDots();
+        bonusP = bonusPoints;
+        fruta = new Fruit(90,138,bonusSymbol);
+        double baseFrequency = 2.0; // Base velocity
+        // Frequency of movement calculated based on a Base velocity
+        double monstersFrightF = baseFrequency + baseFrequency * (1 - gfs) + 0.2;
+        double playerFrightF = baseFrequency + baseFrequency * (1 - pfs) - 0.2;
+        double monstersF = baseFrequency + baseFrequency * (1 - gs);
+        double playerF = baseFrequency + baseFrequency * (1 - ps);
+        player.atmF = playerF;
+        player.playerF = playerF;
+        player.playerFrightF = playerFrightF;
+        //Setting the monsters
         monsters.add(new RedMonster(90,115));
         monsters.add(new OrangeMonster(82,115));
         monsters.add( new BlueMonster(98,115));
@@ -121,72 +83,48 @@ public class Mapa {
             }
         }, 4500);
     }
+    private void actions(){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for(Monster m : monsters)m.changeState(new scatter(m));
+            }
+        }, 2000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (Monster m : monsters)m.changeState(new hunt(m));
+            }
+        }, 10000);
+    }
     ////////////////////////////////////////////////////
     // Draws                                          //
     ////////////////////////////////////////////////////
-    @DoNotMutate
-    public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes,List<Fruit> frutas,Screen screen) throws IOException {
-        if (firstInput)drawInicialMap(graphics,frutas,screen,lifes);
+    public void draw(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes,List<Fruit> frutas) throws IOException {
+        if (firstInput)drawInicialMap(graphics,frutas,lifes,score);
         else drawNormal(graphics,dirtyRegions,score,lifes);
     }
-    @DoNotMutate
-    public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas, Screen screen,Lifes lifes) throws IOException {
-        screen.clear();
+    public void drawInicialMap(TextGraphics graphics, List<Fruit> frutas,Lifes lifes,Score score){
         dots.clear();
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
-                if (map[row][col] == '.') {
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'P' || map[row][col] == 'p') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'A') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'R') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == 'a') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("yellow")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                } else if (map[row][col] == '0') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("coins")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                }else if (map[row][col] == 'd'){
+                if (map[row][col] == 'd'){
                     dots.add(new Dot(col,row,false));
                 }else if (map[row][col] == 'D'){
                     dots.add(new Dot(col,row,true));
-                } else {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
-                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (Color.getColor(String.valueOf(map[row][col])) != null){
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor(String.valueOf(map[row][col]))));
                 }
+                graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
             }
-            for (Dot dot : dots){
-                dot.draw(graphics);
-            }
-            ready.drawready(graphics);
         }
-        lifes.draw(graphics);
-        int i = 0;
-        for(Fruit f : frutas){
-            graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
-            int initialX = f.getX();
-            f.position = new Position(f.getX() + i*15 , f.getY());
-            graphics.fillRectangle(new TerminalPosition(f.getX(), f.getY()), new TerminalSize(14, 14), ' ');
-            f.draw(graphics);
-            f.position = new Position(f.getX() - i*15 , f.getY());
-            f.position = new Position(initialX , f.getY());
-            i++;
-        }
-        for (Monster m : monsters)m.draw(graphics);
-        scoreText.drawscore(graphics);
-        player.draw(graphics);
-        screen.refresh();
+        drawFrutas(graphics,frutas);
+        drawGeneralObjects(graphics,score,lifes);
+        ready.drawready(graphics);
     }
-    @DoNotMutate
-    public void drawNormal(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws IOException {
-        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
+    public void drawNormal(TextGraphics graphics, List<Rectangle> dirtyRegions,Score score,Lifes lifes){
         ready.cleanReady(graphics);
         for (Rectangle dirtyRegion : dirtyRegions){
             int startX = Math.max(dirtyRegion.x, 0);
@@ -196,65 +134,44 @@ public class Mapa {
             for (int row = startY; row < endY; row++) {
                 for (int col = startX; col < endX; col++) {
                     graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
-                    if (map[row][col] == '.') {
-                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                    } else if (map[row][col] == 'P' || map[row][col] == 'p') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
-                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                    } else if (map[row][col] == 'A') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
-                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                    } else if (map[row][col] == 'R') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("gate")));
-                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                    } else if (map[row][col] == '0') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("coins")));
-                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                    } else if (map[row][col] == 'a') {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("yellow")));
-                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                    } else {
-                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
-                        graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                    if (Color.getColor(String.valueOf(map[row][col])) != null){
+                        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor(String.valueOf(map[row][col]))));
                     }
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
         }
-
+        if (!firstInput && fruta != null)fruta.draw(graphics);
+        drawGeneralObjects(graphics,score,lifes);
+        // Black box so you don't see the Player/Monster when they travel from right to left
+        graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
+        graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
+    }
+    private void drawFrutas(TextGraphics graphics,List<Fruit> frutas){
+        int i = 0;
+        for(Fruit f : frutas){
+            graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
+            int initialX = f.getX();
+            f.position = new Position(f.getX() + i*15 , f.getY());
+            graphics.fillRectangle(new TerminalPosition(f.getX(), f.getY()), new TerminalSize(14, 14), ' ');
+            f.draw(graphics);
+            f.position = new Position(initialX , f.getY());
+            i++;
+        }
+    }
+    private void drawGeneralObjects(TextGraphics graphics,Score score,Lifes lifes){
         for (Dot dot : dots){
             dot.draw(graphics);
         }
-        if (!firstInput && fruta != null)fruta.draw(graphics);
-        for (Monster m : monsters)m.draw(graphics);
+        lifes.draw(graphics);
         scoreText.drawscore(graphics);
         score.draw(graphics);
+        for (Monster m : monsters)m.draw(graphics);
         player.draw(graphics);
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-        graphics.fillRectangle(new TerminalPosition(5, 243), new TerminalSize(14*5, 14*5), ' ');
-        lifes.draw(graphics);
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-        graphics.fillRectangle(new TerminalPosition(201, 117), new TerminalSize(14, 14), ' ');
-
     }
-    public void setMapaListener(MapaListener listener) {
-        this.mapaListener = listener;
-    }
-    private void actions(){
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for(Monster m : monsters)m.changeState(new scatter(m));
-            }
-        }, 1000);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (Monster m : monsters)m.changeState(new hunt(m));
-            }
-        }, timeInScout * 1000);
-    }
-
+    ////////////////////////////////////////////////////
+    // Game Loop                                      //
+    ////////////////////////////////////////////////////
     public void gameLoop(List<Rectangle> dirtyRegions,Score score,Lifes lifes) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         if (!firstInput ){
             dirtyRegions.add(new Rectangle(player.getX(),player.getY(),14,14));
@@ -275,7 +192,33 @@ public class Mapa {
             player.fps++;
         }
     }
-    void monsterMovement(){
+    ////////////////////////////////////////////////////
+    // Input                                          //
+    ////////////////////////////////////////////////////
+    public boolean readInput(KeyStroke keyStroke) {
+        if (firstInput)return false;
+        if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&
+                keyStroke.getKeyType() != KeyType.ArrowUp && keyStroke.getKeyType() != KeyType.ArrowDown
+                ||(player.getPosition().getX() < 0 || player.getPosition().getX() > 181))){
+            return false;
+        }else{
+            lastInputMove = keyStroke.getKeyType();
+        }
+        if (lastInputMove == KeyType.ArrowRight){
+            return player.facingDirection == "right";
+        } else if (lastInputMove == KeyType.ArrowLeft) {
+            return player.facingDirection == "left";
+        } else if (lastInputMove == KeyType.ArrowUp) {
+            return player.facingDirection == "up";
+        } else if (lastInputMove == KeyType.ArrowDown) {
+            return player.facingDirection == "down";
+        }
+        return false;
+    }
+    ////////////////////////////////////////////////////
+    // Movement                                       //
+    ////////////////////////////////////////////////////
+    public void monsterMovement(){
         for (Monster m : monsters){
             if ((player.fps > m.atmF * m.monsterM ) || m.ms.modeOn().equals("eaten")){ // Control the frequency of movement
                 m.monsterM++;
@@ -290,7 +233,7 @@ public class Mapa {
             }
         }
     }
-    void playerMovement(){
+    public void playerMovement(){
         if (player.fps > player.atmF * player.playerM ){ // Control the frequency of movement
             player.playerM++;
             if (lastInputMove == KeyType.ArrowRight){
@@ -308,6 +251,9 @@ public class Mapa {
             }
         }
     }
+    ////////////////////////////////////////////////////
+    // Collisions                                     //
+    ////////////////////////////////////////////////////
     public void checkDotCollisions(Score score){
         Iterator<Dot> iterator = dots.iterator();
         while (iterator.hasNext()) {
@@ -317,11 +263,10 @@ public class Mapa {
             int px = player.getX();
             int py = player.getY();
             if (px <= dx && px + 10 >= dx && py <= dy && py + 10 >= dy) {
-
                 eatingDotsSound.play();
                 map[dy][dx] = '.';
                 dotsCounter--;
-                if (dot.SpecialDote) {
+                if (dot.isSpecialDote()) {
                     gameState.startFrightHour();
                     score.increment(5);
                 }else score.increment(1);
@@ -339,14 +284,14 @@ public class Mapa {
                 if (m.ms.modeOn().equals("fright")){
                     eatingGhost.play();
                     m.changeState(new eaten(m));
-                }else if(m.ms.modeOn().equals("hunt") || m.ms.modeOn().equals("scatter")){
+                }else if(!m.ms.modeOn().equals("eaten") && !m.ms.modeOn().equals("onCollision")){
                     lostOneLife(lifes);
                     break;
                 }
             }
         }
     }
-    void checkFruitCollision(Score score){
+    public void checkFruitCollision(Score score){
         int dx = fruta.getX();
         int dy = fruta.getY();
         int px = player.getX();
@@ -356,14 +301,14 @@ public class Mapa {
             score.increment(bonusP);
         }
     }
+    ////////////////////////////////////////////////////
+    // Others                                         //
+    ////////////////////////////////////////////////////
     public void lostOneLife(Lifes lifes){
-        gameState.stopMusic();
-        gameState.closeMusic();
-        player.ps.changeState(new eatingPacMan(player));
-        for (Monster m : monsters){
-            m.changeState(new onCollision(m));
-        }
+        warnMapStopMusic();
         lifes.decrementLife();
+        for (Monster m : monsters)m.changeState(new onCollision(m));
+        player.ps.changeState(new eatingPacMan(player));
         death.play();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -381,29 +326,8 @@ public class Mapa {
                 }
             }
         }, 2000);
+    }
 
-    }
-    public boolean readInput(KeyStroke keyStroke) {
-        if (firstInput )return false;
-        if (keyStroke == null || (keyStroke.getKeyType() != KeyType.ArrowRight && keyStroke.getKeyType() != KeyType.ArrowLeft &&
-                keyStroke.getKeyType() != KeyType.ArrowUp
-                && keyStroke.getKeyType() != KeyType.ArrowDown
-                ||(player.getPosition().getX() < 0 || player.getPosition().getX() > 181))){
-            return false;
-        }else{
-            lastInputMove = keyStroke.getKeyType();
-        }
-        if (lastInputMove == KeyType.ArrowRight){
-            return player.facingDirection == "right";
-        } else if (lastInputMove == KeyType.ArrowLeft) {
-            return player.facingDirection == "left";
-        } else if (lastInputMove == KeyType.ArrowUp) {
-            return player.facingDirection == "up";
-        } else if (lastInputMove == KeyType.ArrowDown) {
-            return player.facingDirection == "down";
-        }
-        return false;
-    }
     public boolean canMove(String direction){
         int x = player.getX();
         int y = player.getY();
@@ -443,8 +367,6 @@ public class Mapa {
         }
         return true;
     }
-
-    @DoNotMutate
     public void warnMapStopMusic() {
         gameState.stopMusic();
         gameState.closeMusic();
@@ -457,5 +379,48 @@ public class Mapa {
             }
         }
         return c;
+    }
+    public void setMapaListener(MapaListener listener) {
+        this.mapaListener = listener;
+    }
+    ////////////////////////////////////////////////////
+    // Getters e Setters                              //
+    ////////////////////////////////////////////////////
+    public List<Dot> getDots() {
+        List<Dot> dots = new ArrayList<>();
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (map[row][col] == 'd')dots.add(new Dot(row,col,false));
+                else if(map[row][col] == 'D')dots.add(new Dot(row,col,true));
+            }
+        }
+        return dots;
+    }
+    public void setDots(List<Dot> d){
+        dots = d;
+    }
+    public void setOffFirstInput(){
+        firstInput = false;
+    }
+    public int getDotsCounter() {
+        return dotsCounter;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+    public List<Monster> getMonsters() {
+        return monsters;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public KeyType getLastInputMove() {
+        return lastInputMove;
+    }
+    public MapaListener getMapaListener() {
+        return mapaListener;
     }
 }

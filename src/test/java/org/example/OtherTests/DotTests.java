@@ -1,26 +1,18 @@
 package org.example.OtherTests;
 
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Dot;
 import org.example.Game;
 import org.example.Mapa;
-import org.example.Monster.Position;
+import org.example.Position;
 import org.example.Numbers.Score;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -29,7 +21,7 @@ public class DotTests {
     private Mapa mapa;
     @BeforeEach
     public void setMap() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        Game game = new Game(220,270,null,null,null);
+        Game game = new Game(220,270);
         mapa = new Mapa(202, 240, "", 0, 0.0, 0.0, 0.0, 0.0, 0,game.loadMapFromFile("map.txt"));
     }
     @DoNotMutate
@@ -49,7 +41,7 @@ public class DotTests {
                         {'#','#','#','#','#','#','#'},
 
                 };
-                char[][] actualSmallDot = dot.smallDot;
+                char[][] actualSmallDot = dot.getSmallDot();
                 assertEquals(smallDot.length, actualSmallDot.length, "Number of rows doesn't match");
                 for (int i = 0; i < smallDot.length; i++) {
                     assertEquals(smallDot[i].length, actualSmallDot[i].length, "Number of columns in row " + i + " doesn't match");
@@ -72,7 +64,7 @@ public class DotTests {
                         {'#','#','Y','Y','#','#','#'},
                         {'#','#','#','#','#','#','#'},
                 };
-                char[][] actualBigDot = dot.bigDot;
+                char[][] actualBigDot = dot.getBigDot();
                 assertEquals(bigDot.length, actualBigDot.length, "Number of rows doesn't match");
                 for (int i = 0; i < bigDot.length; i++) {
                     assertEquals(bigDot[i].length, actualBigDot[i].length, "Number of columns in row " + i + " doesn't match");

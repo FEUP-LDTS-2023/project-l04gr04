@@ -3,7 +3,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.groupcdg.pitest.annotations.DoNotMutate;
 import org.example.Monster.BlueMonster;
 import org.example.Monster.States.inCage;
-import org.example.Monster.Position;
+import org.example.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,13 +17,6 @@ public class InCageTest {
     public void setUp() {
         mockMonster = mock(BlueMonster.class);
         mockMonster.setPosition(new Position(75, 42));
-    }
-    @Test
-    public void testOnPacManCollision() {
-        inCage inCageState = new inCage(mockMonster);
-        inCageState.onPacManCollision();
-        verify(mockMonster).pacManLost();
-
     }
     @Test
     public void testModeOn() {

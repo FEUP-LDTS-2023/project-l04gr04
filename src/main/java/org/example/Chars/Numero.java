@@ -1,4 +1,4 @@
-package org.example.Numbers;
+package org.example.Chars;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.example.Others.Color;

@@ -1,4 +1,4 @@
-package org.example.Numbers;
+package org.example.Chars;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;

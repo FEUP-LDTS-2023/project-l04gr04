@@ -3,7 +3,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import org.example.Elements.Fruit;
 import org.example.Elements.Lifes;
-import org.example.Numbers.Score;
+import org.example.Chars.Score;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;

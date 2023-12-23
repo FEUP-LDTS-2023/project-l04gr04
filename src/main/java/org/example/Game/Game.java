@@ -17,7 +17,7 @@ import org.example.Elements.Fruit;
 import org.example.Elements.Lifes;
 import org.example.Game.GameStates.*;
 import org.example.Interfaces.MapaListener;
-import org.example.Numbers.Score;
+import org.example.Chars.Score;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -156,12 +156,20 @@ public class Game implements MapaListener {
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
                 if (info[row][col] == '0') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                     graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("y")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }else if (info[row][col] == '5'|| info[row][col] == '1') {
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                     graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (info[row][col] == '2') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("white")));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (info[row][col] == '4') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("red")));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }
+                else if (info[row][col] == '6') {
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("pink")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
 

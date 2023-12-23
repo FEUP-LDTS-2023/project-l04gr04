@@ -7,7 +7,7 @@ import org.example.Elements.Lifes;
 import org.example.Game.Game;
 import org.example.Game.Level;
 import org.example.Game.Mapa;
-import org.example.Numbers.Score;
+import org.example.Chars.Score;
 import org.junit.jupiter.api.Test;
 
 import javax.sound.sampled.LineUnavailableException;

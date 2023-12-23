@@ -7,7 +7,7 @@ import org.example.Others.Color;
 import org.example.Elements.Lifes;
 import org.example.Game.Game;
 import org.example.Game.Mapa;
-import org.example.Numbers.Score;
+import org.example.Chars.Score;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

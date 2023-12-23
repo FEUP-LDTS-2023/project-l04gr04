@@ -1,20 +1,11 @@
 package org.example.OtherTests;
 
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import org.example.Numbers.Numero;
-import org.example.Numbers.Score;
-import org.example.Numbers.Character;
+import org.example.Chars.Numero;
+import org.example.Chars.Score;
+import org.example.Chars.Character;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;

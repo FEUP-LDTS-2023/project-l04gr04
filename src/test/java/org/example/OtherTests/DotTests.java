@@ -6,7 +6,7 @@ import org.example.Elements.Dot;
 import org.example.Game.Game;
 import org.example.Game.Mapa;
 import org.example.Others.Position;
-import org.example.Numbers.Score;
+import org.example.Chars.Score;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

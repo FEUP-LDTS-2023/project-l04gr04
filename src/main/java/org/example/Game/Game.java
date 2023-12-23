@@ -117,17 +117,17 @@ public class Game implements MapaListener {
         for (int row = 0; row < gameH; row++) {
             for (int col = 0; col < gameW; col++) {
                 if(menu[row][col] == '5'){
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#d3d3d3"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
-                else if (Character.getNumericValue(menu[row][col]) == barOn){
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
+                else if (Character.getNumericValue(menu[row][col]) == barOn || menu[row][col] == '9'){
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#CCCC00"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
-                }else if (menu[row][col] == '0' || menu[row][col] == '1' || menu[row][col] == '2'){
-                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("background")));
+                }else if (menu[row][col] == '0' || menu[row][col] == '1' || menu[row][col] == '2'|| menu[row][col] == 'P'){
                     graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("walls")));
+                    graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
+                }else if (menu[row][col] == '6'){
+                    graphics.setBackgroundColor(TextColor.Factory.fromString(Color.getColor("red")));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
             }
@@ -141,7 +141,7 @@ public class Game implements MapaListener {
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#d3d3d3"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }
-                else if (Character.getNumericValue(pausa[row][col]) == barOn){
+                else if (Character.getNumericValue(pausa[row][col]) == barOn ){
                     graphics.setBackgroundColor(TextColor.Factory.fromString("#CCCC00"));
                     graphics.fillRectangle(new TerminalPosition(col, row), new TerminalSize(1, 1), ' ');
                 }else if (pausa[row][col] == '0' || pausa[row][col] == '1'){

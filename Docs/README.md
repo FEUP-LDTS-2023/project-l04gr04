@@ -1,3 +1,45 @@
+<<<<<<< HEAD
+# Pacman - LDTS - project-l04gr04
+
+Neste jogo icônico, o jogador assume o controle do Pac-Man, o herói amarelo, numa missão para devorar todos os pontos espalhados pelo labirinto. Mas atenção, fantasmas coloridos estão à espreita, prontos para impedir o seu progresso. Ser ágil, planear os seguintes movimentos com astúcia e evitar ser capturado é essêncial para sobreviver!
+Com contagem de vidas limitadas, cada movimento torna-se crucial.
+Além dos pontos, existem frutas por descobrir colocadas em todos os níveis. Cada fruta capturada não só aumenta o score, mas também desbloqueia a possibilidade de avançar de nível. Então, mover-se sabiamente nos caminhos para maximizar os ganhos e aumentar score é crucial.
+Mantenha os olhos abertos para pontos especiais que proporcionam momentos de vantagem, permitindo que  o Pac-Man vire o jogo temporariamente a seu favor. Cada decisão conta enquanto o objetivo não é apenas sobreviver, mas também alcançar o mais alto score possível.
+
+<hr>
+
+## Screenshots
+
+#### Menu Inicial
+
+![](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/gifs_images/menu_gif.gif)
+
+#### Menu Pausa
+
+![](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/gifs_images/pause_gif.gif)
+
+#### Menu Info
+
+![](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/gifs_images/Info.png)
+
+<hr>
+
+### Gameplay
+
+![](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/gifs_images/scattergif.gif)
+
+### Morrer
+
+![](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/gifs_images/morrer_gif.gif)
+
+### Comer
+
+![](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/gifs_images/comer_gif.gif)
+
+
+
+
+=======
 ## LDTS_<4><4> - <PacMan>
 
 O PacMan é um jogo eletrónico no qual o jogador é uma cabeça redonda com uma boca que se abre e fecha, posicionado num labirinto simples repleto de pontos e quatro fantasmas que o perseguem. Porém, o PacMan também persegue os fantasmas em determinadas alturas.
@@ -35,6 +77,9 @@ Assim, foram aproveitadas as semelhanças entre os fantasmas, e implementadas ap
 
 **Implementação**
 
+
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Strategy.JPG)
+
 https://github.com/FEUP-LDTS-2023/project-l04gr04/tree/master/src/main/java/org/example/GenericMonster.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/tree/master/src/main/java/org/example/Monster.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/tree/master/src/main/java/org/example/RedMonster.java
@@ -61,6 +106,7 @@ Foi criada uma classe "GameState" que possui uma lista de "GameObservers" (Inter
 
 **Implementação**
 
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Observer.JPG)
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Player.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameState.java
@@ -72,7 +118,7 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 - É fácil adicionar novos observadores (por exemplo, novos tipos de fantasmas) sem modificar o código existente, promovendo a extensibilidade.
 - A lógica relacionada à resposta dos fantasmas às ações do Pac-Man é encapsulada nas classes de observadores, facilitando a manutenção e a compreensão do código.
 
-####STATES PATTERNS:
+#### STATES PATTERNS:
 
 #### States Patterns Player
 
@@ -86,6 +132,8 @@ Foi criada uma classe abstrata "PacManState" na qual foram geridos dois novos es
 No "normalState" o PacMan existe no seu movimento e animação normal ("drawNormal") e quando muda para o "eatenState" o movimento para e é iniciada a animação em que ele morre ("drawDead").
 
 **Implementação**
+
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/PacManState.JPG)
 
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/PacMan/Player.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/PacMan/eatingPacMan.java
@@ -111,6 +159,8 @@ No estado "inCageState" os monstros enconram-se dentro da jaula e movem-se em di
 
 **Implementação**
 
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/MonsterState.JPG)
+
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/eatenState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/frightState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/huntState.java
@@ -118,7 +168,6 @@ https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/onCollisionState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Monster/States/scatterState.java
 
-![image](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Monster%20State%20Pattern.png)
 
 
 **Consequências**
@@ -139,28 +188,35 @@ O estado "menuState" é iniciado no inicio do jogo e é repsponsáver por desenh
 
 **Implementação**
 
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/GameState.JPG)
+
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/ApplicationState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/changingLevel.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/menuState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/pauseState.java
 https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/GameStates/playingState.java
+https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/src/main/java/org/example/Game/GameStates/retryingLevelState.java
 
 **Consequências**
 
 - Facilidade em gerir as transições relativas ao estado em que o jogo se encontra.
 
-#### Alguns defeitos de código
+#### Code Smells
 
 - Algumas funções contêm uma implementação extensa e confusa.
-- Lógica de animação do PacMan e dos fantasmas pode ser melhorada.
-- As cores ainda não estão armazenadas numa lista.
+- Performance podia ser melhorada.
 
-### TESTES
+### Coverage
 
-![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/IMG_20231125_170302.jpg?raw=true)
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/Coverage.JPG)
+
+### UML geral
+
+![img](https://github.com/FEUP-LDTS-2023/project-l04gr04/blob/master/UML.JPG)
 
 ### Auto-avaliação
 
-- Alexandre: 40%
+- Alexandre Costa: 40%
 - Bárbara: 30%
 - Bernardo: 30%
+>>>>>>> d2d4e4d93a23c4606995064e0088130d23cd0a0d

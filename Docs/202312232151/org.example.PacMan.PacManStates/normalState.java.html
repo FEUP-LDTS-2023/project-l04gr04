@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>normalState.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.example.PacMan.PacManStates;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.googlecode.lanterna.graphics.TextGraphics;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.example.PacMan.Player;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public class normalState extends pacManState {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public normalState(Player p) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        super(p);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_10'/>
+10
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_10'>1</a>
+<span>
+
+1. draw : removed call to org/example/PacMan/Player::drawNormal &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    public void draw(TextGraphics graphics) {player.drawNormal(graphics);}</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_12'>1</a>
+<span>
+
+1. move : removed call to org/example/PacMan/Player::moveNormal &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    public void move(String direction) {player.moveNormal(direction);}</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1ef4e030_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1ef4e030_10'>10</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_10'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>draw<br/><b>Killed by : </b>org.example.PacMan.PacManStatesTest.normalStateTest.[engine:junit-jupiter]/[class:org.example.PacMan.PacManStatesTest.normalStateTest]/[method:testDrawNormalState()]</span></span> removed call to org/example/PacMan/Player::drawNormal &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1ef4e030_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1ef4e030_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>move<br/><b>Killed by : </b>org.example.PacMan.PacManStatesTest.normalStateTest.[engine:junit-jupiter]/[class:org.example.PacMan.PacManStatesTest.normalStateTest]/[method:testMoveNormalState()]</span></span> removed call to org/example/PacMan/Player::moveNormal &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.example.Elements.DotTests.[engine:junit-jupiter]/[class:org.example.Elements.DotTests]/[method:testSpecialDotCollision()] (12 ms)</li><li>org.example.PacMan.PlayerAnimationsTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerAnimationsTest]/[method:testPacmanAnimationUp()] (11 ms)</li><li>org.example.Chars.CharacterTest.[engine:junit-jupiter]/[class:org.example.Chars.CharacterTest]/[method:testCleanReady()] (8 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:drawInitialMap()] (3581 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:playerMovement()] (11 ms)</li><li>org.example.PacMan.PlayerAnimationsTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerAnimationsTest]/[method:testPacmanAnimationLeft()] (11 ms)</li><li>org.example.PacMan.PlayerAnimationsTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerAnimationsTest]/[method:testPacmanAnimationDown()] (10 ms)</li><li>org.example.PacMan.PlayerMapTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerMapTest]/[method:testNearBoundaries()] (46 ms)</li><li>org.example.PacMan.PlayerAnimationsTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerAnimationsTest]/[method:testPacmanAnimationRight()] (10 ms)</li><li>org.example.PacMan.PacManStatesTest.normalStateTest.[engine:junit-jupiter]/[class:org.example.PacMan.PacManStatesTest.normalStateTest]/[method:testDrawNormalState()] (2 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:draw()] (3679 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:draw2()] (127 ms)</li><li>org.example.PacMan.PacManStatesTest.normalStateTest.[engine:junit-jupiter]/[class:org.example.PacMan.PacManStatesTest.normalStateTest]/[method:testMoveNormalState()] (1 ms)</li><li>org.example.Elements.DotTests.[engine:junit-jupiter]/[class:org.example.Elements.DotTests]/[method:testNormalDotCollision()] (11 ms)</li><li>org.example.PacMan.PlayerAnimationsTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerAnimationsTest]/[method:testPacmanAnimationMouthClosed()] (10 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:drawNormal()] (113 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.7.0
+
+</body>
+</html>

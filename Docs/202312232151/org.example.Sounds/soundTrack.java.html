@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>soundTrack.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.example.Sounds;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import javax.sound.sampled.*;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.io.IOException;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.net.URL;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>public class soundTrack {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private Clip sound;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    public soundTrack(String soundFile) throws UnsupportedAudioFileException, IOException, LineUnavailableException {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        URL resource = getClass().getClassLoader().getResource(soundFile);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        assert resource != null;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(resource);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        sound = AudioSystem.getClip();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_13'/>
+13
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_13'>1</a>
+<span>
+
+1. &#60;init&#62; : removed call to javax/sound/sampled/Clip::open &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        sound.open(audioInputStream);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void play(){</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_17'/>
+17
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_17'>1</a>
+<span>
+
+1. play : negated conditional &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        if (sound.isRunning()) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            return;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_20'/>
+20
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_20'>1</a>
+<span>
+
+1. play : removed call to javax/sound/sampled/Clip::setFramePosition &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        sound.setFramePosition(0);  // Define a posi&#195;&#167;&#195;&#163;o do frame de volta para o in&#195;&#173;cio</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_21'/>
+21
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_21'>1</a>
+<span>
+
+1. play : removed call to javax/sound/sampled/Clip::start &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        sound.start();}</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_22'/>
+22
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_22'>1</a>
+<span>
+
+1. loop : removed call to javax/sound/sampled/Clip::loop &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    public void loop(){sound.loop(sound.LOOP_CONTINUOUSLY);}</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void stop() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_24'/>
+24
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_24'>1</a>
+<span>
+
+1. stop : removed call to javax/sound/sampled/Clip::stop &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        sound.stop();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_25'/>
+25
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_25'>1</a>
+<span>
+
+1. stop : removed call to javax/sound/sampled/Clip::setFramePosition &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        sound.setFramePosition(0);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void close() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_28'/>
+28
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_28'>1</a>
+<span>
+
+1. close : removed call to javax/sound/sampled/Clip::close &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        sound.close();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@130b4e9f_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@130b4e9f_13'>13</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_13'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> removed call to javax/sound/sampled/Clip::open &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@130b4e9f_17'>17</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_17'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>play<br/><b>Killed by : </b>none</span></span> negated conditional &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@130b4e9f_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_20'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>play<br/><b>Killed by : </b>none</span></span> removed call to javax/sound/sampled/Clip::setFramePosition &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@130b4e9f_21'>21</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_21'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>play<br/><b>Killed by : </b>none</span></span> removed call to javax/sound/sampled/Clip::start &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@130b4e9f_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_22'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loop<br/><b>Killed by : </b>none</span></span> removed call to javax/sound/sampled/Clip::loop &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@130b4e9f_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_24'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>stop<br/><b>Killed by : </b>none</span></span> removed call to javax/sound/sampled/Clip::stop &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@130b4e9f_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_25'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>stop<br/><b>Killed by : </b>none</span></span> removed call to javax/sound/sampled/Clip::setFramePosition &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@130b4e9f_28'>28</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@130b4e9f_28'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>close<br/><b>Killed by : </b>none</span></span> removed call to javax/sound/sampled/Clip::close &rarr; SURVIVED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.example.Game.FrightControlTest.[engine:junit-jupiter]/[class:org.example.Game.FrightControlTest]/[method:notificationToObservers()] (7 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:drawInitialMap()] (3581 ms)</li><li>org.example.Game.FrightControlTest.[engine:junit-jupiter]/[class:org.example.Game.FrightControlTest]/[method:iniciate()] (5006 ms)</li><li>org.example.Game.FrightControlTest.[engine:junit-jupiter]/[class:org.example.Game.FrightControlTest]/[method:testHour()] (5 ms)</li><li>org.example.Game.LevelTest.[engine:junit-jupiter]/[class:org.example.Game.LevelTest]/[method:testInitialization()] (16 ms)</li><li>org.example.PacMan.PlayerDrawsTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerDrawsTest]/[method:drawDead()] (95 ms)</li><li>org.example.PacMan.PlayerMapTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerMapTest]/[method:checkCount()] (10 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:gameLoop()] (10 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:draw2()] (127 ms)</li><li>org.example.Elements.DotTests.[engine:junit-jupiter]/[class:org.example.Elements.DotTests]/[method:testDotDraw()] (327 ms)</li><li>org.example.PacMan.PlayerMapTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerMapTest]/[method:allMonstersEaten()] (11 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:gameLoop2()] (10 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:monsterMovement()] (11 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:testMapInitialization()] (12 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:drawNormal()] (113 ms)</li><li>org.example.Game.LevelTest.[engine:junit-jupiter]/[class:org.example.Game.LevelTest]/[method:gameLoop()] (10 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:movement()] (11 ms)</li><li>org.example.Elements.DotTests.[engine:junit-jupiter]/[class:org.example.Elements.DotTests]/[method:testSpecialDotCollision()] (12 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:mapaGameTest()] (18 ms)</li><li>org.example.Chars.CharacterTest.[engine:junit-jupiter]/[class:org.example.Chars.CharacterTest]/[method:testCleanReady()] (8 ms)</li><li>org.example.Elements.FruitTest.[engine:junit-jupiter]/[class:org.example.Elements.FruitTest]/[method:drawTestApple()] (14 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:playerMovement()] (11 ms)</li><li>org.example.Elements.DotTests.[engine:junit-jupiter]/[class:org.example.Elements.DotTests]/[method:testDotInitialization()] (11 ms)</li><li>org.example.Game.GameTest.[engine:junit-jupiter]/[class:org.example.Game.GameTest]/[method:drawChangingLevel()] (3125 ms)</li><li>org.example.PacMan.PlayerMapTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerMapTest]/[method:testNearBoundaries()] (46 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:testMonsterCollision()] (11 ms)</li><li>org.example.Game.GameTest.[engine:junit-jupiter]/[class:org.example.Game.GameTest]/[method:testGameInitialization()] (27 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:testPlayerMovement()] (12 ms)</li><li>org.example.PacMan.PlayerDrawsTest.[engine:junit-jupiter]/[class:org.example.PacMan.PlayerDrawsTest]/[method:normalDrawLeft()] (47 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:monsterMovement2()] (12 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:draw()] (3679 ms)</li><li>org.example.Game.LevelTest.[engine:junit-jupiter]/[class:org.example.Game.LevelTest]/[method:stopMusic()] (11 ms)</li><li>org.example.Elements.DotTests.[engine:junit-jupiter]/[class:org.example.Elements.DotTests]/[method:testNormalDotCollision()] (11 ms)</li><li>org.example.Game.LevelTest.[engine:junit-jupiter]/[class:org.example.Game.LevelTest]/[method:drawInicialMap()] (10 ms)</li><li>org.example.Game.MapaTest.[engine:junit-jupiter]/[class:org.example.Game.MapaTest]/[method:lostOneLife()] (11 ms)</li><li>org.example.Game.LevelTest.[engine:junit-jupiter]/[class:org.example.Game.LevelTest]/[method:processKey()] (12 ms)</li><li>org.example.Game.LevelTest.[engine:junit-jupiter]/[class:org.example.Game.LevelTest]/[method:draw()] (11 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.7.0
+
+</body>
+</html>
